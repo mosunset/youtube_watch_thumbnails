@@ -1,0 +1,14 @@
+{
+    "Name": {
+        "message": "YouTube Watch Thumbnails"
+    },
+    "Description": {
+        "message": "在YouTube视频播放页面的频道图标旁边显示视频的缩略图。"
+    },
+    "ErrMsg": {
+        "message": "这个扩展只适用于youtube.com/watch~~。"
+    },
+    "ImgTitle":{
+        "message":"点击在新标签中打开"
+    }
+}

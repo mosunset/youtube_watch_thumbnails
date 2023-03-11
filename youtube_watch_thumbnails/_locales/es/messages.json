@@ -1,0 +1,14 @@
+{
+    "Name": {
+        "message": "YouTube Watch Thumbnails"
+    },
+    "Description": {
+        "message": "Mostrar una miniatura del vídeo junto al icono del canal en la página de reproducción de vídeos de YouTube."
+    },
+    "ErrMsg": {
+        "message": "Esta extensión sólo funcionará en youtube.com/watch~~"
+    },
+    "ImgTitle":{
+        "message":"Haz clic para abrir en una pestaña nueva"
+    }
+}

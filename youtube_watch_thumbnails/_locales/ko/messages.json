@@ -1,0 +1,14 @@
+{
+    "Name": {
+        "message": "YouTube Watch Thumbnails"
+    },
+    "Description": {
+        "message": "YouTube 동영상 재생 페이지의 채널 아이콘 옆에 동영상 썸네일을 표시합니다."
+    },
+    "ErrMsg": {
+        "message": "이 확장 프로그램은 youtube.com/watch~~ 에서만 작동합니다."
+    },
+    "ImgTitle":{
+        "message":"클릭하여 새 탭에서 열기"
+    }
+}

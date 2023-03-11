@@ -1,0 +1,14 @@
+{
+    "Name": {
+        "message": "YouTube Watch Thumbnails"
+    },
+    "Description": {
+        "message": "Menampilkan gambar mini video di samping ikon saluran pada halaman pemutaran video YouTube."
+    },
+    "ErrMsg": {
+        "message": "Ekstensi ini hanya akan berfungsi di youtube.com/watch~~"
+    },
+    "ImgTitle":{
+        "message":"Fare clic per aprire in una nuova scheda"
+    }
+}

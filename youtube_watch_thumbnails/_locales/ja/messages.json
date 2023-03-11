@@ -1,0 +1,14 @@
+{
+    "Name": {
+        "message": "YouTube Watch Thumbnails"
+    },
+    "Description": {
+        "message": "YouTubeの動画再生ページのチャンネルアイコンの横に、その動画のサムネイルを表示する。"
+    },
+    "ErrMsg": {
+        "message": "この拡張機能は youtube.com/watch~~ でなければ動作しません"
+    },
+    "ImgTitle":{
+        "message":"クリックすると新しいタブで開きます"
+    }
+}
