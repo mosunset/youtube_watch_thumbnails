@@ -1,0 +1,82 @@
+<!--TODO:完成させる,すべてのサイズのサムネイルの表示画面-->
+
+<!--TODO:この画面を表示させるjs,マニュフェスト-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/ThumbnailView.css">
+</head>
+
+<body>
+    <header>
+        <button><img src="maxresdefault.jpg" alt="maxresdefault.jpg"></button>
+        <button><img src="sddefault.jpg" alt="sddefault.jpg"></button>
+        <button><img src="hqdefault.jpg" alt="hqdefault.jpg"></button>
+        <button><img src="mqdefault.jpg" alt="mqdefault.jpg"></button>
+        <button><img src="default.jpg" alt="default.jpg"></button>
+    </header>
+    <nav>
+        <p id="id">YouTube Video ID : <a href="https://youtube.com/wathc?v=abcdefghijkl"
+                target="_blank">abcdefghijkl</a></p>
+        <p id="number">1</p>
+        <p id="name">maxresdefault.jpg</p>
+        <p class="size"><span id="width">1280</span><span id="height">720</span></p>
+        <p class="ratio"><span id="x">16</span><span id="y">9</span></p>
+        <p id="explanation" class="">※YouTubeの仕様により、このサイズが最大です</p>
+    </nav>
+    <main>
+        <img src="maxresdefault.jpg" alt="YouTube Thumbnail maxresdefault.jpg" id="mainimg">
+    </main>
+    <footer class="hidden">
+        <a href="https://github.com/mosunset/youtube_watch_thumbnails" target="_blank">©2023 mosunset</a>
+    </footer>
+    <script>
+        const imgsize = [[1280, 720], [640, 480], [480, 360], [320, 180], [120, 90],];
+        const imgratio = [[16, 9], [4, 3], [4, 3], [16, 9], [4, 3]];
+        const imgname = ["maxresdefault.jpg", "sddefault.jpg", "hqdefault.jpg", "mqdefault.jpg", "default.jpg"]
+        // ボタン要素をすべて取得します
+        const buttons = document.querySelectorAll("button");
+
+        // 各ボタンにクリックイベントのリスナーを追加します
+        buttons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                console.log("ボタンがクリックされました！");
+
+                const childElement = button.querySelector("img");
+                const childsrc = childElement.src;
+                const mainimg = document.querySelector("#mainimg");
+
+                mainimg.src = childsrc;
+
+                const segments = childsrc.split('/');
+                const lastSegment = segments.pop();
+
+                mainimg.alt = "YouTube Thumbnail " + lastSegment;
+
+                for (var i = 0; i < imgname.length; i++) {
+                    if (lastSegment == imgname[i]) {
+                        if(i != 0){
+                            document.querySelector("#explanation").classList.add("none");
+                        }else{
+                            document.querySelector("#explanation").classList.remove("none");
+                        }
+                        document.querySelector("#number").textContent = i + 1;
+                        document.querySelector("#name").textContent = lastSegment;
+                        document.querySelector("#width").textContent = imgsize[i][0];
+                        document.querySelector("#height").textContent = imgsize[i][1];
+                        document.querySelector("#x").textContent = imgratio[i][0];
+                        document.querySelector("#y").textContent = imgratio[i][1];
+                    }
+                }
+
+            });
+        });
+    </script>
+</body>
+
+</html>
