@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "__MSG_Name__",
     "description": "__MSG_Description__",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "default_locale": "en",
     "icons": {
         "512": "img/yicon.png"
