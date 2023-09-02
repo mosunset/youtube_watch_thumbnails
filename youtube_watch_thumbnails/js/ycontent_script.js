@@ -95,15 +95,12 @@ mo.observe(document, {
 
 function add_eventListener() {
     var ywt = document.querySelector('#youtube_watch_thumbnail')
-    if (ywt) {
-        ywt.addEventListener('click', function () {
-            //window.open(ywt.getAttribute('src'))
-            setvalue();
-            chrome.runtime.sendMessage({ action: "ThumbnailView", data: "" });
-        }, false);
-    } else {
-        add_eventListener();
-    }
+
+    ywt.addEventListener('click', function () {
+        //window.open(ywt.getAttribute('src'))
+        setvalue();
+        chrome.runtime.sendMessage({ action: "ThumbnailView", data: "" });
+    }, false);
 }
 
 function setvalue() {
