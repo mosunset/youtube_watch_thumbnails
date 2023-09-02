@@ -72,7 +72,7 @@ function get_url() {
     if (now_url != temp_url) {
         now_url = temp_url;
         get_thumbnail(now_url)
-        add_eventListener();
+
     }
 }
 const set_thumbnails = () => {
@@ -83,7 +83,7 @@ var angas = 0;
 const mo = new MutationObserver(() => {
     if (!$("img#youtube_watch_thumbnail")[0]) {
         set_thumbnails();
-
+        add_eventListener();
     } else {
         get_url();
     }
