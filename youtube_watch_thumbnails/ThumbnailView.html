@@ -1,9 +1,3 @@
-<!--TODO:完成させる,すべてのサイズのサムネイルの表示画面-->
-
-<!--TODO:サムネがない場合のerror処理-->
-
-<!--TODO:この画面を表示させるjs,マニュフェスト-->
-
 <!DOCTYPE html>
 <html>
 
@@ -12,143 +6,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/ThumbnailView.css">
+    <style>
+        * {
+            margin: 0;
+            border: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        nav ul {
+            /* scroll-snap-type: x mandatory; */
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        nav ul li {
+            /* scroll-snap-align: start; */
+            margin: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        nav ul li img {
+            display: inline-block;
+            width: 140px;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            user-select: none;
+        }
+
+        nav ul li p {
+            letter-spacing: -0.04rem;
+            user-select: none;
+        }
+
+        header>p {
+            text-align: center;
+            padding: 8px;
+        }
+
+        header div {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        header div p {
+            margin-bottom: 8px;
+        }
+
+        header div p #x::after {
+            content: "px : ";
+        }
+
+        header div p #y::after {
+            content: "px";
+        }
+
+        main {
+            text-align: center;
+        }
+
+        main img {
+            min-height: 20vh;
+            max-height: 90vh;
+            max-width: 100vw;
+        }
+
+        footer {
+            text-align: center;
+            padding: 8px;
+        }
+
+        footer a {
+            color: black;
+            text-decoration: none;
+            padding: 4px 8px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
-    <header>
-        <button class="active"><img src="maxresdefault.jpg" alt="maxresdefault.jpg"></button>
-        <button><img src="sddefault.jpg" alt="sddefault.jpg"></button>
-        <button><img src="hqdefault.jpg" alt="hqdefault.jpg"></button>
-        <button><img src="mqdefault.jpg" alt="mqdefault.jpg"></button>
-        <button><img src="default.jpg" alt="default.jpg"></button>
-        <div id="buttontooltip" class="">Left click to select image</div>
-    </header>
     <nav>
-        <p id="id">YouTube Video ID : <a href="https://youtube.com/wathc?v=abcdefghijkl" target="_blank"
-                id="videoid">abcdefghijkl</a></p>
-        <p id="number">1</p>
-        <p id="name">maxresdefault.jpg</p>
-        <p class="size"><span id="width">1280</span><span id="height">720</span></p>
-        <p class="ratio"><span id="x">16</span><span id="y">9</span></p>
-        <p id="explanation" class="none">※YouTubeの仕様により、このサイズが最大です</p>
+        <ul id="img_list">
+        </ul>
     </nav>
+    <header>
+        <p>YouTube LINK : <a href="" target="_blank" id="videoid"></a></p>
+        <div>
+            <p>Img Name : <span id="img_name">-</span></p>
+            <p>Img Size : <span id="x">0</span><span id="y">0</span></p>
+        </div>
+    </header>
     <main>
-        <img src="maxresdefault.jpg" alt="YouTube Thumbnail maxresdefault.jpg" id="mainimg" onclick="downloadImage();">
-        <div id="imgtooltip" class="none">Left click to download</div>
+        <img id="img" src="">
     </main>
-    <footer class="">
+    <footer class="hidden">
         <a href="https://github.com/mosunset/youtube_watch_thumbnails" target="_blank">©2023 mosunset</a>
         <a href="https://chrome.google.com/webstore/detail/youtube-watch-thumbnails/aobeafpjgdgakpagffmlkfeognaiigci?hl=ja&authuser=0"
             target="_blank">YouTube Watch Thumbnails</a>
     </footer>
-    <script>
-        const imgsize = [[1280, 720], [640, 480], [480, 360], [320, 180], [120, 90],];
-        const imgratio = [[16, 9], [4, 3], [4, 3], [16, 9], [4, 3]];
-        const imgname = ["maxresdefault.jpg", "sddefault.jpg", "hqdefault.jpg", "mqdefault.jpg", "default.jpg"]
-        // ボタン要素をすべて取得します
-        const buttons = document.querySelectorAll("button");
-
-        // 各ボタンにクリックイベントのリスナーを追加します
-        buttons.forEach(function (button) {
-            button.addEventListener("click", function () {
-                console.log("ボタンがクリックされました！");
-                buttons.forEach(function (button1) {
-                    button1.classList.remove("active");
-                });
-                button.classList.add("active");
-                const childElement = button.querySelector("img");
-                const childsrc = childElement.src;
-                const mainimg = document.querySelector("#mainimg");
-
-                mainimg.src = childsrc;
-
-                const segments = childsrc.split('/');
-                const lastSegment = segments.pop();
-
-                mainimg.alt = "YouTube Thumbnail " + lastSegment;
-
-                for (var i = 0; i < imgname.length; i++) {
-
-                    if (lastSegment == imgname[i]) {
-                        if (i != 0) {
-                            document.querySelector("#explanation").classList.add("none");
-                        } else {
-                            document.querySelector("#explanation").classList.remove("none");
-                        }
-
-                        document.querySelector("#number").textContent = i + 1;
-                        document.querySelector("#name").textContent = lastSegment;
-                        document.querySelector("#width").textContent = imgsize[i][0];
-                        document.querySelector("#height").textContent = imgsize[i][1];
-                        document.querySelector("#x").textContent = imgratio[i][0];
-                        document.querySelector("#y").textContent = imgratio[i][1];
-                    }
-                }
-
-            });
-        });
-
-        let imgcontainer = document.querySelector('#mainimg');
-        let imgitem = document.querySelector('#imgtooltip');
-
-        let mousemove_function = () => {
-            imgitem.classList.remove("none")
-            // var x = event.clientX - 150;
-            // var y = event.clientY - 120;
-            // imgitem.style.left = x + "px";
-            // imgitem.style.top = y + "px";
-        }
-
-        let mouseleave_function = () => {
-            imgitem.classList.add("none")
-        }
-
-        imgcontainer.addEventListener('mousemove', mousemove_function);
-        imgcontainer.addEventListener('mouseleave', mouseleave_function);
-
-        let buttoncontainer = document.querySelectorAll('button');
-        let buttonitem = document.querySelector('#buttontooltip');
-
-        let mousemove_button = () => {
-            buttonitem.classList.remove("none")
-        }
-
-        let mouseleave_button = () => {
-            buttonitem.classList.add("none")
-        }
-
-        buttoncontainer.forEach(function (button) {
-            button.addEventListener('mousemove', mousemove_button);
-            button.addEventListener('mouseleave', mouseleave_button);
-        });
-
-        const downloadImage = async () => {
-            try {
-                const imageSrc = document.querySelector("#mainimg").src;
-                const videoid = document.querySelector("#videoid").textContent;
-                const filename = document.querySelector("#name").textContent;
-
-                // fetchで画像データを取得
-                const image = await fetch(imageSrc);
-                const imageBlob = await image.blob();
-                const imageURL = URL.createObjectURL(imageBlob);
-
-                // 拡張子取得
-                const mimeTypeArray = imageBlob.type.split('/');
-                const extension = mimeTypeArray[1];
-
-                // ダウンロード
-                const link = document.createElement('a');
-                link.href = imageURL;
-                link.download = `${videoid}_${filename}`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } catch (error) {
-                throw new Error(`${error}. Image src: ${imageSrc}`);
-            }
-        }
-    </script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/ThumbnailView.js"></script>
 </body>
 
 </html>

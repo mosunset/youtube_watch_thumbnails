@@ -12,8 +12,12 @@
         "default_icon": "img/yicon.png"
     },
     "permissions": [
-        "tabs"
+        "tabs",
+        "storage"
     ],
+    "background": {
+        "service_worker": "js/background.js"
+    },
     "content_scripts": [
         {
             "matches": [
