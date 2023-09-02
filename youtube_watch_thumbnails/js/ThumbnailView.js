@@ -46,6 +46,7 @@ chrome.storage.local.get(["videoid"]).then((result) => {
             document.querySelector('#img_name').textContent = imgname;
             document.querySelector('#x').textContent = img.width;
             document.querySelector('#y').textContent = img.height;
+            document.querySelector('#click').style = "display:none;"
             document.querySelector('#img').src = imgurl;
         });
     });
