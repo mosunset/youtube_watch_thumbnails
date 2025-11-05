@@ -5,6 +5,6 @@ export default defineConfig({
     modules: ["@wxt-dev/module-react"],
     srcDir: "src",
     manifest: {
-        permissions: ["tabs"],
+        permissions: ["tabs", "storage"],
     },
 });

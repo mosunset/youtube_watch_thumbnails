@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import ShortsContent from "@/components/ShortsContent";
-import WatchContent from "@/components/WatchContent";
-import YoutubeContent from "@/components/YoutubeContent";
-import DefaultContent from "@/components/DefaultContent";
+import ShortsContent from "@/components/popup/ShortsContent";
+import WatchContent from "@/components/popup/WatchContent";
+import YoutubeContent from "@/components/popup/YoutubeContent";
+import DefaultContent from "@/components/popup/DefaultContent";
 import { getPageTypeFromUrl, type PageType } from "@/utils/pageType";
 
 // browser APIの型定義
