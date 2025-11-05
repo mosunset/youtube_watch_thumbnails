@@ -41,11 +41,41 @@ function generateThumbnailUrl(videoId: string, filename: string): string[] {
 function checkImageLoad(url: string): Promise<boolean> {
     return new Promise((resolve) => {
         const img = new Image();
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(false);
+        let settled = false;
+
+        // タイマーを先に用意
+        const timeoutId = setTimeout(() => {
+            if (settled) return;
+            settled = true;
+            img.onload = null;
+            img.onerror = null;
+            resolve(false);
+        }, 5000);
+
+        img.onload = () => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timeoutId);
+            // 幅・高さが0、またはYouTubeのプレースホルダー(≈120x90)は失敗扱い
+            const isPlaceholder =
+                img.naturalWidth <= 120 && img.naturalHeight <= 90;
+            const valid =
+                img.naturalWidth > 0 && img.naturalHeight > 0 && !isPlaceholder;
+            img.onload = null;
+            img.onerror = null;
+            resolve(valid);
+        };
+        img.onerror = () => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timeoutId);
+            img.onload = null;
+            img.onerror = null;
+            resolve(false);
+        };
+
+        // 画像読み込み開始
         img.src = url;
-        // タイムアウト（5秒）
-        setTimeout(() => resolve(false), 5000);
     });
 }
 
@@ -83,17 +113,25 @@ function UrlDisplay({ url }: UrlDisplayProps) {
             return;
         }
 
+        let isCancelled = false;
         setImageLoading(true);
+        setThumbnailUrl(null);
         getBestThumbnailUrl(videoId)
             .then((imageUrl) => {
+                if (isCancelled) return;
                 setThumbnailUrl(imageUrl);
                 setImageLoading(false);
             })
             .catch((error) => {
+                if (isCancelled) return;
                 console.error("Failed to load thumbnail:", error);
                 setThumbnailUrl(null);
                 setImageLoading(false);
             });
+
+        return () => {
+            isCancelled = true;
+        };
     }, [url]);
 
     const handleLinkClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
