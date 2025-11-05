@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { buildYouTubeUrl } from "@/utils/youtubeUrl";
 import { STORAGE_KEY } from "@/constants";
 import "@/utils/browserApi";
@@ -60,43 +60,121 @@ function buildImageUrl(
     return `https://${host}/${folder}/${videoId}/${filename}.${ext}`;
 }
 
-function ImageItem({ src, alt }: { src: string; alt: string }) {
+type ImageMeta = {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+    name: string;
+};
+
+function ImageItem({
+    src,
+    alt,
+    name,
+    onSelect,
+}: {
+    src: string;
+    alt: string;
+    name: string;
+    onSelect: (meta: ImageMeta) => void;
+}) {
     const [error, setError] = useState(false);
+    const [dims, setDims] = useState<{ w: number; h: number } | null>(null);
     if (error) return null;
     return (
-        <div className="rounded border border-gray-200 overflow-hidden bg-white">
+        <button
+            type="button"
+            onClick={() =>
+                dims &&
+                onSelect({ src, alt, width: dims.w, height: dims.h, name })
+            }
+            className="inline-flex flex-col items-center justify-between mx-2 my-2 rounded hover:shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
             <img
                 src={src}
                 alt={alt}
-                className="w-full h-auto block"
+                className="w-[140px] aspect-video object-cover block cursor-pointer select-none"
                 loading="lazy"
+                onLoad={(e) => {
+                    const img = e.currentTarget as HTMLImageElement;
+                    setDims({
+                        w: img.naturalWidth || 0,
+                        h: img.naturalHeight || 0,
+                    });
+                }}
                 onError={() => setError(true)}
             />
-            <div className="px-2 py-1 text-[11px] text-gray-600 break-all border-t border-gray-100">
-                {alt}
-            </div>
-        </div>
+            <p className="mt-1 text-xs text-gray-700 select-none tracking-tight">
+                {name}
+            </p>
+        </button>
     );
 }
 
 function App() {
     const [videoId, setVideoId] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [selected, setSelected] = useState<ImageMeta | null>(null);
 
     useEffect(() => {
-        // storageから動画IDを読み込む
-        browser.storage.local
-            .get(STORAGE_KEY)
-            .then((result) => {
+        let cancelled = false;
+
+        async function readOnce() {
+            try {
+                const result = await browser.storage.local.get(STORAGE_KEY);
+                if (cancelled) return;
                 const id = result[STORAGE_KEY];
-                setVideoId(id || null);
-                setLoading(false);
-            })
-            .catch((error) => {
+                if (id) {
+                    setVideoId(id);
+                    setLoading(false);
+                    return true;
+                }
+                return false;
+            } catch (error) {
                 console.error("Failed to get video ID from storage:", error);
-                setLoading(false);
-            });
+                return false;
+            }
+        }
+
+        // 最初の即時読み込み
+        readOnce().then((ok) => {
+            if (ok) return;
+            // 短時間ポーリング（最大2秒）
+            let attempts = 0;
+            const timer = setInterval(async () => {
+                attempts += 1;
+                const okNow = await readOnce();
+                if (okNow || attempts >= 10) {
+                    clearInterval(timer);
+                    if (!okNow && !cancelled) setLoading(false);
+                }
+            }, 200);
+        });
+
+        return () => {
+            cancelled = true;
+        };
     }, []);
+
+    const entries = useMemo(() => {
+        if (!videoId) return [] as { src: string; alt: string; name: string }[];
+        const list: { src: string; alt: string; name: string }[] = [];
+        IMAGE_BASES.forEach((base) => {
+            IMAGE_FILENAMES.forEach((name) => {
+                const src = buildImageUrl(
+                    base.host,
+                    base.folder,
+                    videoId,
+                    name,
+                    base.ext
+                );
+                const alt = `${base.host}/${base.folder}/${videoId}/${name}.${base.ext}`;
+                list.push({ src, alt, name: `${name}.${base.ext}` });
+            });
+        });
+        return list;
+    }, [videoId]);
 
     const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
@@ -147,67 +225,76 @@ function App() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <div className="flex-1 py-8 px-4">
                 <div className="max-w-6xl mx-auto">
-                    <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-                        <h1 className="text-2xl font-bold mb-4 text-gray-800">
-                            YouTube URL
-                        </h1>
-                        <div className="space-y-3">
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-1">
-                                    URL:
-                                </label>
-                                <div className="bg-gray-50 rounded-md p-3 border border-gray-200">
-                                    <a
-                                        href={youtubeUrl}
-                                        onClick={handleLinkClick}
-                                        className="text-sm text-blue-600 hover:text-blue-800 hover:underline break-all cursor-pointer transition-colors"
-                                    >
-                                        {youtubeUrl}
-                                    </a>
-                                </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-1">
-                                    動画ID:
-                                </label>
-                                <div className="bg-gray-50 rounded-md p-3 border border-gray-200">
-                                    <p className="text-sm text-gray-800 font-mono">
-                                        {videoId}
-                                    </p>
-                                </div>
+                    {/* 上部ナビ（横スクロールのサムネイル一覧） */}
+                    <nav className="bg-white rounded-lg shadow-md p-4 mb-6">
+                        <div className="text-sm text-gray-800 font-semibold mb-2">
+                            Thumbnails
+                        </div>
+                        <div className="overflow-x-auto whitespace-nowrap">
+                            <div className="inline-flex items-stretch">
+                                {entries.map((e) => (
+                                    <ImageItem
+                                        key={e.alt}
+                                        src={e.src}
+                                        alt={e.alt}
+                                        name={e.name}
+                                        onSelect={(meta) => setSelected(meta)}
+                                    />
+                                ))}
                             </div>
                         </div>
-                    </div>
+                    </nav>
 
-                    {IMAGE_BASES.map((base) => (
-                        <div
-                            key={base.label}
-                            className="bg-white rounded-lg shadow-md p-6 mb-6"
-                        >
-                            <h2 className="text-xl font-semibold mb-4 text-gray-800">
-                                {base.label}
-                            </h2>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                                {IMAGE_FILENAMES.map((name) => {
-                                    const src = buildImageUrl(
-                                        base.host,
-                                        base.folder,
-                                        videoId,
-                                        name,
-                                        base.ext
-                                    );
-                                    const alt = `${base.host}/${base.folder}/${videoId}/${name}.${base.ext}`;
-                                    return (
-                                        <ImageItem
-                                            key={alt}
-                                            src={src}
-                                            alt={alt}
-                                        />
-                                    );
-                                })}
-                            </div>
+                    {/* ヘッダ情報（旧UI踏襲） */}
+                    <header className="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <p className="text-center mb-4">
+                            <span className="font-semibold">
+                                YouTube LINK :{" "}
+                            </span>
+                            <a
+                                href={youtubeUrl}
+                                onClick={handleLinkClick}
+                                className="text-blue-600 hover:underline break-all"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                {youtubeUrl}
+                            </a>
+                        </p>
+                        <div className="flex flex-wrap items-center justify-around gap-4">
+                            <p className="text-gray-800">
+                                <span className="font-semibold">
+                                    Img Name :{" "}
+                                </span>
+                                <span>{selected ? selected.name : "-"}</span>
+                            </p>
+                            <p className="text-gray-800">
+                                <span className="font-semibold">
+                                    Img Size :{" "}
+                                </span>
+                                <span>
+                                    {selected
+                                        ? `${selected.width}px : ${selected.height}px`
+                                        : "0px : 0px"}
+                                </span>
+                            </p>
                         </div>
-                    ))}
+                    </header>
+
+                    {/* メイン（拡大画像） */}
+                    <main className="text-center bg-white rounded-lg shadow-md p-4">
+                        {selected ? (
+                            <img
+                                src={selected.src}
+                                alt={selected.alt}
+                                className="min-h-[20vh] max-h-[90vh] max-w-[100vw] inline-block"
+                            />
+                        ) : (
+                            <p className="text-2xl text-gray-500 py-16 select-none">
+                                Click on the thumbnails above
+                            </p>
+                        )}
+                    </main>
                 </div>
             </div>
             <Footer />
