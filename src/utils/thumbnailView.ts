@@ -22,12 +22,12 @@ export async function openThumbnailView(url: string): Promise<void> {
     }
 
     try {
-        // storageに動画IDを保存
+        // storageに動画IDを保存（contentからでも利用可能）
         await browser.storage.local.set({ [STORAGE_KEY]: videoId });
 
-        // ThumbnailViewページを新しいタブで開く
-        const thumbnailViewUrl = browser.runtime.getURL("ThumbnailView.html");
-        await browser.tabs.create({ url: thumbnailViewUrl });
+        // MV3ではcontent scriptからtabs.createが制限される環境があるため、
+        // 背景へメッセージを送ってタブ生成を依頼する
+        await browser.runtime.sendMessage({ type: "OPEN_THUMBNAIL_VIEW" });
     } catch (error) {
         console.error("Failed to open ThumbnailView:", error);
     }

@@ -27,16 +27,106 @@ export default defineContentScript({
             const container = document.querySelector(CONTAINER_SELECTOR);
             if (!container) return null;
 
+            // 外側ラッパー（位置基準 & レイアウト維持）
+            const wrapper = document.createElement("span");
+            wrapper.style.position = "relative";
+            wrapper.style.display = "inline-block";
+            wrapper.style.marginRight = "12px";
+            wrapper.style.overflow = "visible"; // 拡大時も周囲に影響させない
+
+            // 内側ラッパー（画像とオーバーレイをまとめ、拡大対象にする）
+            const imgWrap = document.createElement("span");
+            imgWrap.style.position = "relative";
+            imgWrap.style.display = "inline-block";
+
             img = document.createElement("img");
             img.id = IMAGE_ID;
             img.alt = "";
-            img.title = "";
+            img.title = "全サイズのサムネイルを見る";
             img.style.height = "64px";
-            img.style.marginRight = "12px";
             img.style.display = "inline";
             img.style.cursor = "pointer";
+            // 拡大は画像ではなく内側ラッパーに適用し、オーバーレイも一緒に拡大
+            imgWrap.style.transformOrigin = "left center";
+            imgWrap.style.transition =
+                "transform 200ms ease, box-shadow 200ms ease";
+            imgWrap.style.willChange = "transform";
 
-            container.prepend(img);
+            // グラデーションは不要になったため削除
+
+            // ツールチップ
+            const tooltip = document.createElement("div");
+            // テキスト + アイコン（Radix相当のオープン新規アイコンをSVGで再現）
+            const ttText = document.createElement("span");
+            ttText.textContent = "全サイズのサムネイルを見る";
+            const ttIcon = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "svg"
+            );
+            ttIcon.setAttribute("viewBox", "0 0 24 24");
+            ttIcon.setAttribute("width", "14");
+            ttIcon.setAttribute("height", "14");
+            ttIcon.style.marginLeft = "6px";
+            ttIcon.style.verticalAlign = "-2px";
+            ttIcon.style.display = "inline-block";
+            ttIcon.style.stroke = "currentColor";
+            ttIcon.style.fill = "none";
+            ttIcon.style.strokeWidth = "2";
+            const p1 = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "path"
+            );
+            p1.setAttribute("d", "M14 3h7v7M21 3l-9 9");
+            const r1 = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "rect"
+            );
+            r1.setAttribute("x", "3");
+            r1.setAttribute("y", "7");
+            r1.setAttribute("width", "14");
+            r1.setAttribute("height", "14");
+            r1.setAttribute("rx", "2");
+            ttIcon.appendChild(p1);
+            ttIcon.appendChild(r1);
+            tooltip.style.position = "absolute";
+            // 画像の左端基準で、画像の上に配置
+            tooltip.style.left = "0";
+            tooltip.style.bottom = "calc(100% + 6px)";
+            tooltip.style.transform = "none";
+            tooltip.style.color = "#fff";
+            tooltip.style.fontSize = "13px";
+            tooltip.style.fontWeight = "600";
+            tooltip.style.padding = "4px 8px";
+            tooltip.style.borderRadius = "6px";
+            tooltip.style.border = "1px solid #fff";
+            tooltip.style.background = "rgba(0,0,0,0.85)";
+            tooltip.style.boxShadow = "0 2px 8px rgba(0,0,0,0.35)";
+            tooltip.style.opacity = "0";
+            tooltip.style.transition = "opacity 200ms";
+            tooltip.style.pointerEvents = "none";
+            tooltip.style.whiteSpace = "nowrap";
+            tooltip.style.zIndex = "2147483647";
+            tooltip.appendChild(ttText);
+            tooltip.appendChild(ttIcon);
+
+            wrapper.addEventListener("mouseenter", () => {
+                tooltip.style.opacity = "1";
+                imgWrap.style.position = "relative";
+                imgWrap.style.zIndex = "9999";
+                imgWrap.style.transform = "scale(1.75)";
+                imgWrap.style.boxShadow = "0 12px 32px rgba(0,0,0,0.35)";
+            });
+            wrapper.addEventListener("mouseleave", () => {
+                tooltip.style.opacity = "0";
+                imgWrap.style.transform = "scale(1)";
+                imgWrap.style.boxShadow = "";
+                imgWrap.style.zIndex = "";
+            });
+
+            imgWrap.appendChild(img);
+            wrapper.appendChild(imgWrap);
+            wrapper.appendChild(tooltip);
+            container.prepend(wrapper);
             attachClickHandler(img);
             return img;
         }

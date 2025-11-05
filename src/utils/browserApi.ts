@@ -10,6 +10,10 @@ export type BrowserAPI = {
     runtime: {
         getURL: (path: string) => string;
         id: string;
+        sendMessage: (message: any) => Promise<any>;
+        onMessage: {
+            addListener: (callback: (message: any) => void) => void;
+        };
     };
     storage: {
         local: {
