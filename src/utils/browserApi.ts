@@ -23,6 +23,13 @@ export type BrowserAPI = {
             set: (items: { [key: string]: any }) => Promise<void>;
         };
     };
+    i18n: {
+        getMessage: (
+            messageName: string,
+            substitutions?: string | string[]
+        ) => string;
+        getUILanguage: () => string;
+    };
 };
 
 declare global {
