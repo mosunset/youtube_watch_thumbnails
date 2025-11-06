@@ -6,7 +6,7 @@ YouTube 動画のサムネイル画像を簡単に表示・確認できるブラ
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-YouTube%20Watch%20Thumbnails-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-watch-thumbnails/aobeafpjgdgakpagffmlkfeognaiigci)
 
-~~[![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-Coming%20Soon-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/ja/firefox/addon/youtube-watch-thumbnails/)~~
+[![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-YouTube%20Watch%20Thumbnails-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/ja/firefox/addon/youtube-watch-thumbnails/)
 
 ## 📸 スクリーンショット
 
@@ -212,7 +212,6 @@ https://i.ytimg.com/vi/<video_id>/<image_file_name>.jpg
 https://img.youtube.com/vi_webp/<video_id>/<image_file_name>.webp
 https://img.youtube.com/vi/<video_id>/<image_file_name>.jpg
 ```
-
 
 ### 📁 画像ファイル名
 
