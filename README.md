@@ -1,6 +1,21 @@
-# Youtube Watch Thumbnails
+# ![YouTube Watch Thumbnails Icon](https://lh3.googleusercontent.com/RVxopoFuGYjYwxoriAgY_Q9bWL5nROrewN8SEX6k5atA1SycwTOQXkUL9wJQO2g-L75jq6RZcqgaomEEqJL_5lUvEg) YouTube Watch Thumbnails
 
 YouTube 動画のサムネイル画像を簡単に表示・確認できるブラウザ拡張機能です。
+
+## 📥 ダウンロード
+
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-YouTube%20Watch%20Thumbnails-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-watch-thumbnails/aobeafpjgdgakpagffmlkfeognaiigci)
+
+~~[![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-Coming%20Soon-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/ja/firefox/addon/youtube-watch-thumbnails/)~~
+
+## 📸 スクリーンショット
+
+![display example](https://lh3.googleusercontent.com/qVY38J0B-Bw7y02pLA3AZGKVQtheRAedhIixXhsVDSft0AwpyZE-yljWcqseXROqGKaZhkUubzgfOBRJFDQYdvBu=s1280-w1280-h800)
+
+## 🔗 リンク
+
+- [Chrome Web Store](https://chromewebstore.google.com/detail/youtube-watch-thumbnails/aobeafpjgdgakpagffmlkfeognaiigci)
+- [ブログ記事](https://mosunset.com/blog/youtube-watch-thumbnails/)
 
 ## 仕様
 
@@ -183,58 +198,51 @@ YouTube の動画ページ上で実行されるメインスクリプトです。
 - [ ] 拡張機能の削除時に通知を表示
   - ご利用ありがとうございました、などのメッセージを表示
 
-## Youtube Thumbnail Image URL
+## 📸 YouTube Thumbnail Image URL
 
-### Domain
+YouTube のサムネイル画像は、以下のURLパターンで取得できます。
 
-- i.ytimg.com/vi_webp/<video_id>/<image_file_name>.webp
-- i.ytimg.com/vi/<video_id>/<image_file_name>.jpg
-- img.youtube.com/vi_webp/<video_id>/<image_file_name>.webp
-- img.youtube.com/vi/<video_id>/<image_file_name>.jpg
+### 🌐 ドメイン
 
-> i.ytimg.com が メインぽい
+主要なドメインは `i.ytimg.com` です。
 
-### Image File Name
+```text
+https://i.ytimg.com/vi_webp/<video_id>/<image_file_name>.webp
+https://i.ytimg.com/vi/<video_id>/<image_file_name>.jpg
+https://img.youtube.com/vi_webp/<video_id>/<image_file_name>.webp
+https://img.youtube.com/vi/<video_id>/<image_file_name>.jpg
+```
 
-- maxresdefault.webp
-- hq720.webp
-- sddefault.webp
-- hqdefault.webp
-- 0.webp
-- mqdefault.webp
-- default.webp
-- sd1.webp
-- sd2.webp
-- sd3.webp
-- hq1.webp
-- hq2.webp
-- hq3.webp
-- mq1.webp
-- mq2.webp
-- mq3.webp
-- 1.webp
-- 2.webp
-- 3.webp
 
-### Image Size
+### 📁 画像ファイル名
 
-- default
-  - 120 x 90
-- mqdefault
-  - 320 x 180
-- hqdefault
-  - 480 x 360
-- sddefault
-  - 640 x 480
-- maxresdefault
-  - 1280 x 720
-- 0
-  - 480 x 360
-- 1
-  - 最初 120 x 90
-- 2
-  - 中間 120 x 90
-- 3
-  - 最後 120 x 90
-- 各サイズでサムネイルが存在しない場合
-  - 120 x 90
+#### 通常のサムネイル
+
+- `maxresdefault.webp` - 最大解像度（通常利用可能な最大サイズ）
+- `hq720.webp` - 高品質 720p
+- `sddefault.webp` - 標準解像度
+- `hqdefault.webp` - 高品質デフォルト
+- `mqdefault.webp` - 中品質デフォルト
+- `default.webp` - デフォルトサイズ
+- `0.webp` - 代替形式
+
+#### 動画の複数フレーム（3分割）
+
+- `sd1.webp`, `sd2.webp`, `sd3.webp` - 標準解像度（開始・中間・終了フレーム）
+- `hq1.webp`, `hq2.webp`, `hq3.webp` - 高品質（開始・中間・終了フレーム）
+- `mq1.webp`, `mq2.webp`, `mq3.webp` - 中品質（開始・中間・終了フレーム）
+- `1.webp`, `2.webp`, `3.webp` - デフォルトサイズ（開始・中間・終了フレーム）
+
+### 📏 画像サイズ
+
+| ファイル名 | サイズ（幅 × 高さ） | 説明 |
+|-----------|-------------------|------|
+| `default` | 120 × 90 | 最小サイズ |
+| `mqdefault` | 320 × 180 | 中品質 |
+| `hqdefault` | 480 × 360 | 高品質 |
+| `sddefault` | 640 × 480 | 標準解像度 |
+| `maxresdefault` | 1280 × 720 | 最大解像度（HD） |
+| `0` | 480 × 360 | 代替形式の高品質 |
+| `1`, `2`, `3` | 120 × 90 | 開始・中間・終了フレーム |
+
+> **注意**: 各サイズでサムネイルが存在しない場合、デフォルトサイズ（120 × 90）が返されます。
