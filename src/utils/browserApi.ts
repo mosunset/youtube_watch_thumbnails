@@ -6,6 +6,12 @@
 export type BrowserAPI = {
     tabs: {
         create: (createProperties: { url: string }) => Promise<void>;
+        query: (queryInfo: {
+            active?: boolean;
+            currentWindow?: boolean;
+            windowId?: number;
+            url?: string | string[];
+        }) => Promise<Array<{ url?: string }>>;
     };
     runtime: {
         getURL: (path: string) => string;
@@ -14,6 +20,19 @@ export type BrowserAPI = {
         onMessage: {
             addListener: (callback: (message: any) => void) => void;
         };
+        onInstalled: {
+            addListener: (
+                callback: (details: {
+                    reason:
+                        | "install"
+                        | "update"
+                        | "chrome_update"
+                        | "shared_module_update";
+                    previousVersion?: string;
+                }) => void
+            ) => void;
+        };
+        setUninstallURL: (url: string) => Promise<void>;
     };
     storage: {
         local: {

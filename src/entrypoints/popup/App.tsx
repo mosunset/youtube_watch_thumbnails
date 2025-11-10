@@ -5,16 +5,6 @@ import YoutubeContent from "@/components/popup/YoutubeContent";
 import DefaultContent from "@/components/popup/DefaultContent";
 import { getPageTypeFromUrl, type PageType } from "@/utils/pageType";
 
-// browser APIの型定義
-declare const browser: {
-    tabs: {
-        query: (queryInfo: {
-            active?: boolean;
-            currentWindow?: boolean;
-        }) => Promise<Array<{ url?: string }>>;
-    };
-};
-
 function App() {
     const [url, setUrl] = useState<string>("");
     const [pageType, setPageType] = useState<PageType>("default");

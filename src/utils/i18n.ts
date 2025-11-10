@@ -14,10 +14,6 @@ export function t(messageName: string, ...substitutions: string[]): string {
     if (typeof browser !== "undefined" && browser.i18n) {
         return browser.i18n.getMessage(messageName, substitutions);
     }
-    // フォールバック: browser APIが利用できない場合
-    if (typeof chrome !== "undefined" && chrome.i18n) {
-        return chrome.i18n.getMessage(messageName, substitutions);
-    }
     // フォールバック: どちらも利用できない場合
     return messageName;
 }
@@ -29,10 +25,6 @@ export function t(messageName: string, ...substitutions: string[]): string {
 export function lan(): string {
     if (typeof browser !== "undefined" && browser.i18n) {
         return browser.i18n.getUILanguage();
-    }
-    // フォールバック: browser APIが利用できない場合
-    if (typeof chrome !== "undefined" && chrome.i18n) {
-        return chrome.i18n.getUILanguage();
     }
     // フォールバック: ブラウザの言語設定を取得
     if (typeof navigator !== "undefined") {
