@@ -20,5 +20,7 @@ export default defineConfig({
                 },
             } as any,
         },
+        default_locale: "en",
+        // locales: ["en", "ja", "ko"],
     },
 });

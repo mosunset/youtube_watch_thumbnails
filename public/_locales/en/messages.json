@@ -1,0 +1,44 @@
+{
+    "thumbnails": {
+        "message": "Thumbnails"
+    },
+    "selectToPreview": {
+        "message": "Select to preview."
+    },
+    "formatLeft": {
+        "message": "Left"
+    },
+    "formatRight": {
+        "message": "Right"
+    },
+    "formatTop": {
+        "message": "Top"
+    },
+    "formatBottom": {
+        "message": "Bottom"
+    },
+    "loading": {
+        "message": "Loading..."
+    },
+    "videoIdNotFound": {
+        "message": "Video ID not found"
+    },
+    "youtubeLink": {
+        "message": "YouTube Link"
+    },
+    "dimensions": {
+        "message": "Dimensions"
+    },
+    "fileUrl": {
+        "message": "File URL"
+    },
+    "download": {
+        "message": "Download"
+    },
+    "rightClickInstruction": {
+        "message": "Right-click on preview image"
+    },
+    "selectThumbnailPrompt": {
+        "message": "Select a thumbnail to preview"
+    }
+}

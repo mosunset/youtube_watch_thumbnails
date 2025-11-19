@@ -1,0 +1,44 @@
+{
+    "thumbnails": {
+        "message": "サムネイル"
+    },
+    "selectToPreview": {
+        "message": "プレビューするものを選択してください。"
+    },
+    "formatLeft": {
+        "message": "左"
+    },
+    "formatRight": {
+        "message": "右"
+    },
+    "formatTop": {
+        "message": "上"
+    },
+    "formatBottom": {
+        "message": "下"
+    },
+    "loading": {
+        "message": "読み込み中..."
+    },
+    "videoIdNotFound": {
+        "message": "動画IDが見つかりませんでした"
+    },
+    "youtubeLink": {
+        "message": "YouTubeリンク"
+    },
+    "dimensions": {
+        "message": "画像サイズ"
+    },
+    "fileUrl": {
+        "message": "ファイルURL"
+    },
+    "download": {
+        "message": "ダウンロード"
+    },
+    "rightClickInstruction": {
+        "message": "プレビュー画像を右クリック"
+    },
+    "selectThumbnailPrompt": {
+        "message": "プレビューするサムネイルを選択してください"
+    }
+}
