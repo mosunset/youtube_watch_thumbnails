@@ -4,7 +4,7 @@
  */
 
 import { extractVideoId } from "./youtubeUrl";
-import { STORAGE_KEY } from "@/constants";
+import { setVideoId } from "./storage";
 
 /**
  * URLから動画IDを抽出してstorageに保存し、ThumbnailViewページを開く
@@ -23,7 +23,7 @@ export async function openThumbnailView(url: string): Promise<void> {
 
     try {
         // storageに動画IDを保存（contentからでも利用可能）
-        await browser.storage.local.set({ [STORAGE_KEY]: videoId });
+        await setVideoId(videoId);
 
         // MV3ではcontent scriptからtabs.createが制限される環境があるため、
         // 背景へメッセージを送ってタブ生成を依頼する

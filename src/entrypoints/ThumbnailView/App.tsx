@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { buildYouTubeUrl } from "@/utils/youtubeUrl";
-import { STORAGE_KEY } from "@/constants";
+import { getVideoId } from "@/utils/storage";
 import "@/utils/browserApi";
 import Footer from "@/components/Footer";
 
@@ -68,49 +68,7 @@ type ImageMeta = {
     name: string;
 };
 
-function ImageItem({
-    src,
-    alt,
-    name,
-    onSelect,
-}: {
-    src: string;
-    alt: string;
-    name: string;
-    onSelect: (meta: ImageMeta) => void;
-}) {
-    const [error, setError] = useState(false);
-    const [dims, setDims] = useState<{ w: number; h: number } | null>(null);
-    if (error) return null;
-    return (
-        <button
-            type="button"
-            onClick={() =>
-                dims &&
-                onSelect({ src, alt, width: dims.w, height: dims.h, name })
-            }
-            className="inline-flex flex-col items-center justify-between mx-2 my-2 rounded hover:shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-            <img
-                src={src}
-                alt={alt}
-                className="w-[140px] aspect-video object-cover block cursor-pointer select-none"
-                loading="lazy"
-                onLoad={(e) => {
-                    const img = e.currentTarget as HTMLImageElement;
-                    setDims({
-                        w: img.naturalWidth || 0,
-                        h: img.naturalHeight || 0,
-                    });
-                }}
-                onError={() => setError(true)}
-            />
-            <p className="mt-1 text-xs text-gray-700 select-none tracking-tight">
-                {name}
-            </p>
-        </button>
-    );
-}
+
 
 function App() {
     const [videoId, setVideoId] = useState<string | null>(null);
@@ -122,9 +80,8 @@ function App() {
 
         async function readOnce() {
             try {
-                const result = await browser.storage.local.get(STORAGE_KEY);
+                const id = await getVideoId();
                 if (cancelled) return;
-                const id = result[STORAGE_KEY];
                 if (id) {
                     setVideoId(id);
                     setLoading(false);
@@ -157,24 +114,7 @@ function App() {
         };
     }, []);
 
-    const entries = useMemo(() => {
-        if (!videoId) return [] as { src: string; alt: string; name: string }[];
-        const list: { src: string; alt: string; name: string }[] = [];
-        IMAGE_BASES.forEach((base) => {
-            IMAGE_FILENAMES.forEach((name) => {
-                const src = buildImageUrl(
-                    base.host,
-                    base.folder,
-                    videoId,
-                    name,
-                    base.ext
-                );
-                const alt = `${base.host}/${base.folder}/${videoId}/${name}.${base.ext}`;
-                list.push({ src, alt, name: `${name}.${base.ext}` });
-            });
-        });
-        return list;
-    }, [videoId]);
+
 
     const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
@@ -186,6 +126,29 @@ function App() {
         }
     };
 
+    useEffect(() => {
+        if (videoId && !selected) {
+            // 初期選択: i.ytimg.com/vi_webp + maxresdefault
+            const defaultBase = IMAGE_BASES.find(
+                (b) => b.host === "i.ytimg.com" && b.folder === "vi_webp"
+            );
+            if (defaultBase) {
+                const filename = "maxresdefault";
+                const src = buildImageUrl(
+                    defaultBase.host,
+                    defaultBase.folder,
+                    videoId,
+                    filename,
+                    defaultBase.ext
+                );
+                const alt = `${defaultBase.host}/${defaultBase.folder}/${videoId}/${filename}.${defaultBase.ext}`;
+                const name = `${filename}.${defaultBase.ext}`;
+                // 画像サイズはロード後に取得されるが、とりあえず選択状態にする
+                setSelected({ src, alt, width: 0, height: 0, name });
+            }
+        }
+    }, [videoId, selected]);
+
     if (loading) {
         return (
             <div className="min-h-screen flex flex-col bg-gray-50">
@@ -194,7 +157,6 @@ function App() {
                         <p className="text-gray-600">読み込み中...</p>
                     </div>
                 </div>
-                <Footer />
             </div>
         );
     }
@@ -214,7 +176,6 @@ function App() {
                         </div>
                     </div>
                 </div>
-                <Footer />
             </div>
         );
     }
@@ -222,82 +183,188 @@ function App() {
     const youtubeUrl = buildYouTubeUrl(videoId, "compact");
 
     return (
-        <div className="min-h-screen flex flex-col bg-gray-50">
-            <div className="flex-1 py-8 px-4">
-                <div className="max-w-6xl mx-auto">
-                    {/* 上部ナビ（横スクロールのサムネイル一覧） */}
-                    <nav className="bg-white rounded-lg shadow-md p-4 mb-6">
-                        <div className="text-sm text-gray-800 font-semibold mb-2">
-                            Thumbnails
+        <div className="flex h-screen overflow-hidden bg-gray-50">
+            {/* 左サイドバー: サムネイル一覧 */}
+            <aside className="w-80 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col">
+                <div className="p-4 border-b border-gray-200">
+                    <h2 className="text-sm font-semibold text-gray-800 mb-1">
+                        Thumbnails
+                    </h2>
+                    <p className="text-xs text-gray-500 mt-1">
+                        Select to preview.
+                    </p>
+                    <div className="text-xs text-gray-500 mt-2 space-y-1">
+                        <div>
+                            <span className="font-semibold">Left:</span> WebP
                         </div>
-                        <div className="overflow-x-auto whitespace-nowrap">
-                            <div className="inline-flex items-stretch">
-                                {entries.map((e) => (
-                                    <ImageItem
-                                        key={e.alt}
-                                        src={e.src}
-                                        alt={e.alt}
-                                        name={e.name}
-                                        onSelect={(meta) => setSelected(meta)}
-                                    />
-                                ))}
+                        <div>
+                            <span className="font-semibold">Right:</span> JPG
+                        </div>
+                        <div className="mt-1 pt-1 border-t border-gray-100">
+                            <span className="font-semibold">Top:</span> i.ytimg.com
+                        </div>
+                        <div>
+                            <span className="font-semibold">Bottom:</span> img.youtube.com
+                        </div>
+                    </div>
+                </div>
+                <div className="flex-1 overflow-y-auto p-2">
+                    <div className="space-y-1">
+                        {IMAGE_FILENAMES.map((filename) => (
+                            <div key={filename} className="mb-4">
+                                <div className="px-2 py-1 text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 rounded mb-1">
+                                    {filename}
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {IMAGE_BASES.map((base) => {
+                                        const src = buildImageUrl(
+                                            base.host,
+                                            base.folder,
+                                            videoId,
+                                            filename,
+                                            base.ext
+                                        );
+                                        const alt = `${base.host}/${base.folder}/${videoId}/${filename}.${base.ext}`;
+                                        const name = `${filename}.${base.ext}`;
+                                        const isSelected =
+                                            selected?.src === src;
+                                        return (
+                                            <button
+                                                key={base.label}
+                                                type="button"
+                                                onClick={() =>
+                                                    setSelected({
+                                                        src,
+                                                        alt,
+                                                        width: 0,
+                                                        height: 0,
+                                                        name,
+                                                    })
+                                                }
+                                                className={`relative group rounded overflow-hidden border-2 transition-all ${
+                                                    isSelected
+                                                        ? "border-blue-500 ring-2 ring-blue-200"
+                                                        : "border-transparent hover:border-gray-300"
+                                                }`}
+                                            >
+                                                <div className="aspect-video bg-gray-100">
+                                                    <img
+                                                        src={src}
+                                                        alt={alt}
+                                                        className="w-full h-full object-cover"
+                                                        loading="lazy"
+                                                    />
+                                                </div>
+                                                <div className="absolute inset-x-0 bottom-0 bg-black/60 text-white text-[8px] py-0.5 px-1 truncate">
+                                                    {base.label}
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
                             </div>
-                        </div>
-                    </nav>
+                        ))}
+                    </div>
+                </div>
+                <div className="p-4 border-t border-gray-200 bg-gray-50">
+                    <Footer />
+                </div>
+            </aside>
 
-                    {/* ヘッダ情報（旧UI踏襲） */}
-                    <header className="bg-white rounded-lg shadow-md p-6 mb-6">
-                        <p className="text-center mb-4">
-                            <span className="font-semibold">
-                                YouTube LINK :{" "}
+            {/* 右メインエリア: プレビュー */}
+            <main className="flex-1 flex flex-col min-w-0 bg-gray-100/50">
+                {/* ヘッダー */}
+                <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shadow-sm z-10">
+                    <div className="flex items-center space-x-4 overflow-x-auto">
+                        {selected && (
+                            <>
+                                <div className="flex-shrink-0">
+                                    <span className="text-xs font-medium text-gray-500 uppercase">
+                                        Dimensions
+                                    </span>
+                                    <p className="text-sm font-medium text-gray-900 whitespace-nowrap">
+                                        {selected.width} x {selected.height} px
+                                    </p>
+                                </div>
+                                <div className="h-8 w-px bg-gray-200 mx-2" />
+                            </>
+                        )}
+                        <div className="flex-shrink-0">
+                            <span className="text-xs font-medium text-gray-500 uppercase">
+                                YouTube Link
                             </span>
                             <a
                                 href={youtubeUrl}
                                 onClick={handleLinkClick}
-                                className="text-blue-600 hover:underline break-all"
+                                className="block text-sm font-medium text-blue-600 hover:underline whitespace-nowrap"
                                 target="_blank"
                                 rel="noreferrer"
                             >
                                 {youtubeUrl}
                             </a>
-                        </p>
-                        <div className="flex flex-wrap items-center justify-around gap-4">
-                            <p className="text-gray-800">
-                                <span className="font-semibold">
-                                    Img Name :{" "}
-                                </span>
-                                <span>{selected ? selected.name : "-"}</span>
-                            </p>
-                            <p className="text-gray-800">
-                                <span className="font-semibold">
-                                    Img Size :{" "}
-                                </span>
-                                <span>
-                                    {selected
-                                        ? `${selected.width}px : ${selected.height}px`
-                                        : "0px : 0px"}
-                                </span>
-                            </p>
                         </div>
-                    </header>
+                        {selected && (
+                            <>
+                                <div className="h-8 w-px bg-gray-200 mx-2" />
+                                <div className="flex-shrink-0">
+                                    <span className="text-xs font-medium text-gray-500 uppercase">
+                                        File URL
+                                    </span>
+                                    <a
+                                        href={selected.src}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="block text-sm font-medium text-blue-600 hover:underline whitespace-nowrap"
+                                    >
+                                        {selected.src}
+                                    </a>
+                                </div>
+                                <div className="h-8 w-px bg-gray-200 mx-2" />
+                                <div className="flex-shrink-0">
+                                    <span className="text-xs font-medium text-gray-500 uppercase">
+                                        Download
+                                    </span>
+                                    <p className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                        Right-click on preview image
+                                    </p>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </header>
 
-                    {/* メイン（拡大画像） */}
-                    <main className="text-center bg-white rounded-lg shadow-md p-4">
-                        {selected ? (
+                {/* プレビュー表示 */}
+                <div className="flex-1 overflow-auto p-8 flex items-center justify-center">
+                    {selected ? (
+                        <div className="relative shadow-2xl overflow-hidden bg-white ring-1 ring-black/5">
                             <img
                                 src={selected.src}
                                 alt={selected.alt}
-                                className="min-h-[20vh] max-h-[90vh] max-w-[100vw] inline-block"
+                                className="max-w-full max-h-[calc(100vh-12rem)] object-contain block"
+                                onLoad={(e) => {
+                                    const img =
+                                        e.currentTarget as HTMLImageElement;
+                                    setSelected((prev) =>
+                                        prev
+                                            ? {
+                                                  ...prev,
+                                                  width:
+                                                      img.naturalWidth || 0,
+                                                  height:
+                                                      img.naturalHeight || 0,
+                                              }
+                                            : null
+                                    );
+                                }}
                             />
-                        ) : (
-                            <p className="text-2xl text-gray-500 py-16 select-none">
-                                Click on the thumbnails above
-                            </p>
-                        )}
-                    </main>
+                        </div>
+                    ) : (
+                        <div className="text-center text-gray-400">
+                            <p className="text-lg">Select a thumbnail to preview</p>
+                        </div>
+                    )}
                 </div>
-            </div>
-            <Footer />
+            </main>
         </div>
     );
 }
