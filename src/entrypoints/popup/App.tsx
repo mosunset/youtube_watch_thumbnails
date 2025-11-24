@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import ShortsContent from "@/components/popup/ShortsContent";
-import WatchContent from "@/components/popup/WatchContent";
-import YoutubeContent from "@/components/popup/YoutubeContent";
-import DefaultContent from "@/components/popup/DefaultContent";
+import ShortsContent from "./_components/ShortsContent";
+import WatchContent from "./_components/WatchContent";
+import YoutubeContent from "./_components/YoutubeContent";
+import DefaultContent from "./_components/DefaultContent";
 import { getPageTypeFromUrl, type PageType } from "@/utils/pageType";
 
 function App() {

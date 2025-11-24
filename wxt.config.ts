@@ -2,7 +2,7 @@ import { defineConfig } from "wxt";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
-    modules: ["@wxt-dev/module-react", '@wxt-dev/auto-icons'],
+    modules: ["@wxt-dev/module-react", '@wxt-dev/auto-icons', '@wxt-dev/i18n/module'],
     srcDir: "src",
     manifest: {
         permissions: ["tabs", "storage"],
@@ -37,5 +37,8 @@ export default defineConfig({
 
         // sizes: [128, 48, 32, 16],  // 生成するアイコンのサイズ（デフォルト: [128, 48, 32, 16]）
         //   → icons/16.png, icons/32.png, icons/48.png, icons/128.png が自動生成される
-    }
+    },
+    i18n: {
+        // localesDir: 'locales', // 翻訳ファイルを格納するディレクトリ（デフォルト: <srcDir>/locales）
+    },
 });

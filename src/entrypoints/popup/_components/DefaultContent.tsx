@@ -1,7 +1,7 @@
 import ywt from "@/assets/icon.png";
-import Footer from "../Footer";
+import Footer from "@/components/Footer";
 
-function YoutubeContent() {
+function DefaultContent() {
     return (
         <div className="min-w-90 p-4 pb-0">
             <div className="flex flex-col items-center">
@@ -13,12 +13,12 @@ function YoutubeContent() {
                     />
                 </div>
                 <h1 className="text-center text-xl font-extrabold text-gray-900 tracking-tight">
-                    対象外のページです
+                    YouTube以外のページです
                 </h1>
                 <p className="mt-3 text-center text-sm text-muted-foreground">
                     この拡張機能は
                     <span className="underline underline-offset-2">
-                        動画視聴ページ や Shorts
+                        YouTube の 視聴ページ や Shorts
                     </span>
                     で
                     <span className="underline underline-offset-2">
@@ -26,10 +26,10 @@ function YoutubeContent() {
                     </span>
                     します。
                     <br />
-                    今は別ページです。視聴ページで開き直してください。
+                    今はYouTube以外のページです。YouTubeの視聴ページで開き直してください。
                 </p>
                 <div className="mt-4 w-full rounded-md bg-gray-50 px-4 py-2 text-center text-xs text-gray-700 ring-1 ring-gray-200">
-                    動画視聴ページで開くと、その動画のサムネイルが表示されます。
+                    YouTubeの視聴ページで開くと、その動画のサムネイルが表示されます。
                 </div>
             </div>
             <Footer />
@@ -37,4 +37,4 @@ function YoutubeContent() {
     );
 }
 
-export default YoutubeContent;
+export default DefaultContent;

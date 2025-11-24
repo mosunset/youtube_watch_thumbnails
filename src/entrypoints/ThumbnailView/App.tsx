@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { buildYouTubeUrl } from "@/utils/youtubeUrl";
 import { videoIdStorage } from "@/utils/storage";
-import { t } from "@/utils/i18n";
+import { i18n } from "#i18n";
 import "@/utils/browserApi";
 import Footer from "@/components/Footer";
 
@@ -155,7 +155,7 @@ function App() {
             <div className="min-h-screen flex flex-col bg-gray-50">
                 <div className="flex-1 flex items-center justify-center">
                     <div className="text-center">
-                        <p className="text-gray-600">{t("loading")}</p>
+                        <p className="text-gray-600">{i18n.t("loading")}</p>
                     </div>
                 </div>
             </div>
@@ -172,7 +172,7 @@ function App() {
                         </h1>
                         <div className="bg-gray-50 rounded-md p-4">
                             <p className="text-gray-600">
-                                {t("videoIdNotFound")}
+                                {i18n.t("videoIdNotFound")}
                             </p>
                         </div>
                     </div>
@@ -189,23 +189,23 @@ function App() {
             <aside className="w-80 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col">
                 <div className="p-4 border-b border-gray-200">
                     <h2 className="text-sm font-semibold text-gray-800 mb-1">
-                        {t("thumbnails")}
+                        {i18n.t("thumbnails")}
                     </h2>
                     <p className="text-xs text-gray-500 mt-1">
-                        {t("selectToPreview")}
+                        {i18n.t("selectToPreview")}
                     </p>
                     <div className="text-xs text-gray-500 mt-2 space-y-1">
                         <div>
-                            <span className="font-semibold">{t("formatLeft")}:</span> WebP
+                            <span className="font-semibold">{i18n.t("formatLeft")}:</span> WebP
                         </div>
                         <div>
-                            <span className="font-semibold">{t("formatRight")}:</span> JPG
+                            <span className="font-semibold">{i18n.t("formatRight")}:</span> JPG
                         </div>
                         <div className="mt-1 pt-1 border-t border-gray-100">
-                            <span className="font-semibold">{t("formatTop")}:</span> i.ytimg.com
+                            <span className="font-semibold">{i18n.t("formatTop")}:</span> i.ytimg.com
                         </div>
                         <div>
-                            <span className="font-semibold">{t("formatBottom")}:</span> img.youtube.com
+                            <span className="font-semibold">{i18n.t("formatBottom")}:</span> img.youtube.com
                         </div>
                     </div>
                 </div>
@@ -280,7 +280,7 @@ function App() {
                             <>
                                 <div className="flex-shrink-0">
                                     <span className="text-xs font-medium text-gray-500 uppercase">
-                                        {t("dimensions")}
+                                        {i18n.t("dimensions")}
                                     </span>
                                     <p className="text-sm font-medium text-gray-900 whitespace-nowrap">
                                         {selected.width} x {selected.height} px
@@ -291,7 +291,7 @@ function App() {
                         )}
                         <div className="flex-shrink-0">
                             <span className="text-xs font-medium text-gray-500 uppercase">
-                                {t("youtubeLink")}
+                                {i18n.t("youtubeLink")}
                             </span>
                             <a
                                 href={youtubeUrl}
@@ -308,7 +308,7 @@ function App() {
                                 <div className="h-8 w-px bg-gray-200 mx-2" />
                                 <div className="flex-shrink-0">
                                     <span className="text-xs font-medium text-gray-500 uppercase">
-                                        {t("fileUrl")}
+                                        {i18n.t("fileUrl")}
                                     </span>
                                     <a
                                         href={selected.src}
@@ -322,10 +322,10 @@ function App() {
                                 <div className="h-8 w-px bg-gray-200 mx-2" />
                                 <div className="flex-shrink-0">
                                     <span className="text-xs font-medium text-gray-500 uppercase">
-                                        {t("download")}
+                                        {i18n.t("download")}
                                     </span>
                                     <p className="text-sm font-medium text-gray-700 whitespace-nowrap">
-                                        {t("rightClickInstruction")}
+                                        {i18n.t("rightClickInstruction")}
                                     </p>
                                 </div>
                             </>
@@ -360,7 +360,7 @@ function App() {
                         </div>
                     ) : (
                         <div className="text-center text-gray-400">
-                            <p className="text-lg">{t("selectThumbnailPrompt")}</p>
+                            <p className="text-lg">{i18n.t("selectThumbnailPrompt")}</p>
                         </div>
                     )}
                 </div>
