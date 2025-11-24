@@ -1,4 +1,4 @@
-# ![YouTube Watch Thumbnails Icon](https://lh3.googleusercontent.com/RVxopoFuGYjYwxoriAgY_Q9bWL5nROrewN8SEX6k5atA1SycwTOQXkUL9wJQO2g-L75jq6RZcqgaomEEqJL_5lUvEg) YouTube Watch Thumbnails
+# ![YouTube Watch Thumbnails Icon](/public/icon/128.png) YouTube Watch Thumbnails
 
 YouTube 動画のサムネイル画像を簡単に表示・確認できるブラウザ拡張機能です。
 
@@ -173,8 +173,7 @@ YouTube の動画ページ上で実行されるメインスクリプトです。
   - 画像サイズ（幅 × 高さ）を表示
   - グリッドレイアウトで画像を整理
   - モバイル表示にも対応
-- [ ] 一覧から画像をクリックすると、詳細な画像情報を表示する
-- [ ] 高解像度画像を新しいタブで確認可能
+- [x] 一覧から画像をクリックすると、詳細な画像情報を表示する
 
 ### Options
 
@@ -182,6 +181,7 @@ YouTube の動画ページ上で実行されるメインスクリプトです。
 
 - [ ] Content Script でのホバー時の表示方法を選択できる
   - アイコン横で元のサイズの200%に拡大表示する
+    - 拡大表示の倍率を設定可能
   - モーダルダイアログ等で高解像度の拡大画像を表示する
 <!-- - [ ] サムネイル表示の有効/無効を設定できる -->
 <!-- - [ ] サムネイル画像のサイズを設定できる -->
