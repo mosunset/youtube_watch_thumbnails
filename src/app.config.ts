@@ -1,6 +1,7 @@
 import { defineAppConfig } from '#imports';
 
 // Define types for your config
+// @ts-ignore
 declare module 'wxt/utils/define-app-config' {
     export interface WxtAppConfig {
         repoUrl: string;
