@@ -9,6 +9,6 @@
             "@/*": ["./src/*"]
         }
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
-    "exclude": ["node_modules", ".output", ".wxt"]
+    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", ".wxt/wxt.d.ts"],
+    "exclude": ["node_modules", ".output"]
 }

@@ -1,5 +1,6 @@
 declare const defineBackground: any;
 import { onMessage } from "@/utils/messaging";
+import { browser } from "wxt/browser";
 
 export default defineBackground(() => {
     // メッセージリスナーの設定
