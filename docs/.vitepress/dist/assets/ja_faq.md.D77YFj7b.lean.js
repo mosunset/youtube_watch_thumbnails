@@ -1,1 +1,0 @@
-import{_ as e,c as t,o as r,ae as l}from"./chunks/framework.DNEoaTf_.js";const q=JSON.parse('{"title":"よくある質問（FAQ）","description":"","frontmatter":{},"headers":[],"relativePath":"ja/faq.md","filePath":"ja/faq.md"}'),i={name:"ja/faq.md"};function o(h,a,u,s,n,d){return r(),t("div",null,[...a[0]||(a[0]=[l("",43)])])}const c=e(i,[["render",o]]);export{q as __pageData,c as default};
