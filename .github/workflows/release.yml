@@ -1,54 +1,72 @@
 name: Release extension (zip only)
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    release:
-        runs-on: ubuntu-latest
-        permissions:
-            contents: write
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v4
-              with:
-                  version: 9
+      - name: Check commit message
+        id: check_commit
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          if [[ ! "$COMMIT_MSG" =~ ^release: ]]; then
+            echo "Commit message does not start with 'release:', skipping release"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Commit message starts with 'release:', proceeding with release"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
 
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 22
-                  cache: pnpm
+      - name: Setup pnpm
+        if: steps.check_commit.outputs.skip != 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
-            - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+      - name: Setup Node
+        if: steps.check_commit.outputs.skip != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
 
-            - name: Build zips (Chrome + Firefox)
-              run: |
-                  pnpm zip
+      - name: Install dependencies
+        if: steps.check_commit.outputs.skip != 'true'
+        run: pnpm install --frozen-lockfile
 
-            # package.json の version を拾って tag / リリース名に使う
-            - name: Get version
-              id: get_version
-              run: |
-                  VERSION=$(node -p "require('./package.json').version")
-                  echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Build zips (Chrome + Firefox)
+        if: steps.check_commit.outputs.skip != 'true'
+        run: |
+          pnpm zip
 
-            - name: Create GitHub Release
-              uses: softprops/action-gh-release@v2
-              with:
-                  tag_name: v${{ steps.get_version.outputs.version }}
-                  name: v${{ steps.get_version.outputs.version }}
-                  # wxt の zip 出力先パターンに合わせて調整してください
-                  files: |
-                      .output/*-chrome.zip
-                      .output/*-firefox.zip
-                      .output/*-sources.zip
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # package.json の version を拾って tag / リリース名に使う
+      - name: Get version
+        if: steps.check_commit.outputs.skip != 'true'
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        if: steps.check_commit.outputs.skip != 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: v${{ steps.get_version.outputs.version }}
+          # wxt の zip 出力先パターンに合わせて調整してください
+          files: |
+            .output/*-chrome.zip
+            .output/*-firefox.zip
+            .output/*-sources.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
