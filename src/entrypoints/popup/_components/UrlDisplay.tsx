@@ -6,7 +6,7 @@
 import { useState, useEffect } from "react";
 import { openThumbnailView } from "@/utils/thumbnailView";
 import { extractVideoId } from "@/utils/youtubeUrl";
-import Footer from "../Footer";
+import Footer from "@/components/Footer";
 import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
 
 interface UrlDisplayProps {
