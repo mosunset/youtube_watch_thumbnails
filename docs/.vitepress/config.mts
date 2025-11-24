@@ -22,24 +22,23 @@ export default defineConfig({
     root: {
       label: 'English',
       lang: 'en',
-      link: '/en/',
       themeConfig: {
         nav: [
-          { text: 'Home', link: '/en/' },
-          { text: 'Install', link: '/en/guide/install' },
-          { text: 'Usage', link: '/en/guide/' },
-          { text: 'FAQ', link: '/en/faq' },
-          { text: 'Privacy', link: '/en/privacy' },
-          { text: 'Changelog', link: '/en/changelog' },
+          { text: 'Home', link: '/' },
+          { text: 'Install', link: '/guide/install' },
+          { text: 'Usage', link: '/guide/' },
+          { text: 'FAQ', link: '/faq' },
+          { text: 'Privacy', link: '/privacy' },
+          { text: 'Changelog', link: '/changelog' },
         ],
         sidebar: {
-          '/en/guide/': [
+          '/guide/': [
             {
               text: 'Guide',
               items: [
-                { text: 'Installation', link: '/en/guide/install' },
-                { text: 'Usage', link: '/en/guide/' },
-                { text: 'Troubleshooting', link: '/en/guide/troubleshooting' },
+                { text: 'Installation', link: '/guide/install' },
+                { text: 'Usage', link: '/guide/' },
+                { text: 'Troubleshooting', link: '/guide/troubleshooting' },
               ]
             }
           ]
