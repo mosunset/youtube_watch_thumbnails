@@ -1,4 +1,7 @@
-# ![YouTube Watch Thumbnails Icon](/public/icon/128.png) YouTube Watch Thumbnails
+<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+  <img src="/src/assets/icon.png" alt="YouTube Watch Thumbnails Icon" style="width: 48px; height: 48px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+  <h1 style="font-size: 2.5rem; font-weight: 700; margin: 0;">YouTube Watch Thumbnails</h1>
+</div>
 
 YouTube 動画のサムネイル画像を簡単に表示・確認できるブラウザ拡張機能です。
 
@@ -10,7 +13,7 @@ YouTube 動画のサムネイル画像を簡単に表示・確認できるブラ
 
 ## 📸 スクリーンショット
 
-![display example](https://lh3.googleusercontent.com/qVY38J0B-Bw7y02pLA3AZGKVQtheRAedhIixXhsVDSft0AwpyZE-yljWcqseXROqGKaZhkUubzgfOBRJFDQYdvBu=s1280-w1280-h800)
+![display example](/src/assets/images/v2.1.01.png)
 
 ## 🔗 リンク
 
