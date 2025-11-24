@@ -1,11 +1,10 @@
 declare const defineBackground: any;
 import { onMessage } from "@/utils/messaging";
-import { browser } from "wxt/browser";
 
 export default defineBackground(() => {
     // メッセージリスナーの設定
     onMessage("openThumbnailView", async () => {
-        const url = browser.runtime.getURL("ThumbnailView.html");
+        const url = browser.runtime.getURL("/ThumbnailView.html");
         try {
             await browser.tabs.create({ url });
         } catch (e) {

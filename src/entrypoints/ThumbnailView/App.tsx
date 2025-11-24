@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { buildYouTubeUrl } from "@/utils/youtubeUrl";
 import { videoIdStorage } from "@/utils/storage";
-import { browser } from 'wxt/browser';
 import { IMAGE_BASES } from "./constants";
 import { buildImageUrl } from "./utils";
 import { ImageMeta } from "./types";
