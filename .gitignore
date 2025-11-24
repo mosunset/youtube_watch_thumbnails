@@ -27,3 +27,6 @@ web-ext.config.ts
 
 .env*
 !.env.example
+
+# VitePress
+docs/.vitepress/cache
