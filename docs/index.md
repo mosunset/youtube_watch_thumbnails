@@ -8,10 +8,10 @@ hero:
   actions:
     - theme: brand
       text: Installation
-      link: /en/guide/install
+      link: /guide/install
     - theme: alt
       text: Usage Guide
-      link: /en/guide/
+      link: /guide/
 
 features:
   - icon: 🖼️

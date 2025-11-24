@@ -46,5 +46,5 @@ After installation:
 3. Click the icon to confirm it's working
 
 ::: tip Next Steps
-Once installed, check out the [Usage Guide](/en/guide/) for detailed instructions.
+Once installed, check out the [Usage Guide](/guide/) for detailed instructions.
 :::

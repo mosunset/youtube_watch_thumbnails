@@ -39,6 +39,7 @@ export default defineConfig({
                 { text: 'Installation', link: '/guide/install' },
                 { text: 'Usage', link: '/guide/' },
                 { text: 'Troubleshooting', link: '/guide/troubleshooting' },
+                { text: 'Firefox Reviewers', link: '/FIREFOX_REVIEWERS.md' }
               ]
             }
           ]
