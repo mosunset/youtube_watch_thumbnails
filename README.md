@@ -13,7 +13,7 @@ YouTube 動画のサムネイル画像を簡単に表示・確認できるブラ
 
 ## 📸 スクリーンショット
 
-![display example](/src/assets/images/v2.1.01.png)
+![display example](/screenshots/v2.1.01.png)
 
 ## 🔗 リンク
 
