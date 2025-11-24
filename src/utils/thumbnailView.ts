@@ -5,6 +5,7 @@
 
 import { extractVideoId } from "./youtubeUrl";
 import { videoIdStorage } from "./storage";
+import { sendMessage } from "@/utils/messaging";
 
 /**
  * URLから動画IDを抽出してstorageに保存し、ThumbnailViewページを開く
@@ -27,7 +28,7 @@ export async function openThumbnailView(url: string): Promise<void> {
 
         // MV3ではcontent scriptからtabs.createが制限される環境があるため、
         // 背景へメッセージを送ってタブ生成を依頼する
-        await browser.runtime.sendMessage({ type: "OPEN_THUMBNAIL_VIEW" });
+        await sendMessage("openThumbnailView", undefined);
     } catch (error) {
         console.error("Failed to open ThumbnailView:", error);
     }
