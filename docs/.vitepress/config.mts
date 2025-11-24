@@ -74,6 +74,7 @@ export default defineConfig({
                 { text: 'インストール', link: '/ja/guide/install' },
                 { text: '使い方', link: '/ja/guide/' },
                 { text: 'トラブルシューティング', link: '/ja/guide/troubleshooting' },
+                { text: "仕様", link: "/ja/guide/specifications.md" }
               ]
             }
           ]
