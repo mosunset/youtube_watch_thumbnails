@@ -31,4 +31,3 @@ web-ext.config.ts
 # VitePress
 docs/.vitepress/cache
 docs/.vitepress/dist
-docs/demo
