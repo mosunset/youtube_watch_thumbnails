@@ -1,4 +1,4 @@
-import ywt from "@/assets/ywt.png";
+import ywt from "@/assets/icon.png";
 import Footer from "../Footer";
 
 function DefaultContent() {

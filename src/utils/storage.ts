@@ -1,39 +1,77 @@
-import { STORAGE_KEY } from "@/constants";
-
-
+import { storage } from "@wxt-dev/storage";
 
 /**
- * storage.local からデータを取得する
- * @param keys - 取得したいキー（単一の文字列、文字列の配列、またはデフォルト値を持つオブジェクト）。nullの場合は全データを取得。
- * @returns 取得したデータを含むオブジェクト
+ * 現在視聴中のYouTube動画ID
+ *
+ * ストレージキー: `local:youtube_video_id`
+ *
+ * @example
+ * ```ts
+ * // 値を取得
+ * const videoId = await videoIdStorage.getValue();
+ *
+ * // 値を設定
+ * await videoIdStorage.setValue("dQw4w9WgXcQ");
+ *
+ * // 値を削除
+ * await videoIdStorage.removeValue();
+ *
+ * // 変更を監視
+ * const unwatch = videoIdStorage.watch((newId, oldId) => {
+ *   console.log(`Video changed: ${oldId} -> ${newId}`);
+ * });
+ * ```
  */
-export async function getStorage(
-  keys?: string | string[] | { [key: string]: any } | null
-): Promise<{ [key: string]: any }> {
-  return await browser.storage.local.get(keys);
-}
+export const videoIdStorage = storage.defineItem<string | null>(
+  "local:youtube_video_id",
+  {
+    fallback: null, // デフォルト値: null
+  }
+);
 
 /**
- * storage.local にデータを保存する
- * @param items - 保存したいキーと値のペアを持つオブジェクト
+ * サムネイルホバー時の動作設定
+ *
+ * ストレージキー: `local:thumbnail_hover_behavior`
+ *
+ * - `magnify`: サムネイルを拡大表示（デフォルト）
+ * - `modal`: モーダルで表示
+ *
+ * @example
+ * ```ts
+ * // 現在の設定を取得
+ * const behavior = await thumbnailHoverBehavior.getValue();
+ *
+ * // 設定を変更
+ * await thumbnailHoverBehavior.setValue('modal');
+ * ```
  */
-export async function setStorage(items: { [key: string]: any }): Promise<void> {
-  await browser.storage.local.set(items);
-}
+export const thumbnailHoverBehavior = storage.defineItem<'magnify' | 'modal'>(
+  "local:thumbnail_hover_behavior",
+  {
+    fallback: 'magnify',
+  }
+);
 
 /**
- * storage から動画IDを取得する
- * @returns 動画ID、または存在しない場合は undefined
+ * デバッグモード設定
+ *
+ * ストレージキー: `local:debug_mode`
+ *
+ * デバッグ情報の表示を制御します。
+ *
+ * @example
+ * ```ts
+ * // デバッグモードを有効化
+ * await debugMode.setValue(true);
+ *
+ * // 現在の状態を確認
+ * const isDebug = await debugMode.getValue();
+ * ```
  */
-export async function getVideoId(): Promise<string | undefined> {
-  const data = await getStorage(STORAGE_KEY);
-  return data[STORAGE_KEY];
-}
-
-/**
- * storage に動画IDを保存する
- * @param videoId - 保存する動画ID
- */
-export async function setVideoId(videoId: string): Promise<void> {
-  await setStorage({ [STORAGE_KEY]: videoId });
-}
+export const debugMode = storage.defineItem<boolean>(
+  "local:debug_mode",
+  {
+    fallback: false,
+  }
+);

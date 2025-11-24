@@ -1,3 +1,16 @@
-import { useAppConfig } from "#imports";
+import { defineAppConfig } from '#imports';
 
-console.log(useAppConfig()); // { theme: "dark" }
+// Define types for your config
+declare module 'wxt/utils/define-app-config' {
+    export interface WxtAppConfig {
+        repoUrl: string;
+        homepageUrl: string;
+        storageKey: string;
+    }
+}
+
+export default defineAppConfig({
+    repoUrl: 'https://github.com/mosunset/youtube_watch_thumbnails',
+    homepageUrl: 'https://mosunset.com',
+    storageKey: 'youtube_video_id',
+});

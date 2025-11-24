@@ -1,5 +1,5 @@
-import ywt from "@/assets/ywt.png";
-import { homepageUrl, repoUrl } from "@/constants";
+import ywt from "@/assets/icon.png";
+import { useAppConfig } from "#imports";
 import { cn } from "@/lib/utils";
 
 interface FooterProps {
@@ -7,6 +7,7 @@ interface FooterProps {
 }
 
 function Footer({ compact = false }: FooterProps) {
+    const config = useAppConfig();
     return (
         <footer
             className={cn(
@@ -28,7 +29,7 @@ function Footer({ compact = false }: FooterProps) {
                 <span>© 2025 mosunset.</span>
                 <span className="mx-2">·</span>
                 <a
-                    href={repoUrl}
+                    href={config.repoUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="underline-offset-2 hover:underline"
@@ -37,7 +38,7 @@ function Footer({ compact = false }: FooterProps) {
                 </a>
                 <span className="mx-2">·</span>
                 <a
-                    href={homepageUrl}
+                    href={config.homepageUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="underline-offset-2 hover:underline"

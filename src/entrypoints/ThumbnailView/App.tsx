@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { buildYouTubeUrl } from "@/utils/youtubeUrl";
-import { getVideoId } from "@/utils/storage";
+import { videoIdStorage } from "@/utils/storage";
 import { t } from "@/utils/i18n";
 import "@/utils/browserApi";
 import Footer from "@/components/Footer";
@@ -81,7 +81,7 @@ function App() {
 
         async function readOnce() {
             try {
-                const id = await getVideoId();
+                const id = await videoIdStorage.getValue();
                 if (cancelled) return;
                 if (id) {
                     setVideoId(id);
@@ -242,11 +242,10 @@ function App() {
                                                         name,
                                                     })
                                                 }
-                                                className={`relative group rounded overflow-hidden border-2 transition-all ${
-                                                    isSelected
-                                                        ? "border-blue-500 ring-2 ring-blue-200"
-                                                        : "border-transparent hover:border-gray-300"
-                                                }`}
+                                                className={`relative group rounded overflow-hidden border-2 transition-all ${isSelected
+                                                    ? "border-blue-500 ring-2 ring-blue-200"
+                                                    : "border-transparent hover:border-gray-300"
+                                                    }`}
                                             >
                                                 <div className="aspect-video bg-gray-100">
                                                     <img
@@ -348,12 +347,12 @@ function App() {
                                     setSelected((prev) =>
                                         prev
                                             ? {
-                                                  ...prev,
-                                                  width:
-                                                      img.naturalWidth || 0,
-                                                  height:
-                                                      img.naturalHeight || 0,
-                                              }
+                                                ...prev,
+                                                width:
+                                                    img.naturalWidth || 0,
+                                                height:
+                                                    img.naturalHeight || 0,
+                                            }
                                             : null
                                     );
                                 }}
