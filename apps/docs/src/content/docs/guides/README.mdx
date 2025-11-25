@@ -1,0 +1,102 @@
+---
+title: README
+---
+
+import Image1 from '../../../../../../screenshots/v2.1.01.png'
+import Image2 from '../../../../../../screenshots/v2.1.11.png'
+
+![Extension Icon](/src/assets/icon.png)
+
+# YouTube Watch Thumbnails
+
+YouTube 動画のサムネイル画像を簡単に表示・確認できるブラウザ拡張機能です。
+
+## 📸 スクリーンショット
+
+
+<img src={Image1.src} alt="Extension Screenshot1" />
+<img src={Image2.src} alt="Extension Screenshot2" />
+
+## ✨ 機能概要 (Features)
+
+- **サムネイル表示**: YouTube 視聴ページで、動画のサムネイル画像を自動的に表示します。
+- **高画質対応**: WebP および JPG 形式の最高画質サムネイルを取得します。
+- **ワンクリック確認**: サムネイルをクリックすると、専用ビューワーで全サイズの画像を確認できます。
+- **Shorts 対応**: YouTube Shorts にも対応しています。
+
+## 📥 インストール (Installation)
+
+### ストアからインストール
+
+- [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-YouTube%20Watch%20Thumbnails-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-watch-thumbnails/aobeafpjgdgakpagffmlkfeognaiigci)
+- [![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-YouTube%20Watch%20Thumbnails-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/ja/firefox/addon/youtube-watch-thumbnails/)
+
+### ローカルで動かす場合
+
+1. リポジトリをクローンします。
+   ```bash
+   git clone https://github.com/mosunset/youtube_watch_thumbnails.git
+   cd youtube_watch_thumbnails
+   ```
+
+2. 依存関係をインストールします。
+   ```bash
+   pnpm install
+   ```
+
+3. 開発サーバーを起動します。
+   ```bash
+   pnpm dev
+   ```
+
+4. ブラウザに拡張機能を読み込みます。
+   - **Chrome**: `chrome://extensions` を開き、デベロッパーモードを有効にします。「パッケージ化されていない拡張機能を読み込む」をクリックし、`.output/chrome-mv3` ディレクトリを選択します。
+   - **Firefox**: `about:debugging#/runtime/this-firefox` を開き、「一時的なアドオンを読み込む」をクリックし、`.output/firefox-mv2/manifest.json` を選択します。
+
+## 🚀 使い方 (Usage)
+
+1. YouTube で動画ページ (`/watch`) または Shorts ページ (`/shorts`) を開きます。
+2. チャンネルアイコンの横（または適切な位置）にサムネイル画像が表示されます。
+3. 画像をクリックすると、新しいタブで「Thumbnail View」が開き、利用可能なすべてのサイズのサムネイル画像を確認できます。
+4. 拡張機能アイコンをクリックすると、ポップアップメニューから設定や情報にアクセスできます。
+
+## 📂 ディレクトリ構成 (Project Structure)
+
+```text
+youtube_watch_thumbnails/
+├── src/                # ソースコード
+│   ├── assets/         # 画像などの静的アセット
+│   ├── components/     # React コンポーネント
+│   ├── entrypoints/    # WXT エントリーポイント (background, content, popup, etc.)
+│   ├── utils/          # ユーティリティ関数
+│   └── ...
+├── docs/               # ドキュメント
+├── .output/            # ビルド成果物 (gitignored)
+├── wxt.config.ts       # WXT 設定ファイル
+└── ...
+```
+
+## 🛠️ 開発用コマンド (Development Commands)
+
+- `pnpm dev`: 開発サーバーを起動します（HMR有効）。
+- `pnpm build`: 本番用にビルドします。
+- `pnpm zip`: ストア提出用の ZIP ファイルを作成します。
+- `pnpm lint`: コードの静的解析を実行します。
+- `pnpm test`: テストを実行します。
+
+## 🤝 貢献方法 (Contribution)
+
+バグ報告や機能要望は [Issues](https://github.com/mosunset/youtube_watch_thumbnails/issues) にて受け付けています。プルリクエストも歓迎します。
+
+詳細な仕様については [docs/ja/guide/specifications.md](docs/ja/guide/specifications.md) をご覧ください。
+
+## 👤 作者 (Author)
+
+**mosunset**
+
+- [Blog](https://mosunset.com/blog/youtube-watch-thumbnails/)
+
+## 📦 Store
+
+- [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-YouTube%20Watch%20Thumbnails-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-watch-thumbnails/aobeafpjgdgakpagffmlkfeognaiigci)
+- [![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-YouTube%20Watch%20Thumbnails-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/ja/firefox/addon/youtube-watch-thumbnails/)
