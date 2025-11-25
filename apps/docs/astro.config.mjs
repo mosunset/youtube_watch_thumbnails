@@ -42,30 +42,37 @@ export default defineConfig({
         sidebar: [
             {
                 label: 'Getting Started',
+                translations: { ja: 'はじめる' },
                 autogenerate: { directory: 'getting-started' },
             },
             {
                 label: 'User Guide',
+                translations: { ja: 'ユーザーガイド' },
                 autogenerate: { directory: 'guide' },
             },
             {
                 label: 'Settings',
+                translations: { ja: '設定' },
                 autogenerate: { directory: 'settings' },
             },
             {
                 label: 'Troubleshooting',
+                translations: { ja: 'トラブルシューティング' },
                 autogenerate: { directory: 'troubleshooting' },
             },
             {
                 label: 'Internals',
+                translations: { ja: '内部仕様' },
                 autogenerate: { directory: 'internals' },
             },
             {
                 label: 'Project Docs',
+                translations: { ja: 'プロジェクト情報' },
                 autogenerate: { directory: 'resources' },
             },
             {
                 label: 'For Reviewers',
+                translations: { ja: 'レビュアー向け' },
                 autogenerate: { directory: 'for-reviewers' },
             },
         ],

@@ -1,193 +1,193 @@
 ---
-title: 仕様
+title: Specifications
 ---
 
-## 共通機能
+## Common Features
 
-- [x] 著作権情報等を表示するフッターを実装する
-- [ ] i18n 対応
+- [x] Implement footer displaying copyright information, etc.
+- [ ] i18n support
 
 <details>
-  <summary>対応言語</summary>
+  <summary>Supported Languages</summary>
 
-- [ ] ar アラビア語
+- [ ] ar Arabic
   - RTL
-  - 中 (23)
-- [ ] bg ブルガリア語
-  - 追加
-  - 最小 (1)
-- [ ] bn ベンガル語
-  - 大
-- [ ] cs チェコ語
-  - 追加
-  - 中 (11)
-- [ ] da デンマーク語
-  - 追加
-  - 小 (4)
-- [ ] de ドイツ語
-  - 大 (57)
-- [ ] el ギリシャ語
-  - 中 (7)
-- [ ] en 英語
-  - 最大
-- [ ] en_AU 英語（オーストラリア）
-  - 最大
-- [ ] en_GB 英語（英国）
-  - 最大 (223)
-- [ ] en_US 英語（アメリカ）
-  - 最大 (1478)
-- [ ] es スペイン語
-  - 大 (138)
-- [ ] es_419 スペイン語（ラテンアメリカ、カリブ海）
-  - 大
-- [ ] fa ペルシア語
-  - 追加
+  - Medium (23)
+- [ ] bg Bulgarian
+  - Add
+  - Minimal (1)
+- [ ] bn Bengali
+  - Large
+- [ ] cs Czech
+  - Add
+  - Medium (11)
+- [ ] da Danish
+  - Add
+  - Small (4)
+- [ ] de German
+  - Large (57)
+- [ ] el Greek
+  - Medium (7)
+- [ ] en English
+  - Max
+- [ ] en_AU English (Australia)
+  - Max
+- [ ] en_GB English (UK)
+  - Max (223)
+- [ ] en_US English (US)
+  - Max (1478)
+- [ ] es Spanish
+  - Large (138)
+- [ ] es_419 Spanish (Latin America, Caribbean)
+  - Large
+- [ ] fa Persian
+  - Add
   - RTL
-  - 最小 (1)
-- [ ] fil フィリピン語
-  - 中
-- [ ] fi フィンランド語
-  - 追加
-  - 最小 (1)
-- [ ] fr フランス語
-  - 大 (99)
-- [ ] he ヘブライ語
-  - 追加
+  - Minimal (1)
+- [ ] fil Filipino
+  - Medium
+- [ ] fi Finnish
+  - Add
+  - Minimal (1)
+- [ ] fr French
+  - Large (99)
+- [ ] he Hebrew
+  - Add
   - RTL
-  - 中 (15)
-- [ ] hi ヒンディー語
-  - 大
-- [ ] hr クロアチア語
-  - 追加
-  - 最小 (1)
-- [ ] hu ハンガリー語
-  - 追加
-  - 中 (18)
-- [ ] id インドネシア語
-  - 中 (8)
-- [ ] it イタリア語
-  - 中 (22)
-- [ ] ja 日本語
-  - 最大 (7862)
-- [ ] ko 韓国語
-  - 大 (78)
-- [ ] ms マレー語
-  - 中
-- [ ] nl オランダ語
-  - 中 (9)
-- [ ] no ノルウェー語
-  - 追加
-  - 小 (2)
-- [ ] pl ポーランド語
-  - 大 (58)
-- [ ] pt_BR ポルトガル語（ブラジル）
-  - 大 (123)
-- [ ] pt_PT ポルトガル語 (ポルトガル)
-  - 中 (9)
-- [ ] ru ロシア語
-  - 大 (168)
-- [ ] sk スロバキア語
-  - 追加
-  - 最小 (1)
-- [ ] sv スウェーデン語
-  - 追加
-  - 小 (4)
-- [ ] th タイ語
-  - 中 (9)
-- [ ] tr トルコ語
-  - 中 (30)
-- [ ] uk ウクライナ語
-  - 追加
-  - 中 (12)
-- [ ] vi ベトナム語
-  - 大 (61)
-- [ ] zh_CN 中国語（中国）
-  - 大 (40)
-- [ ] zh_TW 中国語（台湾）
-  - 大 (56)
+  - Medium (15)
+- [ ] hi Hindi
+  - Large
+- [ ] hr Croatian
+  - Add
+  - Minimal (1)
+- [ ] hu Hungarian
+  - Add
+  - Medium (18)
+- [ ] id Indonesian
+  - Medium (8)
+- [ ] it Italian
+  - Medium (22)
+- [ ] ja Japanese
+  - Max (7862)
+- [ ] ko Korean
+  - Large (78)
+- [ ] ms Malay
+  - Medium
+- [ ] nl Dutch
+  - Medium (9)
+- [ ] no Norwegian
+  - Add
+  - Small (2)
+- [ ] pl Polish
+  - Large (58)
+- [ ] pt_BR Portuguese (Brazil)
+  - Large (123)
+- [ ] pt_PT Portuguese (Portugal)
+  - Medium (9)
+- [ ] ru Russian
+  - Large (168)
+- [ ] sk Slovak
+  - Add
+  - Minimal (1)
+- [ ] sv Swedish
+  - Add
+  - Small (4)
+- [ ] th Thai
+  - Medium (9)
+- [ ] tr Turkish
+  - Medium (30)
+- [ ] uk Ukrainian
+  - Add
+  - Medium (12)
+- [ ] vi Vietnamese
+  - Large (61)
+- [ ] zh_CN Chinese (China)
+  - Large (40)
+- [ ] zh_TW Chinese (Taiwan)
+  - Large (56)
 
 </details>
 
 ## Popup
 
-ブラウザのタブバーにある拡張機能アイコンをクリックすると表示されるポップアップ画面です。
+The popup screen displayed when clicking the extension icon in the browser toolbar.
 
-- [x] 現在のタブで再生中の動画のサムネイル画像を表示する
-  - 動画視聴ページ（`/watch`）: サムネイル画像を表示
-  - Shorts ページ（`/shorts`）: Shorts用のサムネイルを表示
-  - その他のYouTubeページ: 適切なメッセージを表示
-  - YouTube以外のページ: 対象外ページの案内を表示
-- [x] サムネイル画像をクリックすると、Thumbnail View ページが新しいタブで開く
-- [ ] 設定へのリンクを表示する
+- [x] Display thumbnail of the video playing in the current tab
+  - Video Watch Page (`/watch`): Display thumbnail image
+  - Shorts Page (`/shorts`): Display Shorts thumbnail
+  - Other YouTube Pages: Display appropriate message
+  - Non-YouTube Pages: Display message indicating page is not supported
+- [x] Clicking the thumbnail opens the Thumbnail View page in a new tab
+- [ ] Display link to settings
 
 ## Content Script
 
-YouTube の動画ページ上で実行されるメインスクリプトです。動画ページにサムネイル画像を動的に挿入します。
+Main script executed on YouTube video pages. Dynamically inserts thumbnail images into the video page.
 
-- [ ] 再生中の動画のサムネイル画像を投稿者アイコンの左側に表示する
-  - 動画IDを自動検出して適切なサムネイル画像を取得
-  - 画像サイズ: 高さ 64px（アスペクト比を維持）
-  - DOM挿入位置: `div#owner.item.style-scope.ytd-watch-metadata` 内
-  - 対象ページ: `www.youtube.com`, `m.youtube.com`, `youtube.com` およびそのサブドメイン
-  - 動画IDの抽出: URLパターンから自動抽出（`/watch?v=`, `/shorts/` など）
+- [ ] Display thumbnail of the playing video to the left of the uploader icon
+  - Automatically detect video ID and fetch appropriate thumbnail
+  - Image size: Height 64px (maintain aspect ratio)
+  - DOM insertion position: Inside `div#owner.item.style-scope.ytd-watch-metadata`
+  - Target pages: `www.youtube.com`, `m.youtube.com`, `youtube.com` and subdomains
+  - Video ID extraction: Auto-extract from URL patterns (`/watch?v=`, `/shorts/`, etc.)
   - [x] watch
   - [ ] shorts
-- [ ] サムネイル画像にマウスホバーすると拡大表示する
-  - アイコン横で元のサイズの200%に拡大表示する
-  - 拡大された画像は元の位置基準で表示され、レイアウトを崩さない
-  - スムーズなトランジション効果
+- [ ] Zoom in on thumbnail hover
+  - Display at 200% of original size next to the icon
+  - Zoomed image is positioned relative to original, maintaining layout
+  - Smooth transition effect
   - [x] watch
   - [ ] shorts
-- [ ] モーダルダイアログ等で高解像度の拡大画像を表示する
-  - Hover Zoom+ インスパイア
+- [ ] Display high-resolution zoomed image in modal dialog, etc.
+  - Inspired by Hover Zoom+
   - [ ] watch
   - [ ] shorts
-- [ ] サムネイル画像をクリックすると、Thumbnail View ページが開く
+- [ ] Clicking the thumbnail opens the Thumbnail View page
   - [x] watch
   - [ ] shorts
 
 ## Thumbnail View
 
-拡張機能専用の独立したタブページです。閲覧した動画のすべてのサムネイル画像サイズを一覧表示します。
+Independent tab page dedicated to the extension. Lists all thumbnail image sizes for the viewed video.
 
-- [x] 閲覧した動画のサムネイル画像の一覧を表示する
-  - 利用可能なすべてのサムネイル画像サイズを表示
-  - WebP形式とJPG形式の両方をサポート
-  - 画像サイズ（幅 × 高さ）を表示
-  - グリッドレイアウトで画像を整理
-  - モバイル表示にも対応
-- [x] 一覧から画像をクリックすると、詳細な画像情報を表示する
+- [x] Display list of thumbnails for the viewed video
+  - Display all available thumbnail image sizes
+  - Support both WebP and JPG formats
+  - Display image size (Width x Height)
+  - Organize images in a grid layout
+  - Support mobile view
+- [x] Clicking an image from the list displays detailed image information
 
 ## Options
 
-拡張機能の設定画面です。ユーザーの好みに合わせて動作をカスタマイズできます。
+Extension settings screen. Allows users to customize behavior.
 
-- [ ] Content Script でのホバー時の表示方法を選択できる
-  - アイコン横で元のサイズの200%に拡大表示する
-    - 拡大表示の倍率を設定可能
-  - モーダルダイアログ等で高解像度の拡大画像を表示する
-<!-- - [ ] サムネイル表示の有効/無効を設定できる -->
-<!-- - [ ] サムネイル画像のサイズを設定できる -->
-<!-- - [ ] 表示位置を調整できる -->
+- [ ] Select hover display method in Content Script
+  - Display at 200% of original size next to the icon
+    - Configurable zoom level
+  - Display high-resolution zoomed image in modal dialog, etc.
+<!-- - [ ] Enable/Disable thumbnail display -->
+<!-- - [ ] Configure thumbnail image size -->
+<!-- - [ ] Adjust display position -->
 
-## 通知タブ
+## Notification Tab
 
-拡張機能のインストール・アップデート・削除時に表示される通知タブです。
+Notification tab displayed upon extension installation, update, or removal.
 
-- [x] 拡張機能のインストール時に通知を表示
-  - 主な機能や使い方のガイドを案内
-- [x] アップデート時に新機能や変更点を通知
-  - 変更内容や改善点をわかりやすく説明
-- [x] 拡張機能の削除時に通知を表示
-  - ご利用ありがとうございました、などのメッセージを表示
+- [x] Display notification on installation
+  - Introduce main features and usage guide
+- [x] Notify of new features and changes on update
+  - Clearly explain changes and improvements
+- [x] Display notification on removal
+  - Display message such as "Thank you for using", etc.
 
 ## 📸 YouTube Thumbnail Image URL
 
-YouTube のサムネイル画像は、以下のURLパターンで取得できます。
+YouTube thumbnail images can be retrieved using the following URL patterns.
 
-### 🌐 ドメイン
+### 🌐 Domain
 
-主要なドメインは `i.ytimg.com` です。
+The primary domain is `i.ytimg.com`.
 
 ```text
 https://i.ytimg.com/vi_webp/<video_id>/<image_file_name>.webp
@@ -196,35 +196,35 @@ https://img.youtube.com/vi_webp/<video_id>/<image_file_name>.webp
 https://img.youtube.com/vi/<video_id>/<image_file_name>.jpg
 ```
 
-### 📁 画像ファイル名
+### 📁 Image Filenames
 
-#### 通常のサムネイル
+#### Regular Thumbnails
 
-- `maxresdefault.webp` - 最大解像度（通常利用可能な最大サイズ）
-- `hq720.webp` - 高品質 720p
-- `sddefault.webp` - 標準解像度
-- `hqdefault.webp` - 高品質デフォルト
-- `mqdefault.webp` - 中品質デフォルト
-- `default.webp` - デフォルトサイズ
-- `0.webp` - 代替形式
+- `maxresdefault.webp` - Maximum Resolution (usually largest available)
+- `hq720.webp` - High Quality 720p
+- `sddefault.webp` - Standard Definition
+- `hqdefault.webp` - High Quality Default
+- `mqdefault.webp` - Medium Quality Default
+- `default.webp` - Default Size
+- `0.webp` - Alternative Format
 
-#### 動画の複数フレーム（3分割）
+#### Video Frames (3 splits)
 
-- `sd1.webp`, `sd2.webp`, `sd3.webp` - 標準解像度（開始・中間・終了フレーム）
-- `hq1.webp`, `hq2.webp`, `hq3.webp` - 高品質（開始・中間・終了フレーム）
-- `mq1.webp`, `mq2.webp`, `mq3.webp` - 中品質（開始・中間・終了フレーム）
-- `1.webp`, `2.webp`, `3.webp` - デフォルトサイズ（開始・中間・終了フレーム）
+- `sd1.webp`, `sd2.webp`, `sd3.webp` - Standard Definition (Start, Middle, End frames)
+- `hq1.webp`, `hq2.webp`, `hq3.webp` - High Quality (Start, Middle, End frames)
+- `mq1.webp`, `mq2.webp`, `mq3.webp` - Medium Quality (Start, Middle, End frames)
+- `1.webp`, `2.webp`, `3.webp` - Default Size (Start, Middle, End frames)
 
-### 📏 画像サイズ
+### 📏 Image Sizes
 
-| ファイル名 | サイズ（幅 × 高さ） | 説明 |
+| Filename | Size (Width x Height) | Description |
 |-----------|-------------------|------|
-| `default` | 120 × 90 | 最小サイズ |
-| `mqdefault` | 320 × 180 | 中品質 |
-| `hqdefault` | 480 × 360 | 高品質 |
-| `sddefault` | 640 × 480 | 標準解像度 |
-| `maxresdefault` | 1280 × 720 | 最大解像度（HD） |
-| `0` | 480 × 360 | 代替形式の高品質 |
-| `1`, `2`, `3` | 120 × 90 | 開始・中間・終了フレーム |
+| `default` | 120 × 90 | Minimum Size |
+| `mqdefault` | 320 × 180 | Medium Quality |
+| `hqdefault` | 480 × 360 | High Quality |
+| `sddefault` | 640 × 480 | Standard Definition |
+| `maxresdefault` | 1280 × 720 | Maximum Resolution (HD) |
+| `0` | 480 × 360 | Alternative High Quality |
+| `1`, `2`, `3` | 120 × 90 | Start, Middle, End frames |
 
-> **注意**: 各サイズでサムネイルが存在しない場合、デフォルトサイズ（120 × 90）が返されます。
+> **Note**: If a thumbnail does not exist for a specific size, the default size (120 × 90) is returned.

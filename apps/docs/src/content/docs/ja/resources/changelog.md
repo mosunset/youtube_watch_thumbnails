@@ -6,7 +6,7 @@ title: 更新履歴
 
 詳細な変更ログは、[GitHub の CHANGELOG.md](https://github.com/mosunset/youtube_watch_thumbnails/blob/main/CHANGELOG.md) をご覧ください。
 
-## v1.0.0 (2024-11-24)
+## v4.0.0 (2025-11-25)
 
 ### ✨ 新機能
 

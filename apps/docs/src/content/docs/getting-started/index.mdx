@@ -9,88 +9,88 @@ import Image2 from '../../../../../../screenshots/v2.1.11.png'
 
 # YouTube Watch Thumbnails
 
-YouTube 動画のサムネイル画像を簡単に表示・確認できるブラウザ拡張機能です。
+A browser extension that allows you to easily view and check thumbnail images of YouTube videos.
 
-## 📸 スクリーンショット
+## 📸 Screenshots
 
 
 <img src={Image1.src} alt="Extension Screenshot1" />
 <img src={Image2.src} alt="Extension Screenshot2" />
 
-## ✨ 機能概要 (Features)
+## ✨ Features
 
-- **サムネイル表示**: YouTube 視聴ページで、動画のサムネイル画像を自動的に表示します。
-- **高画質対応**: WebP および JPG 形式の最高画質サムネイルを取得します。
-- **ワンクリック確認**: サムネイルをクリックすると、専用ビューワーで全サイズの画像を確認できます。
-- **Shorts 対応**: YouTube Shorts にも対応しています。
+- **Thumbnail Display**: Automatically displays the video thumbnail on the YouTube watch page.
+- **High Quality**: Retrieves maximum quality thumbnails in WebP and JPG formats.
+- **One-Click Check**: Click the thumbnail to open a dedicated viewer to check images of all sizes.
+- **Shorts Support**: Supports YouTube Shorts as well.
 
-## 📥 インストール (Installation)
+## 📥 Installation
 
-### ストアからインストール
+### Install from Store
 
 - [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-YouTube%20Watch%20Thumbnails-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-watch-thumbnails/aobeafpjgdgakpagffmlkfeognaiigci)
 - [![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-YouTube%20Watch%20Thumbnails-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/ja/firefox/addon/youtube-watch-thumbnails/)
 
-### ローカルで動かす場合
+### Run Locally
 
-1. リポジトリをクローンします。
+1. Clone the repository.
    ```bash
    git clone https://github.com/mosunset/youtube_watch_thumbnails.git
    cd youtube_watch_thumbnails
    ```
 
-2. 依存関係をインストールします。
+2. Install dependencies.
    ```bash
    pnpm install
    ```
 
-3. 開発サーバーを起動します。
+3. Start the development server.
    ```bash
    pnpm dev
    ```
 
-4. ブラウザに拡張機能を読み込みます。
-   - **Chrome**: `chrome://extensions` を開き、デベロッパーモードを有効にします。「パッケージ化されていない拡張機能を読み込む」をクリックし、`.output/chrome-mv3` ディレクトリを選択します。
-   - **Firefox**: `about:debugging#/runtime/this-firefox` を開き、「一時的なアドオンを読み込む」をクリックし、`.output/firefox-mv2/manifest.json` を選択します。
+4. Load the extension into your browser.
+   - **Chrome**: Open `chrome://extensions`, enable Developer Mode. Click "Load unpacked" and select the `.output/chrome-mv3` directory.
+   - **Firefox**: Open `about:debugging#/runtime/this-firefox`, click "Load Temporary Add-on", and select `.output/firefox-mv2/manifest.json`.
 
-## 🚀 使い方 (Usage)
+## 🚀 Usage
 
-1. YouTube で動画ページ (`/watch`) または Shorts ページ (`/shorts`) を開きます。
-2. チャンネルアイコンの横（または適切な位置）にサムネイル画像が表示されます。
-3. 画像をクリックすると、新しいタブで「Thumbnail View」が開き、利用可能なすべてのサイズのサムネイル画像を確認できます。
-4. 拡張機能アイコンをクリックすると、ポップアップメニューから設定や情報にアクセスできます。
+1. Open a video page (`/watch`) or Shorts page (`/shorts`) on YouTube.
+2. A thumbnail image will appear next to the channel icon (or an appropriate location).
+3. Click the image to open "Thumbnail View" in a new tab, where you can check all available thumbnail sizes.
+4. Click the extension icon to access settings and information from the popup menu.
 
-## 📂 ディレクトリ構成 (Project Structure)
+## 📂 Project Structure
 
 ```text
 youtube_watch_thumbnails/
-├── src/                # ソースコード
-│   ├── assets/         # 画像などの静的アセット
-│   ├── components/     # React コンポーネント
-│   ├── entrypoints/    # WXT エントリーポイント (background, content, popup, etc.)
-│   ├── utils/          # ユーティリティ関数
+├── src/                # Source code
+│   ├── assets/         # Static assets like images
+│   ├── components/     # React components
+│   ├── entrypoints/    # WXT entry points (background, content, popup, etc.)
+│   ├── utils/          # Utility functions
 │   └── ...
-├── docs/               # ドキュメント
-├── .output/            # ビルド成果物 (gitignored)
-├── wxt.config.ts       # WXT 設定ファイル
+├── docs/               # Documentation
+├── .output/            # Build artifacts (gitignored)
+├── wxt.config.ts       # WXT configuration file
 └── ...
 ```
 
-## 🛠️ 開発用コマンド (Development Commands)
+## 🛠️ Development Commands
 
-- `pnpm dev`: 開発サーバーを起動します（HMR有効）。
-- `pnpm build`: 本番用にビルドします。
-- `pnpm zip`: ストア提出用の ZIP ファイルを作成します。
-- `pnpm lint`: コードの静的解析を実行します。
-- `pnpm test`: テストを実行します。
+- `pnpm dev`: Start development server (HMR enabled).
+- `pnpm build`: Build for production.
+- `pnpm zip`: Create ZIP file for store submission.
+- `pnpm lint`: Run static code analysis.
+- `pnpm test`: Run tests.
 
-## 🤝 貢献方法 (Contribution)
+## 🤝 Contribution
 
-バグ報告や機能要望は [Issues](https://github.com/mosunset/youtube_watch_thumbnails/issues) にて受け付けています。プルリクエストも歓迎します。
+Bug reports and feature requests are welcome on [Issues](https://github.com/mosunset/youtube_watch_thumbnails/issues). Pull requests are also welcome.
 
-詳細な仕様については [/youtube_watch_thumbnails/internals/specifications](/youtube_watch_thumbnails/internals/specifications) をご覧ください。
+For detailed specifications, please see [/youtube_watch_thumbnails/internals/specifications](/youtube_watch_thumbnails/internals/specifications).
 
-## 👤 作者 (Author)
+## 👤 Author
 
 **mosunset**
 
