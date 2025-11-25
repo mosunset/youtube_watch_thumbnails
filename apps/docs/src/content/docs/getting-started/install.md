@@ -48,5 +48,5 @@ After installation:
 3. Click the icon to confirm it's working
 
 :::tip[Next Steps]
-Once installed, check out the [Usage Guide](/youtube_watch_thumbnails/guides/) for detailed instructions.
+Once installed, check out the [Usage Guide](/youtube_watch_thumbnails/guide/) for detailed instructions.
 :::

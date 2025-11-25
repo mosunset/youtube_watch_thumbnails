@@ -48,5 +48,5 @@ title: インストール
 3. アイコンをクリックして動作を確認
 
 :::tip[次のステップ]
-インストールが完了したら、[使い方ガイド](/youtube_watch_thumbnails/ja/guides/)で詳しい使用方法をご確認ください。
+インストールが完了したら、[使い方ガイド](/youtube_watch_thumbnails/ja/guide/)で詳しい使用方法をご確認ください。
 :::

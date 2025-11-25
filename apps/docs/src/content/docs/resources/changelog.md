@@ -6,7 +6,7 @@ This page contains the change history for YouTube Watch Thumbnails.
 
 For detailed changelog, see [CHANGELOG.md on GitHub](https://github.com/mosunset/youtube_watch_thumbnails/blob/main/CHANGELOG.md).
 
-## v1.0.0 (2024-11-24)
+## v4.0.0 (2025-11-25)
 
 ### ✨ New Features
 

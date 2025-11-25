@@ -41,21 +41,33 @@ export default defineConfig({
         ],
         sidebar: [
             {
-                label: 'Guides',
-                autogenerate: { directory: 'guides' },
+                label: 'Getting Started',
+                autogenerate: { directory: 'getting-started' },
             },
             {
-                label: 'Resources',
+                label: 'User Guide',
+                autogenerate: { directory: 'guide' },
+            },
+            {
+                label: 'Settings',
+                autogenerate: { directory: 'settings' },
+            },
+            {
+                label: 'Troubleshooting',
+                autogenerate: { directory: 'troubleshooting' },
+            },
+            {
+                label: 'Internals',
+                autogenerate: { directory: 'internals' },
+            },
+            {
+                label: 'Project Docs',
                 autogenerate: { directory: 'resources' },
-                // items: [
-                // 	{ label: 'FAQ', slug: 'faq' },
-                // 	{ label: 'Privacy Policy', slug: 'privacy' },
-                // 	{ label: 'Changelog', slug: 'changelog' },
-                // ],
-            }, {
-                label: 'Other',
-                autogenerate: { directory: 'other' },
-            }
+            },
+            {
+                label: 'For Reviewers',
+                autogenerate: { directory: 'for-reviewers' },
+            },
         ],
         components: {
             Footer: './src/components/overrides/Footer.astro',
