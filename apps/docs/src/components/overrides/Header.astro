@@ -84,6 +84,18 @@ import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
         display: block;
     }
 
+    /* Allow title to wrap and adjust size on smaller screens */
+    :global(.site-title) {
+        white-space: normal !important;
+        line-height: 1.2 !important;
+    }
+
+    @media (min-width: 50rem) and (max-width: 72rem) {
+        :global(.site-title) {
+            font-size: var(--sl-text-lg) !important;
+        }
+    }
+
     @media (min-width: 50rem) {
         :global(:root[data-has-sidebar]) {
             --__sidebar-pad: calc(2 * var(--sl-nav-pad-x));

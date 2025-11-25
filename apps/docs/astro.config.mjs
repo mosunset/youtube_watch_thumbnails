@@ -60,6 +60,7 @@ export default defineConfig({
         components: {
             Footer: './src/components/overrides/Footer.astro',
             Header: './src/components/overrides/Header.astro',
+            MobileMenuFooter: './src/components/overrides/MobileMenuFooter.astro',
         },
     }), sitemap()],
 });
