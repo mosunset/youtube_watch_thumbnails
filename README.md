@@ -1,5 +1,5 @@
 <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
-  <img src="/src/assets/icon.png" alt="YouTube Watch Thumbnails Icon" style="width: 48px; height: 48px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+  <img src="icon.png" alt="YouTube Watch Thumbnails Icon" style="width: 48px; height: 48px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
   <h1 style="font-size: 2.5rem; font-weight: 700; margin: 0;">YouTube Watch Thumbnails</h1>
 </div>
 
