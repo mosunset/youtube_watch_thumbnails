@@ -8,9 +8,9 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
     site: 'https://mosunset.github.io',
-	base: '/youtube_watch_thumbnails',
+    base: '/youtube_watch_thumbnails',
     integrations: [starlight({
-        plugins: [starlightLinksValidator(),starlightImageZoom()],
+        plugins: [starlightLinksValidator(), starlightImageZoom()],
         favicon: '/favicon.ico',
         logo: {
             src: '/src/assets/icon.png',
@@ -57,5 +57,8 @@ export default defineConfig({
                 autogenerate: { directory: 'other' },
             }
         ],
+        components: {
+            Footer: './src/components/overrides/Footer.astro',
+        },
     }), sitemap()],
 });

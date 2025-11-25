@@ -1,0 +1,60 @@
+---
+import DefaultFooter from "@astrojs/starlight/components/Footer.astro";
+import ThemeSelect from "@astrojs/starlight/components/ThemeSelect.astro";
+import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
+
+const year = new Date().getFullYear();
+---
+
+<DefaultFooter {...Astro.props} />
+
+<footer class="custom-footer">
+    <div class="meta">
+        <div class="copyright">
+            &copy; {year}
+            <a
+                href="https://mosunset.com"
+                target="_blank"
+                rel="noopener noreferrer">mosunset</a
+            >. All rights reserved.
+        </div>
+        <div class="controls">
+            <ThemeSelect {...Astro.props} />
+            <LanguageSelect {...Astro.props} />
+        </div>
+    </div>
+</footer>
+
+<style>
+    .custom-footer {
+        margin-top: 2rem;
+        border-top: 1px solid var(--sl-color-hairline);
+        padding: 2rem 0;
+    }
+
+    .meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .copyright {
+        font-size: var(--sl-text-sm);
+        color: var(--sl-color-gray-3);
+    }
+
+    .controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    @media (max-width: 50rem) {
+        .meta {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
