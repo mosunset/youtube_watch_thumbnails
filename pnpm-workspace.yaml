@@ -1,8 +1,7 @@
+# pnpm-workspace.yaml
 packages:
-  - '.'
+  - apps/*
+  - packages/*
 
 onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - esbuild
-  - sharp
   - spawn-sync

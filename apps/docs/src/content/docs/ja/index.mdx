@@ -1,0 +1,35 @@
+---
+title: YouTube Watch Thumbnails
+description: 動画のサムネイルを即座に確認・取得
+template: splash
+hero:
+  tagline: YouTube で視聴中の動画のサムネイル画像を表示・ダウンロードできるブラウザ拡張機能
+  actions:
+    - text: インストール
+      link: /ja/guides/install/
+      icon: right-arrow
+      variant: primary
+    - text: 使い方
+      link: /ja/guides/
+      icon: open-book
+      variant: secondary
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## 機能
+
+<CardGrid stagger>
+	<Card title="ワンクリックで表示" icon="pencil">
+		ブラウザのツールバーアイコンをクリックするだけで、現在再生中の動画のサムネイルを即座に表示できます。
+	</Card>
+	<Card title="全サイズ・全フォーマットに対応" icon="add-document">
+		最大画質 (maxresdefault) から低画質まで、全解像度・全フォーマット（JPG/WebP）を一覧で確認・ダウンロード可能。
+	</Card>
+	<Card title="Shorts 対応" icon="setting">
+		通常の動画だけでなく、YouTube Shorts のサムネイル取得にも対応しています。
+	</Card>
+	<Card title="ページ統合" icon="open-book">
+		YouTube の視聴ページに直接サムネイルを表示。クリック一発で詳細画面へ移動できます。
+	</Card>
+</CardGrid>

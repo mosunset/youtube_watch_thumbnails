@@ -1,0 +1,16 @@
+extName: Youtube Watch Thumbnails
+extDescription: A browser extension to display and download thumbnail images of YouTube videos you're currently watching
+thumbnails: Thumbnails
+selectToPreview: Select to preview.
+formatLeft: Left
+formatRight: Right
+formatTop: Top
+formatBottom: Bottom
+loading: Loading...
+videoIdNotFound: Video ID not found
+youtubeLink: YouTube Link
+dimensions: Dimensions
+fileUrl: File URL
+download: Download
+rightClickInstruction: Right-click on preview image
+selectThumbnailPrompt: Select a thumbnail to preview

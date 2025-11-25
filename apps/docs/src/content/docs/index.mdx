@@ -1,0 +1,35 @@
+---
+title: YouTube Watch Thumbnails
+description: View and download video thumbnails instantly
+template: splash
+hero:
+  tagline: A browser extension to display and download thumbnail images of YouTube videos you're currently watching
+  actions:
+    - text: Installation
+      link: /guides/install/
+      icon: right-arrow
+      variant: primary
+    - text: Usage Guide
+      link: /guides/
+      icon: open-book
+      variant: secondary
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Features
+
+<CardGrid stagger>
+	<Card title="One-Click Display" icon="pencil">
+		Click the toolbar icon to instantly display thumbnails of the currently playing video.
+	</Card>
+	<Card title="All Sizes & Formats" icon="add-document">
+		View and download all resolutions (from maxresdefault to low quality) and formats (JPG/WebP) in one place.
+	</Card>
+	<Card title="Shorts Support" icon="setting">
+		Works with both regular YouTube videos and YouTube Shorts.
+	</Card>
+	<Card title="Page Integration" icon="open-book">
+		Thumbnails are directly displayed on YouTube video pages. One click to open the detailed view.
+	</Card>
+</CardGrid>
