@@ -15,6 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # コミットメッセージをチェックして、'release:' で始まっていない場合はスキップする
       - name: Check commit message
         id: check_commit
         run: |
@@ -44,17 +45,18 @@ jobs:
         if: steps.check_commit.outputs.skip != 'true'
         run: pnpm install --frozen-lockfile
 
+      # Chrome と Firefox 用の zip ファイルをビルドする
       - name: Build zips (Chrome + Firefox)
         if: steps.check_commit.outputs.skip != 'true'
         run: |
-          pnpm zip
+          pnpm --filter extension zip
 
-      # package.json の version を拾って tag / リリース名に使う
+      # package.json の version を取得して tag / リリース名に使用する
       - name: Get version
         if: steps.check_commit.outputs.skip != 'true'
         id: get_version
         run: |
-          VERSION=$(node -p "require('./package.json').version")
+          VERSION=$(node -p "require('./apps/extension/package.json').version")
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
@@ -65,8 +67,8 @@ jobs:
           name: v${{ steps.get_version.outputs.version }}
           # wxt の zip 出力先パターンに合わせて調整してください
           files: |
-            .output/*-chrome.zip
-            .output/*-firefox.zip
-            .output/*-sources.zip
+            apps/extension/.output/*-chrome.zip
+            apps/extension/.output/*-firefox.zip
+            apps/extension/.output/*-sources.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

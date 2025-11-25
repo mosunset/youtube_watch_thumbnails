@@ -1,58 +1,56 @@
-# Sample workflow for building and deploying a VitePress site to GitHub Pages
+# VitePress サイトをビルドして GitHub Pages にデプロイするためのサンプルワークフロー
 #
 name: Deploy VitePress site to Pages
 
 on:
-  # Runs on pushes targeting the `main` branch. Change this to `master` if you're
-  # using the `master` branch as the default branch.
+  # `main` ブランチへのプッシュで実行されます。デフォルトブランチが `master` の場合は変更してください。
   push:
     branches: [main]
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Actions タブから手動でワークフローを実行できるようにします
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# GITHUB_TOKEN の権限を設定して、GitHub Pages へのデプロイを許可します
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+# 同時実行を1つに制限し、進行中の実行と最新のキューの間の実行をスキップします。
+# ただし、進行中の実行はキャンセルしません（本番デプロイの完了を許可するため）。
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  # Build job
+  # ビルドジョブ
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Not needed if lastUpdated is not enabled
+          fetch-depth: 0 # lastUpdated が有効でない場合は不要
       - uses: pnpm/action-setup@v4
         with:
           version: 9
-      # - uses: oven-sh/setup-bun@v1 # Uncomment this if you're using Bun
       - name: Setup Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
-          node-version: 24
-          cache: pnpm # or pnpm / yarn
+          node-version: 22
+          cache: pnpm
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Install dependencies
-        run: pnpm install # or pnpm install / yarn install / bun install
-      - name: Build with VitePress
-        run: pnpm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
+        run: pnpm install --frozen-lockfile
+      - name: Build with Astro
+        run: pnpm --filter docs build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/.vitepress/dist
+          path: apps/docs/dist
 
-  # Deployment job
+  # デプロイジョブ
   deploy:
     environment:
       name: github-pages
