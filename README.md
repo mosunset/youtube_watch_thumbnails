@@ -81,7 +81,7 @@ youtube_watch_thumbnails/
 
 バグ報告や機能要望は [Issues](https://github.com/mosunset/youtube_watch_thumbnails/issues) にて受け付けています。プルリクエストも歓迎します。
 
-詳細な仕様については [こちら](https://mosunset.github.io/youtube_watch_thumbnails/guides/specifications/) をご覧ください。
+詳細な仕様については [こちら](https://mosunset.github.io/youtube_watch_thumbnails/) をご覧ください。
 
 ## 👤 作者 (Author)
 
