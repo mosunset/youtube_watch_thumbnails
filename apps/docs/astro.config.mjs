@@ -4,14 +4,13 @@ import starlight from '@astrojs/starlight';
 import starlightLinksValidator from 'starlight-links-validator'
 import starlightImageZoom from 'starlight-image-zoom'
 import sitemap from '@astrojs/sitemap';
-import starlightThemeGalaxy from 'starlight-theme-galaxy'
 
 // https://astro.build/config
 export default defineConfig({
     site: 'https://mosunset.github.io',
 	base: '/youtube_watch_thumbnails',
     integrations: [starlight({
-        plugins: [starlightLinksValidator(),starlightImageZoom(),starlightThemeGalaxy()],
+        plugins: [starlightLinksValidator(),starlightImageZoom()],
         favicon: '/favicon.ico',
         logo: {
             src: '/src/assets/icon.png',
