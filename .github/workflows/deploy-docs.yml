@@ -1,6 +1,6 @@
-# VitePress サイトをビルドして GitHub Pages にデプロイするためのサンプルワークフロー
+# Astro Starlight サイトをビルドして GitHub Pages にデプロイするためのサンプルワークフロー
 #
-name: Deploy VitePress site to Pages
+name: Deploy Documents to Pages
 
 on:
   # `main` ブランチへのプッシュで実行されます。デフォルトブランチが `master` の場合は変更してください。
