@@ -1,49 +1,90 @@
-# Starlight Starter Kit: Basics
+# docs — YouTube Watch Thumbnails ドキュメントサイト
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+YouTube Watch Thumbnails 拡張機能の公式ドキュメントサイトです。GitHub Pages でホストされています。
 
-```
-pnpm create astro@latest -- --template starlight
-```
+**公開URL**: https://mosunset.github.io/youtube_watch_thumbnails/
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 技術スタック
 
-## 🚀 Project Structure
+| カテゴリ | 技術 |
+| :--- | :--- |
+| フレームワーク | [Astro](https://astro.build/) v5.6 |
+| ドキュメントテーマ | [Starlight](https://starlight.astro.build/) v0.36 |
+| 言語 | TypeScript 5.9 |
+| 画像処理 | Sharp |
+| プラグイン | starlight-image-zoom（画像ズーム）, starlight-links-validator（リンク検証）|
+| SEO | @astrojs/sitemap |
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+## 主な機能
 
-```
-.
-├── public/
+- **多言語対応** — 英語（デフォルト）と日本語の 2 言語
+- **画像ズーム** — ドキュメント内の画像をクリックして拡大表示
+- **リンク検証** — ビルド時に内部リンクの整合性を自動チェック
+- **サイトマップ自動生成** — SEO 向けサイトマップを自動出力
+- **GitHub 編集リンク** — 各ページから対応するソースファイルを直接編集可能
+- **カスタムコンポーネント** — Footer, Header, MobileMenuFooter をオーバーライド
+
+## ディレクトリ構成
+
+```text
+apps/docs/
 ├── src/
-│   ├── assets/
 │   ├── content/
-│   │   └── docs/
+│   │   └── docs/               # Markdown ドキュメント
+│   │       ├── getting-started/ # はじめる
+│   │       ├── guide/           # ユーザーガイド
+│   │       ├── settings/        # 設定
+│   │       ├── troubleshooting/ # トラブルシューティング
+│   │       ├── internals/       # 内部仕様
+│   │       ├── resources/       # プロジェクト情報
+│   │       ├── for-reviewers/   # レビュアー向け
+│   │       └── ja/              # 日本語版ドキュメント
+│   ├── assets/                  # 画像等の静的アセット
+│   ├── components/
+│   │   └── overrides/           # Starlight コンポーネントオーバーライド
+│   │       ├── Footer.astro
+│   │       ├── Header.astro
+│   │       └── MobileMenuFooter.astro
 │   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
+├── public/                      # favicon 等の静的ファイル
+├── astro.config.mjs             # Astro + Starlight 設定
+├── tsconfig.json
+└── package.json
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+## サイドバー構成
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+| セクション | 内容 |
+| :--- | :--- |
+| Getting Started（はじめる） | インストール・初期設定ガイド |
+| User Guide（ユーザーガイド） | 機能の使い方 |
+| Settings（設定） | 各種設定項目の説明 |
+| Troubleshooting（トラブルシューティング） | よくある問題と解決方法 |
+| Internals（内部仕様） | 技術的な内部動作の解説 |
+| Project Docs（プロジェクト情報） | プロジェクトに関する情報 |
+| For Reviewers（レビュアー向け） | ストアレビュー担当者向け情報 |
 
-Static assets, like favicons, can be placed in the `public/` directory.
+## 開発コマンド
 
-## 🧞 Commands
+```bash
+# 開発サーバー起動（localhost:4321）
+pnpm dev
 
-All commands are run from the root of the project, from a terminal:
+# 本番ビルド（dist/ に出力）
+pnpm build
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+# ビルド結果をローカルでプレビュー
+pnpm preview
+```
 
-## 👀 Want to learn more?
+## ビルド成果物
 
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+- 出力先: `dist/`
+- デプロイ先: GitHub Pages (`https://mosunset.github.io/youtube_watch_thumbnails/`)
+
+## ドキュメントの追加方法
+
+1. `src/content/docs/` 配下の対応ディレクトリに `.md` または `.mdx` ファイルを作成
+2. 日本語版は `src/content/docs/ja/` 配下に同じパス構造でファイルを作成
+3. 画像は `src/assets/` に配置し、Markdown から相対パスで参照
+4. サイドバーは `astro.config.mjs` の `autogenerate` によりディレクトリ単位で自動生成
