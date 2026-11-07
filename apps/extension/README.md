@@ -6,7 +6,7 @@ YouTube 動画のサムネイル画像を視聴ページ上で表示・確認で
 
 | カテゴリ | 技術 |
 | :--- | :--- |
-| 拡張機能フレームワーク | [WXT](https://wxt.dev/) v0.20 |
+| 拡張機能フレームワーク | [WXT](https://wxt.dev/) v0.21（Vite 8） |
 | UI | React 19 + React DOM 19 |
 | スタイリング | Tailwind CSS 4 + PostCSS |
 | 言語 | TypeScript 5.9 |
@@ -72,6 +72,10 @@ apps/extension/
 | `ThumbnailView/` | URL の `?v=` から動画 ID を読み、全ファイル名 × 全配信元のサムネイルを一覧・プレビューする |
 
 ## 開発コマンド
+
+> `pnpm dev` を実行してもブラウザは自動では開きません（WXT v0.21 から `web-ext` が任意になったため）。
+> `.output/chrome-mv3-dev` などを「パッケージ化されていない拡張機能」として読み込んでください。
+> 自動で開きたい場合は `pnpm --filter extension add -D web-ext` を実行します。
 
 ```bash
 # 開発サーバー起動（デフォルトブラウザ）

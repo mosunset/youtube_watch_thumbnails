@@ -22,7 +22,7 @@
     "postinstall": "wxt prepare"
   },
   "dependencies": {
-    "@webext-core/messaging": "^2.3.0",
+    "@webext-core/messaging": "^4.0.1",
     "@wxt-dev/i18n": "^0.2.8",
     "clsx": "^2.1.1",
     "react": "^19.3.1",
@@ -43,7 +43,8 @@
     "tailwindcss": "^4.3.5",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.72.1",
-    "vitest": "^4.1.12",
-    "wxt": "^0.20.27"
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0",
+    "wxt": "^0.21.5"
   }
 }

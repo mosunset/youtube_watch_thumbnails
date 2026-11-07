@@ -1,5 +1,5 @@
 import icon from "@/assets/icon.png";
-import { useAppConfig } from "#imports";
+import { getAppConfig } from "#imports";
 import { cn } from "@/lib/utils";
 
 interface FooterProps {
@@ -7,7 +7,7 @@ interface FooterProps {
 }
 
 function Footer({ compact = false }: FooterProps) {
-    const config = useAppConfig();
+    const config = getAppConfig();
     return (
         <footer
             className={cn(

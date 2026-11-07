@@ -115,5 +115,5 @@ export async function findBestThumbnail(
     const candidates = bestThumbnailCandidates(videoId);
     const results = await Promise.all(candidates.map((url) => probe(url)));
     const index = results.indexOf(true);
-    return index === -1 ? null : candidates[index];
+    return index === -1 ? null : (candidates[index] ?? null);
 }
