@@ -4,6 +4,16 @@ This page contains the change history for YouTube Watch Thumbnails.
 
 For detailed changelog, see [CHANGELOG.md on GitHub](https://github.com/mosunset/youtube_watch_thumbnails/blob/main/CHANGELOG.md).
 
+## Unreleased
+
+### 🐛 Fixes
+
+- Added the extension name and description in Japanese and Korean. The Chrome Web Store rejected v4.1.0 because they were missing
+
+### 🛠️ Development
+
+- Added a test that every language has the same messages as English
+
 ## v4.1.0 (2026-11-07)
 
 ### 🔒 Privacy
