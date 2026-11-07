@@ -12,3 +12,12 @@ fileUrl: 파일 URL
 download: 다운로드
 rightClickInstruction: 미리보기 이미지를 우클릭하세요
 selectThumbnailPrompt: 썸네일을 선택하면 미리 볼 수 있습니다
+loadingImage: 이미지 로딩 중...
+viewAllSizes: 모든 크기의 썸네일 보기
+clickToViewAllSizes: 이미지를 클릭하면 모든 크기의 썸네일을 볼 수 있습니다
+thumbnailNotFound: 이 동영상의 썸네일을 불러올 수 없습니다
+notYouTubeTitle: YouTube 페이지가 아닙니다
+notYouTubeBody: 이 확장 프로그램은 YouTube 시청 페이지와 Shorts에서 썸네일을 표시합니다. YouTube 동영상을 연 뒤 다시 시도하세요.
+notVideoPageTitle: 지원하지 않는 페이지입니다
+notVideoPageBody: 이 확장 프로그램은 동영상 시청 페이지와 Shorts에서 썸네일을 표시합니다. 동영상을 연 뒤 다시 시도하세요.
+openOnVideoPageHint: 동영상 시청 페이지에서 열면 해당 동영상의 썸네일이 표시됩니다.

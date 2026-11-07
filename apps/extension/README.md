@@ -10,46 +10,55 @@ YouTube 動画のサムネイル画像を視聴ページ上で表示・確認で
 | UI | React 19 + React DOM 19 |
 | スタイリング | Tailwind CSS 4 + PostCSS |
 | 言語 | TypeScript 5.9 |
-| UIコンポーネント | Radix UI, Lucide React |
-| ユーティリティ | class-variance-authority, clsx, tailwind-merge |
+| ユーティリティ | clsx, tailwind-merge |
 | メッセージング | @webext-core/messaging |
 | 国際化 | @wxt-dev/i18n（en / ja / ko） |
-| ストレージ | @wxt-dev/storage |
 | アイコン生成 | @wxt-dev/auto-icons |
+| テスト | Vitest（`wxt/testing`） |
+| Lint | ESLint（typescript-eslint, react-hooks） |
 
 ## 主な機能
 
 - **サムネイル自動表示** — YouTube 視聴ページ（`/watch`）と Shorts（`/shorts`）でサムネイル画像を自動挿入
-- **高解像度優先取得** — maxresdefault → sddefault → hqdefault の優先順で最適な画質を自動選択
+- **高解像度優先取得** — maxresdefault → hq720 → sddefault → hqdefault → mqdefault → default の候補を並列に読み込み、一番画質の高いものを表示（120x90 のプレースホルダーは除外）
 - **ホバーで拡大** — サムネイルにマウスを乗せると 1.75 倍に拡大表示
-- **ワンクリックビューワー** — サムネイルクリックで専用タブを開き、全サイズの画像を一覧表示
-- **多言語対応** — 英語・日本語・韓国語
+- **ワンクリックビューワー** — サムネイルクリックで専用タブ（`ThumbnailView.html?v=動画ID`）を開き、全サイズの画像を一覧表示。タブごとに別の動画を表示できる
+- **多言語対応** — ポップアップ・ビューワー・ページ上のツールチップを英語・日本語・韓国語で表示
+- **データを保存しない** — 設定や履歴を一切保存しない（`storage` 権限なし）
 
 ## ディレクトリ構成
 
 ```text
 apps/extension/
 ├── src/
-│   ├── entrypoints/          # WXT エントリーポイント
-│   │   ├── content.ts        # コンテンツスクリプト（YouTube ページにサムネイルを注入）
-│   │   ├── background.ts     # バックグラウンドスクリプト（タブ操作など）
-│   │   ├── popup/            # 拡張機能ポップアップ UI
-│   │   │   └── main.tsx
-│   │   ├── ThumbnailView/    # 全サイズサムネイル表示ページ
-│   │   │   └── main.tsx
-│   │   ├── options/          # オプション設定ページ
-│   │   │   └── main.tsx
-│   │   └── notifications/    # 通知ページ
-│   │       └── main.tsx
-│   ├── components/           # 共通 React コンポーネント
-│   ├── utils/                # ユーティリティ関数
-│   ├── styles/               # グローバルスタイル
-│   ├── assets/               # アイコン等の静的アセット
-│   ├── locales/              # 多言語ファイル（en.yml, ja.yml, ko.yml）
-│   └── app.config.ts         # アプリ設定
-├── wxt.config.ts             # WXT 設定（モジュール、マニフェスト、アイコン生成）
-├── tsconfig.json             # TypeScript 設定（パスエイリアス @/*）
-├── postcss.config.mjs        # PostCSS 設定
+│   ├── entrypoints/              # WXT エントリーポイント
+│   │   ├── background.ts         # ThumbnailView タブを開く
+│   │   ├── content/              # YouTube の視聴ページにサムネイルを差し込む
+│   │   │   ├── index.ts
+│   │   │   └── style.css
+│   │   ├── popup/                # ツールバーアイコンのポップアップ
+│   │   │   ├── App.tsx
+│   │   │   └── components/       # ThumbnailPreview, UnsupportedPage
+│   │   └── ThumbnailView/        # 全サイズのサムネイル一覧ページ
+│   │       ├── App.tsx
+│   │       └── components/       # Sidebar, PreviewHeader, PreviewImage, NoVideoScreen
+│   ├── utils/
+│   │   ├── youtube.ts            # URL → 動画 ID・ページ種別、動画 URL の生成
+│   │   ├── thumbnails.ts         # サムネイル URL の定義と最良画像の探索
+│   │   ├── thumbnailView.ts      # ThumbnailView を開く処理（?v= の読み書き）
+│   │   ├── messaging.ts          # content / popup → background のメッセージ定義
+│   │   └── __tests__/            # Vitest のユニットテスト
+│   ├── components/               # 共通 React コンポーネント（Footer, OpenInNewIcon）
+│   ├── lib/utils.ts              # cn()（Tailwind クラスの結合）
+│   ├── styles/                   # グローバルスタイル（Tailwind）
+│   ├── assets/                   # アイコン
+│   ├── locales/                  # 翻訳（en.yml, ja.yml, ko.yml）
+│   └── app.config.ts             # リポジトリ URL などの設定
+├── wxt.config.ts                 # WXT 設定（モジュール、マニフェスト、アイコン生成）
+├── vitest.config.ts              # テスト設定
+├── eslint.config.mjs             # ESLint 設定
+├── tsconfig.json                 # .wxt/tsconfig.json を継承（@/*, #i18n などのエイリアス）
+├── postcss.config.mjs
 └── package.json
 ```
 
@@ -57,12 +66,10 @@ apps/extension/
 
 | エントリーポイント | 役割 |
 | :--- | :--- |
-| `content.ts` | YouTube ページの DOM を監視し、動画メタデータ横にサムネイル画像要素を挿入・更新する |
-| `background.ts` | サムネイルビューワー用タブの作成・管理を行うバックグラウンドワーカー |
-| `popup/` | 拡張機能アイコンクリック時に表示されるポップアップメニュー |
-| `ThumbnailView/` | 全サイズのサムネイル画像を一覧表示する専用ページ |
-| `options/` | 拡張機能のオプション設定画面 |
-| `notifications/` | 通知表示ページ |
+| `content/` | YouTube の DOM を監視し、チャンネル名の左にサムネイルを差し込む。動画が切り替わったら画像を更新する |
+| `background.ts` | `openThumbnailView` メッセージを受けて `ThumbnailView.html?v=動画ID` を新しいタブで開く（content script からは tabs.create を呼べないため） |
+| `popup/` | アクティブなタブが動画ページならサムネイルを表示し、それ以外なら案内を表示する |
+| `ThumbnailView/` | URL の `?v=` から動画 ID を読み、全ファイル名 × 全配信元のサムネイルを一覧・プレビューする |
 
 ## 開発コマンド
 
@@ -90,6 +97,12 @@ pnpm zip
 
 # TypeScript 型チェック
 pnpm compile
+
+# Lint
+pnpm lint
+
+# ユニットテスト
+pnpm test
 ```
 
 ## ビルド成果物
@@ -99,8 +112,7 @@ pnpm compile
 
 ## マニフェスト権限
 
-- `tabs` — タブの作成・操作
-- `storage` — 設定の永続化
+- `tabs` — ポップアップでアクティブなタブの URL を読むため
 
 ## ストアリンク
 

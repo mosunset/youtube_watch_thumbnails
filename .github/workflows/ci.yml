@@ -1,0 +1,45 @@
+# プッシュ・プルリクエストごとに Lint / 型チェック / テスト / ビルドを実行する
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.23.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # postinstall の `wxt prepare` で .wxt/ の型と ESLint 用グローバル定義が生成される
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm --filter extension compile
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm --filter extension build

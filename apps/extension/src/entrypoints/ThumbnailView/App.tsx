@@ -1,139 +1,45 @@
-import { useState, useEffect } from "react";
-import { buildYouTubeUrl } from "@/utils/youtubeUrl";
-import { videoIdStorage } from "@/utils/storage";
-import { IMAGE_BASES } from "./constants";
-import { buildImageUrl } from "./utils";
-import { ImageMeta } from "./types";
-import LoadingScreen from "./components/LoadingScreen";
+import { useState } from "react";
+import { buildThumbnail, type Thumbnail } from "@/utils/thumbnails";
+import { readVideoIdFromLocation } from "@/utils/thumbnailView";
+import { buildYouTubeUrl } from "@/utils/youtube";
 import NoVideoScreen from "./components/NoVideoScreen";
-import Sidebar from "./components/Sidebar";
 import PreviewHeader from "./components/PreviewHeader";
-import PreviewImage from "./components/PreviewImage";
+import PreviewImage, { type ImageSize } from "./components/PreviewImage";
+import Sidebar from "./components/Sidebar";
 
-function App() {
-    const [videoId, setVideoId] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [selected, setSelected] = useState<ImageMeta | null>(null);
-
-    useEffect(() => {
-        let cancelled = false;
-
-        async function readOnce() {
-            try {
-                const id = await videoIdStorage.getValue();
-                if (cancelled) return;
-                if (id) {
-                    setVideoId(id);
-                    setLoading(false);
-                    return true;
-                }
-                return false;
-            } catch (error) {
-                console.error("Failed to get video ID from storage:", error);
-                return false;
-            }
-        }
-
-        // 最初の即時読み込み
-        readOnce().then((ok) => {
-            if (ok) return;
-            // 短時間ポーリング（最大2秒）
-            let attempts = 0;
-            const timer = setInterval(async () => {
-                attempts += 1;
-                const okNow = await readOnce();
-                if (okNow || attempts >= 10) {
-                    clearInterval(timer);
-                    if (!okNow && !cancelled) setLoading(false);
-                }
-            }, 200);
-        });
-
-        return () => {
-            cancelled = true;
-        };
-    }, []);
-
-    const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        if (videoId) {
-            const youtubeUrl = buildYouTubeUrl(videoId);
-            browser.tabs.create({ url: youtubeUrl }).catch((error) => {
-                console.error("Failed to create tab:", error);
-            });
-        }
-    };
-
-    useEffect(() => {
-        if (videoId && !selected) {
-            // 初期選択: i.ytimg.com/vi_webp + maxresdefault
-            const defaultBase = IMAGE_BASES.find(
-                (b) => b.host === "i.ytimg.com" && b.folder === "vi_webp"
-            );
-            if (defaultBase) {
-                const filename = "maxresdefault";
-                const src = buildImageUrl(
-                    defaultBase.host,
-                    defaultBase.folder,
-                    videoId,
-                    filename,
-                    defaultBase.ext
-                );
-                const alt = `${defaultBase.host}/${defaultBase.folder}/${videoId}/${filename}.${defaultBase.ext}`;
-                const name = `${filename}.${defaultBase.ext}`;
-                // 画像サイズはロード後に取得されるが、とりあえず選択状態にする
-                setSelected({ src, alt, width: 0, height: 0, name });
-            }
-        }
-    }, [videoId, selected]);
-
-    if (loading) {
-        return <LoadingScreen />;
-    }
+export default function App() {
+    // 動画 ID はページ URL（?v=）から読む。ページの寿命の間は変わらない
+    const [videoId] = useState(() => readVideoIdFromLocation(window.location.search));
 
     if (!videoId) {
         return <NoVideoScreen />;
     }
+    return <ThumbnailViewer videoId={videoId} />;
+}
 
-    const youtubeUrl = buildYouTubeUrl(videoId, "compact");
+function ThumbnailViewer({ videoId }: { videoId: string }) {
+    // 最初は一番大きい WebP を選択しておく
+    const [selected, setSelected] = useState<Thumbnail>(() => buildThumbnail(videoId, "maxresdefault"));
+    // 実寸は画像の読み込み後にわかる。どの画像の寸法かを src で持つ
+    const [size, setSize] = useState<(ImageSize & { src: string }) | null>(null);
+
+    const selectedSize = size?.src === selected.src ? size : null;
 
     return (
         <div className="flex h-screen overflow-hidden bg-gray-50">
-            {/* 左サイドバー: サムネイル一覧 */}
-            <Sidebar
-                videoId={videoId}
-                selected={selected}
-                onSelect={setSelected}
-            />
-
-            {/* 右メインエリア: プレビュー */}
-            <main className="flex-1 flex flex-col min-w-0 bg-gray-100/50">
-                {/* ヘッダー */}
+            <Sidebar videoId={videoId} selected={selected} onSelect={setSelected} />
+            <main className="flex min-w-0 flex-1 flex-col bg-gray-100/50">
                 <PreviewHeader
                     selected={selected}
-                    youtubeUrl={youtubeUrl}
-                    onLinkClick={handleLinkClick}
+                    size={selectedSize}
+                    youtubeUrl={buildYouTubeUrl(videoId, "compact")}
                 />
-
-                {/* プレビュー表示 */}
                 <PreviewImage
-                    selected={selected}
-                    onImageLoad={(e) => {
-                        const img = e.currentTarget as HTMLImageElement;
-                        setSelected((prev) =>
-                            prev
-                                ? {
-                                    ...prev,
-                                    width: img.naturalWidth || 0,
-                                    height: img.naturalHeight || 0,
-                                }
-                                : null
-                        );
-                    }}
+                    src={selected.src}
+                    alt={`${selected.sourceLabel}/${videoId}/${selected.fileName}`}
+                    onSize={(s) => setSize({ ...s, src: selected.src })}
                 />
             </main>
         </div>
     );
 }
-
-export default App;

@@ -1,0 +1,63 @@
+/* YouTube の視聴ページ（チャンネル名の左）に差し込むサムネイル */
+
+.ywt-thumb {
+    position: relative;
+    display: inline-block;
+    margin-right: 12px;
+    overflow: visible;
+}
+
+/* 画像の入れ物。ホバー時はこれごと拡大する */
+.ywt-thumb__frame {
+    position: relative;
+    display: inline-block;
+    transform-origin: left center;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+    will-change: transform;
+}
+
+.ywt-thumb__img {
+    display: inline;
+    height: 64px;
+    cursor: pointer;
+}
+
+.ywt-thumb__tooltip {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 6px);
+    z-index: 2147483647;
+    padding: 4px 8px;
+    border: 1px solid #fff;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.85);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms;
+}
+
+.ywt-thumb__icon {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-left: 6px;
+    vertical-align: -2px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+.ywt-thumb:hover .ywt-thumb__frame {
+    z-index: 9999;
+    transform: scale(1.75);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.ywt-thumb:hover .ywt-thumb__tooltip {
+    opacity: 1;
+}

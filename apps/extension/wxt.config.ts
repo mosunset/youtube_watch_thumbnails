@@ -7,7 +7,8 @@ export default defineConfig({
     manifest: {
         name: "__MSG_extName__",
         description: "__MSG_extDescription__",
-        permissions: ["tabs", "storage"],
+        // tabs: ポップアップでアクティブなタブの URL を読むため
+        permissions: ["tabs"],
         browser_specific_settings: {
             gecko: {
                 id: "@youtube-watch-thumbnails",
@@ -20,7 +21,7 @@ export default defineConfig({
                     // required: [],
                     // optional: [],
                 },
-            } as any,
+            },
         },
         default_locale: "en",
         // locales: ["en", "ja", "ko"],

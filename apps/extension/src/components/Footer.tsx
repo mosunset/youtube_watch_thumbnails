@@ -1,4 +1,4 @@
-import ywt from "@/assets/icon.png";
+import icon from "@/assets/icon.png";
 import { useAppConfig } from "#imports";
 import { cn } from "@/lib/utils";
 
@@ -17,7 +17,7 @@ function Footer({ compact = false }: FooterProps) {
         >
             <div className="flex items-center justify-center gap-2">
                 <img
-                    src={ywt}
+                    src={icon}
                     alt="YoutubeWatchThumbnails"
                     className="h-4 w-4 rounded-sm"
                 />

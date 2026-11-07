@@ -16,8 +16,6 @@ export default defineConfig([
             globals: { ...globals.browser, ...globals.webextensions },
         },
         rules: {
-            // 既存コードに多数あるため当面は警告。段階的に型を付けていく
-            "@typescript-eslint/no-explicit-any": "warn",
             "@typescript-eslint/no-unused-vars": [
                 "warn",
                 { argsIgnorePattern: "^_", varsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
@@ -27,9 +25,5 @@ export default defineConfig([
     {
         files: ["**/*.tsx"],
         extends: [reactHooks.configs.flat["recommended-latest"]],
-        rules: {
-            // 既存の useEffect 内 setState を洗い出すまでは警告扱い
-            "react-hooks/set-state-in-effect": "warn",
-        },
     },
 ]);
