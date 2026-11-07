@@ -22,6 +22,7 @@
   - [仕様](/ja/internals/specifications)
   - [ビルド](/ja/internals/build)
   - [アーキテクチャ](/ja/internals/architecture)
+  - [リリース](/ja/internals/release)
 
 - **プロジェクト情報**
   - [プロジェクトリソース](/ja/resources/)

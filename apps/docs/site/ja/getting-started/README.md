@@ -44,6 +44,7 @@ youtube_watch_thumbnails/
 - `pnpm lint`: ESLint（拡張機能）とドキュメントのリンク検証を実行
 - `pnpm test`: 拡張機能の単体テスト（Vitest）を実行
 - `pnpm test:e2e`: 拡張機能をビルドし、Chromium で E2E テスト（Playwright）を実行
+- `pnpm release <version>`: テスト後にバージョンを上げてタグを push。GitHub Actions が GitHub Release の作成とストア提出を行う（[リリース](/ja/internals/release)）
 
 `apps/extension` にはほかにもスクリプトがあります（例: `pnpm --filter extension zip`）。詳しくは[ビルド](/ja/internals/build)をご覧ください。
 

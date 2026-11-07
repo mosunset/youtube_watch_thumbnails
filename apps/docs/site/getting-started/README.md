@@ -80,6 +80,7 @@ Run from the repository root (pnpm runs each app's script):
 - `pnpm lint`: Run ESLint (extension) and the docs link check.
 - `pnpm test`: Run the extension's unit tests (Vitest).
 - `pnpm test:e2e`: Build the extension and run the E2E tests in Chromium (Playwright).
+- `pnpm release <version>`: Test, bump the version and push a tag; GitHub Actions creates the GitHub Release and submits to the stores (see [Releasing](/internals/release)).
 
 More scripts are available in `apps/extension` (e.g. `pnpm --filter extension zip`). See [Build System](/internals/build).
 

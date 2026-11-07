@@ -9,6 +9,7 @@
     "build": "pnpm -r --no-bail build",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
-    "test:e2e": "pnpm --filter extension test:e2e"
+    "test:e2e": "pnpm --filter extension test:e2e",
+    "release": "node scripts/release.mjs"
   }
 }
