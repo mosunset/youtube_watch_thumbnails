@@ -1,25 +1,11 @@
 {
   "name": "docs",
+  "private": true,
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "lint": "astro check"
-  },
-  "dependencies": {
-    "@astrojs/sitemap": "^3.7.4",
-    "@astrojs/starlight": "^0.36.3",
-    "astro": "^5.18.2",
-    "sharp": "^0.34.5",
-    "starlight-image-zoom": "^0.13.2",
-    "starlight-links-validator": "^0.19.2"
-  },
-  "devDependencies": {
-    "@astrojs/check": "^0.9.12",
-    "typescript": "^5.9.3"
+    "dev": "npx --yes docsify-cli@4.4.4 serve site --port 3000",
+    "build": "node scripts/check-links.mjs",
+    "lint": "node scripts/check-links.mjs"
   }
 }

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>YouTube Watch Thumbnails</title>
+        <meta
+            name="description"
+            content="A browser extension to display and download thumbnail images of YouTube videos you're currently watching"
+        />
+        <link rel="icon" href="favicon.ico" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css" />
+        <style>
+            :root {
+                --theme-color: #e53935;
+            }
+            .app-name-link img {
+                width: 48px;
+                height: 48px;
+            }
+            .app-name-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .app-nav img {
+                vertical-align: middle;
+            }
+            /* ホームの CTA ボタン */
+            .markdown-section a.button {
+                display: inline-block;
+                margin: 0.25rem;
+                padding: 0.6rem 1.4rem;
+                border-radius: 999px;
+                border: 1px solid var(--theme-color);
+                font-weight: 600;
+                text-decoration: none;
+            }
+            .markdown-section a.button.primary {
+                background: var(--theme-color);
+                color: #fff;
+            }
+            .markdown-section a.button.secondary {
+                color: var(--theme-color);
+            }
+            /* ページ下部（編集リンク・コピーライト） */
+            .ywt-footer {
+                margin-top: 3rem;
+                padding-top: 1rem;
+                border-top: 1px solid #eee;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                gap: 0.5rem;
+                font-size: 0.85rem;
+                color: #888;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">Loading…</div>
+        <script>
+            var REPO = "https://github.com/mosunset/youtube_watch_thumbnails";
+
+            window.$docsify = {
+                name: "YouTube Watch Thumbnails",
+                logo: "_media/icon.png",
+                repo: REPO,
+                loadSidebar: true,
+                loadNavbar: true,
+                mergeNavbar: true,
+                subMaxLevel: 2,
+                maxLevel: 4,
+                auto2top: true,
+                notFoundPage: true,
+                fallbackLanguages: ["ja"],
+                search: {
+                    paths: "auto",
+                    depth: 3,
+                    placeholder: { "/ja/": "検索", "/": "Search" },
+                    noData: { "/ja/": "見つかりませんでした", "/": "No results" },
+                },
+                pagination: {
+                    crossChapter: true,
+                    crossChapterText: true,
+                },
+                "flexible-alerts": {
+                    tip: { label: { "/ja/": "ヒント", "/": "Tip" } },
+                    note: { label: { "/ja/": "メモ", "/": "Note" } },
+                    warning: { label: { "/ja/": "注意", "/": "Warning" } },
+                },
+                plugins: [
+                    // 各ページ末尾に「GitHub で編集」リンクとコピーライトを追加
+                    function (hook, vm) {
+                        hook.afterEach(function (html) {
+                            var file = vm.route.file;
+                            var isJa = vm.route.path.indexOf("/ja/") === 0;
+                            var edit = file
+                                ? '<a href="' +
+                                  REPO +
+                                  "/blob/main/apps/docs/site/" +
+                                  file +
+                                  '" target="_blank" rel="noopener noreferrer">' +
+                                  (isJa ? "GitHub でこのページを編集" : "Edit this page on GitHub") +
+                                  "</a>"
+                                : "";
+                            var copyright =
+                                "&copy; " +
+                                new Date().getFullYear() +
+                                ' <a href="https://mosunset.com" target="_blank" rel="noopener noreferrer">mosunset</a>. All rights reserved.';
+                            return html + '<footer class="ywt-footer"><span>' + copyright + "</span>" + edit + "</footer>";
+                        });
+                        // <html lang> を表示中の言語に合わせる
+                        hook.doneEach(function () {
+                            document.documentElement.lang = vm.route.path.indexOf("/ja/") === 0 ? "ja" : "en";
+                        });
+                    },
+                ],
+            };
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/search.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/zoom-image.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2.1.1/dist/docsify-copy-code.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2.10.1/dist/docsify-pagination.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/docsify-plugin-flexible-alerts@1.1.1/dist/docsify-plugin-flexible-alerts.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+    </body>
+</html>

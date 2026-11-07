@@ -1,6 +1,6 @@
 # docs — YouTube Watch Thumbnails ドキュメントサイト
 
-YouTube Watch Thumbnails 拡張機能の公式ドキュメントサイトです。GitHub Pages でホストされています。
+YouTube Watch Thumbnails 拡張機能の公式ドキュメントサイトです。[docsify](https://docsify.js.org/) で構築し、GitHub Pages でホストしています。
 
 **公開URL**: https://mosunset.github.io/youtube_watch_thumbnails/
 
@@ -8,83 +8,67 @@ YouTube Watch Thumbnails 拡張機能の公式ドキュメントサイトです�
 
 | カテゴリ | 技術 |
 | :--- | :--- |
-| フレームワーク | [Astro](https://astro.build/) v5.6 |
-| ドキュメントテーマ | [Starlight](https://starlight.astro.build/) v0.36 |
-| 言語 | TypeScript 5.9 |
-| 画像処理 | Sharp |
-| プラグイン | starlight-image-zoom（画像ズーム）, starlight-links-validator（リンク検証）|
-| SEO | @astrojs/sitemap |
+| ドキュメント生成 | [docsify](https://docsify.js.org/) v4.13（ビルド不要・ブラウザで Markdown を描画） |
+| プラグイン | search（全文検索）, zoom-image（画像ズーム）, docsify-copy-code, docsify-pagination, docsify-plugin-flexible-alerts |
+| リンク検証 | `scripts/check-links.mjs`（Node.js のみ・依存パッケージなし） |
+
+docsify 本体とプラグインは `site/index.html` から jsDelivr CDN（バージョン固定）で読み込みます。npm の依存パッケージはありません。
 
 ## 主な機能
 
-- **多言語対応** — 英語（デフォルト）と日本語の 2 言語
+- **多言語対応** — 英語（`site/`）と日本語（`site/ja/`）の 2 言語。ナビバーから切り替え
+- **全文検索** — 表示中の言語ごとに検索
 - **画像ズーム** — ドキュメント内の画像をクリックして拡大表示
-- **リンク検証** — ビルド時に内部リンクの整合性を自動チェック
-- **サイトマップ自動生成** — SEO 向けサイトマップを自動出力
-- **GitHub 編集リンク** — 各ページから対応するソースファイルを直接編集可能
-- **カスタムコンポーネント** — Footer, Header, MobileMenuFooter をオーバーライド
+- **リンク検証** — `pnpm build` / `pnpm lint` で内部リンク・画像の参照切れを検出
+- **GitHub 編集リンク** — 各ページ下部から対応するソースファイルを開ける
 
 ## ディレクトリ構成
 
 ```text
 apps/docs/
-├── src/
-│   ├── content/
-│   │   └── docs/               # Markdown ドキュメント
-│   │       ├── getting-started/ # はじめる
-│   │       ├── guide/           # ユーザーガイド
-│   │       ├── settings/        # 設定
-│   │       ├── troubleshooting/ # トラブルシューティング
-│   │       ├── internals/       # 内部仕様
-│   │       ├── resources/       # プロジェクト情報
-│   │       ├── for-reviewers/   # レビュアー向け
-│   │       └── ja/              # 日本語版ドキュメント
-│   ├── assets/                  # 画像等の静的アセット
-│   ├── components/
-│   │   └── overrides/           # Starlight コンポーネントオーバーライド
-│   │       ├── Footer.astro
-│   │       ├── Header.astro
-│   │       └── MobileMenuFooter.astro
-│   └── content.config.ts
-├── public/                      # favicon 等の静的ファイル
-├── astro.config.mjs             # Astro + Starlight 設定
-├── tsconfig.json
+├── site/                       # 公開ディレクトリ（GitHub Pages にそのままデプロイ）
+│   ├── index.html              # docsify 本体の設定
+│   ├── README.md               # ホーム（英語）
+│   ├── _sidebar.md             # サイドバー（英語）
+│   ├── _navbar.md              # ナビバー（ストアバッジ・言語切替）
+│   ├── _404.md                 # 404 ページ
+│   ├── _media/                 # 画像（アイコン・スクリーンショット）
+│   ├── getting-started/        # はじめる
+│   ├── guide/                  # ユーザーガイド
+│   ├── settings/               # 設定
+│   ├── troubleshooting/        # トラブルシューティング
+│   ├── internals/              # 内部仕様
+│   ├── resources/              # プロジェクト情報
+│   ├── for-reviewers/          # レビュアー向け
+│   └── ja/                     # 日本語版（同じ構成 + _sidebar.md / _navbar.md）
+├── scripts/
+│   └── check-links.mjs         # 内部リンク検証
 └── package.json
 ```
-
-## サイドバー構成
-
-| セクション | 内容 |
-| :--- | :--- |
-| Getting Started（はじめる） | インストール・初期設定ガイド |
-| User Guide（ユーザーガイド） | 機能の使い方 |
-| Settings（設定） | 各種設定項目の説明 |
-| Troubleshooting（トラブルシューティング） | よくある問題と解決方法 |
-| Internals（内部仕様） | 技術的な内部動作の解説 |
-| Project Docs（プロジェクト情報） | プロジェクトに関する情報 |
-| For Reviewers（レビュアー向け） | ストアレビュー担当者向け情報 |
 
 ## 開発コマンド
 
 ```bash
-# 開発サーバー起動（localhost:4321）
+# 開発サーバー起動（http://localhost:3000、ライブリロードあり）
 pnpm dev
 
-# 本番ビルド（dist/ に出力）
+# 内部リンク・画像の参照切れチェック（build / lint は同じ処理）
 pnpm build
-
-# ビルド結果をローカルでプレビュー
-pnpm preview
+pnpm lint
 ```
 
-## ビルド成果物
+docsify は静的ファイルをそのまま配信するだけなので、`site/` を任意の静的サーバーで配信しても確認できます。
 
-- 出力先: `dist/`
-- デプロイ先: GitHub Pages (`https://mosunset.github.io/youtube_watch_thumbnails/`)
+## デプロイ
+
+`main` ブランチへの push で `.github/workflows/deploy-docs.yml` が動き、リンク検証のあと `apps/docs/site/` をそのまま GitHub Pages に公開します。
 
 ## ドキュメントの追加方法
 
-1. `src/content/docs/` 配下の対応ディレクトリに `.md` または `.mdx` ファイルを作成
-2. 日本語版は `src/content/docs/ja/` 配下に同じパス構造でファイルを作成
-3. 画像は `src/assets/` に配置し、Markdown から相対パスで参照
-4. サイドバーは `astro.config.mjs` の `autogenerate` によりディレクトリ単位で自動生成
+1. `site/` 配下の対応ディレクトリに `.md` ファイルを作成（ディレクトリのトップページは `README.md`）
+2. 日本語版は `site/ja/` 配下に同じパス構造でファイルを作成
+3. `site/_sidebar.md` と `site/ja/_sidebar.md` にリンクを追加
+4. 内部リンクはサイトルートからのルートで書く（例: `/guide/features`、ディレクトリは `/guide/`）
+5. 画像は `site/_media/` に置き、Markdown ファイルからの相対パスで参照（例: `../_media/foo.png`）
+6. 注意書きは `> [!TIP]` / `> [!NOTE]` / `> [!WARNING]` 形式で書く（`|label:見出し` で見出しを変更可能）
+7. `pnpm lint` でリンク切れがないことを確認

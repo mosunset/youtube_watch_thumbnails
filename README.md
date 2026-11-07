@@ -43,39 +43,39 @@ YouTube 動画のサムネイル画像を簡単に表示・確認できるブラ
    ```
 
 4. ブラウザに拡張機能を読み込みます。
-   - **Chrome**: `chrome://extensions` を開き、デベロッパーモードを有効にします。「パッケージ化されていない拡張機能を読み込む」をクリックし、`.output/chrome-mv3` ディレクトリを選択します。
-   - **Firefox**: `about:debugging#/runtime/this-firefox` を開き、「一時的なアドオンを読み込む」をクリックし、`.output/firefox-mv2/manifest.json` を選択します。
+   - **Chrome**: `chrome://extensions` を開き、デベロッパーモードを有効にします。「パッケージ化されていない拡張機能を読み込む」をクリックし、`apps/extension/.output/chrome-mv3` ディレクトリを選択します。
+   - **Firefox**: `about:debugging#/runtime/this-firefox` を開き、「一時的なアドオンを読み込む」をクリックし、`apps/extension/.output/firefox-mv2/manifest.json` を選択します。
 
 ## 🚀 使い方 (Usage)
 
 1. YouTube で動画ページ (`/watch`) または Shorts ページ (`/shorts`) を開きます。
 2. チャンネルアイコンの横（または適切な位置）にサムネイル画像が表示されます。
 3. 画像をクリックすると、新しいタブで「Thumbnail View」が開き、利用可能なすべてのサイズのサムネイル画像を確認できます。
-4. 拡張機能アイコンをクリックすると、ポップアップメニューから設定や情報にアクセスできます。
+4. 拡張機能アイコンをクリックすると、ポップアップに表示中の動画のサムネイルが表示されます。クリックすると Thumbnail View が開きます。
 
 ## 📂 ディレクトリ構成 (Project Structure)
 
 ```text
 youtube_watch_thumbnails/
-├── src/                # ソースコード
-│   ├── assets/         # 画像などの静的アセット
-│   ├── components/     # React コンポーネント
-│   ├── entrypoints/    # WXT エントリーポイント (background, content, popup, etc.)
-│   ├── utils/          # ユーティリティ関数
-│   └── ...
-├── docs/               # ドキュメント
-├── .output/            # ビルド成果物 (gitignored)
-├── wxt.config.ts       # WXT 設定ファイル
-└── ...
+├── apps/
+│   ├── extension/      # ブラウザ拡張機能本体 (WXT + React)
+│   │   ├── src/        # ソースコード (entrypoints, components, utils など)
+│   │   └── wxt.config.ts
+│   └── docs/           # ドキュメントサイト (docsify)
+│       ├── site/       # 公開される Markdown と index.html
+│       └── scripts/    # リンクチェックなどのスクリプト
+├── screenshots/        # スクリーンショット
+├── turbo.json          # Turborepo 設定
+└── pnpm-workspace.yaml
 ```
 
 ## 🛠️ 開発用コマンド (Development Commands)
 
-- `pnpm dev`: 開発サーバーを起動します（HMR有効）。
-- `pnpm build`: 本番用にビルドします。
-- `pnpm zip`: ストア提出用の ZIP ファイルを作成します。
-- `pnpm lint`: コードの静的解析を実行します。
-- `pnpm test`: テストを実行します。
+- `pnpm dev`: 開発サーバーを起動します（拡張機能は HMR 有効 + ドキュメントサイト）。
+- `pnpm build`: Chrome 版と Firefox 版の拡張機能をビルドし、ドキュメントのリンクを検証します。
+- `pnpm lint`: ESLint（拡張機能）とドキュメントのリンク検証を実行します。
+- `pnpm test`: 拡張機能の単体テスト（Vitest）を実行します。
+- `pnpm --filter extension zip`: ストア提出用の ZIP ファイルを作成します。
 
 ## 🤝 貢献方法 (Contribution)
 
