@@ -4,7 +4,7 @@
 
 詳細な変更ログは、[GitHub の CHANGELOG.md](https://github.com/mosunset/youtube_watch_thumbnails/blob/main/CHANGELOG.md) をご覧ください。
 
-## 未リリース (Unreleased)
+## v4.1.0 (2026-11-07)
 
 ### 🔒 プライバシー
 
