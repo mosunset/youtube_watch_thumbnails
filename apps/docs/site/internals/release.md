@@ -69,7 +69,8 @@ This uses Chrome Web Store API v2 (service account). v1 (refresh token) stopped 
    | :--- | :--- |
    | `CHROME_PUBLISHER_ID` | Publisher ID |
    | `CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL` | Service account email |
-   | `CHROME_SERVICE_ACCOUNT_PRIVATE_KEY` | Service account private key (everything from `-----BEGIN PRIVATE KEY-----`) |
+   | `CHROME_SERVICE_ACCOUNT_PRIVATE_KEY` | Service account private key. Paste the JSON `private_key` value as-is, without the surrounding `"` (a single line with `
+` is fine) |
 
 The extension ID (`aobeafpjgdgakpagffmlkfeognaiigci`) is public, so it is written in the workflow.
 

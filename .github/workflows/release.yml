@@ -111,7 +111,11 @@ jobs:
           CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
           CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL: ${{ secrets.CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL }}
           CHROME_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.CHROME_SERVICE_ACCOUNT_PRIVATE_KEY }}
-        run: pnpm exec wxt submit --chrome-zip .output/*-chrome.zip
+        # 秘密鍵は JSON の値そのまま（"\n" を含む 1 行）でも、改行入りの PEM でも受け付ける
+        run: |
+          CHROME_SERVICE_ACCOUNT_PRIVATE_KEY="$(printf '%b' "$CHROME_SERVICE_ACCOUNT_PRIVATE_KEY")"
+          export CHROME_SERVICE_ACCOUNT_PRIVATE_KEY
+          pnpm exec wxt submit --chrome-zip .output/*-chrome.zip
 
       - name: Submit to Firefox Add-ons
         if: env.HAS_FIREFOX_SECRETS == 'true'
