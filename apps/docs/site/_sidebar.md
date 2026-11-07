@@ -31,3 +31,4 @@
 
 - **For Reviewers**
   - [For Firefox Reviewers](/for-reviewers/firefox)
+  - [Manual Testing](/for-reviewers/manual-testing)

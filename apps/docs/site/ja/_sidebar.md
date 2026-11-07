@@ -31,3 +31,4 @@
 
 - **レビュアー向け**
   - [Firefox レビュアー向け情報](/ja/for-reviewers/firefox)
+  - [手動テスト](/ja/for-reviewers/manual-testing)

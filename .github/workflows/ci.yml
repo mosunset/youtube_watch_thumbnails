@@ -41,8 +41,18 @@ jobs:
       - name: Test
         run: pnpm test
 
-      - name: Build
-        run: pnpm --filter extension build
+      # ストア提出用と同じ zip を作り、手動テスト用にダウンロードできるようにする
+      # 手順: https://mosunset.github.io/youtube_watch_thumbnails/#/ja/for-reviewers/manual-testing
+      - name: Build zips
+        run: pnpm --filter extension zip
+
+      - name: Upload zips for manual testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-${{ github.event.pull_request.head.sha || github.sha }}
+          path: apps/extension/.output/*.zip
+          if-no-files-found: error
+          retention-days: 30
 
   # ビルドした拡張機能を Chromium に読み込んで、実際の操作の流れを確認する
   e2e:
