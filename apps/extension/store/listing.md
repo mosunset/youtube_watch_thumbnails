@@ -155,6 +155,7 @@ How to test:
 
 Permissions: "tabs" only, to read the active tab's URL in the popup. The content script runs only on youtube.com.
 No data is collected, stored or transmitted. Images are loaded from i.ytimg.com / img.youtube.com.
+The two "Unsafe assignment to innerHTML" warnings come from the bundled React DOM library (dangerouslySetInnerHTML handling), not from this extension's code, which never uses innerHTML.
 Source code: https://github.com/mosunset/youtube_watch_thumbnails
 ```
 

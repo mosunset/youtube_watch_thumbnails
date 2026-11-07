@@ -4,28 +4,31 @@ import { defineConfig } from "wxt";
 export default defineConfig({
     modules: ["@wxt-dev/module-react", '@wxt-dev/auto-icons', '@wxt-dev/i18n/module'],
     srcDir: "src",
-    manifest: {
+    manifest: ({ browser }) => ({
         name: "__MSG_extName__",
         description: "__MSG_extDescription__",
         // tabs: ポップアップでアクティブなタブの URL を読むため
         permissions: ["tabs"],
-        browser_specific_settings: {
-            gecko: {
-                id: "@youtube-watch-thumbnails",
-                // strict_min_versionは、この拡張機能が対応するFirefoxの最小バージョンを指定する設定です。
-                strict_min_version: "120.0",
-                // data_collection_permissions: この拡張機能が収集または送信するユーザーデータの種類を指定します。
-                // この拡張機能はユーザーデータを収集・送信しないため、空の配列を指定しています。
-                data_collection_permissions: {
-                    required: ["none"],
-                    // required: [],
-                    // optional: [],
+        default_locale: "en",
+        // Firefox 専用の設定（Chrome には入れない）
+        ...(browser === "firefox" && {
+            browser_specific_settings: {
+                gecko: {
+                    id: "@youtube-watch-thumbnails",
+                    // 対応する Firefox の最小バージョン。下の data_collection_permissions を読めるのは 140 から
+                    strict_min_version: "140.0",
+                    // 収集・送信するユーザーデータの申告。この拡張機能は何も収集しないので "none"
+                    data_collection_permissions: {
+                        required: ["none"],
+                    },
+                },
+                // Firefox for Android は data_collection_permissions を 142 から読める
+                gecko_android: {
+                    strict_min_version: "142.0",
                 },
             },
-        },
-        default_locale: "en",
-        // locales: ["en", "ja", "ko"],
-    },
+        }),
+    }),
     // アイコン自動生成設定
     // 1つの基本画像（icon.png）から複数サイズのアイコンを自動生成
     autoIcons: {

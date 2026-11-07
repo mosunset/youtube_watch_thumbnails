@@ -4,6 +4,20 @@ This page contains the change history for YouTube Watch Thumbnails.
 
 For detailed changelog, see [CHANGELOG.md on GitHub](https://github.com/mosunset/youtube_watch_thumbnails/blob/main/CHANGELOG.md).
 
+## Unreleased
+
+### 🐛 Fixes
+
+- Added the extension name and description in Japanese and Korean. The Chrome Web Store rejected v4.1.0 because they were missing
+
+### ⚠️ Requirements
+
+- Firefox 140 or later is now required (Firefox for Android 142 or later), the first versions that read the extension's "no data collected" declaration. Older Firefox versions stay on the previous release
+
+### 🛠️ Development
+
+- Added a test that every language has the same messages as English
+
 ## v4.1.0 (2026-11-07)
 
 ### 🔒 Privacy
