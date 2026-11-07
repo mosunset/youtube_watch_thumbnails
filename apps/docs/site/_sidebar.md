@@ -22,6 +22,7 @@
   - [Specifications](/internals/specifications)
   - [Build System](/internals/build)
   - [Architecture](/internals/architecture)
+  - [Releasing](/internals/release)
 
 - **Project Docs**
   - [Project Resources](/resources/)

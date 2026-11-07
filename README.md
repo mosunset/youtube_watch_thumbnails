@@ -7,8 +7,17 @@ YouTube 動画のサムネイル画像を簡単に表示・確認できるブラ
 
 ## 📸 スクリーンショット
 
-![display example](/screenshots/v2.1.01.png)
-![display example](/screenshots/v2.1.11.png)
+**視聴ページ** — チャンネル名の横にサムネイルを表示。マウスを乗せると拡大します。
+
+![視聴ページのサムネイル](screenshots/ja-1-watch-page.png)
+
+**ポップアップ** — ツールバーのアイコンから、視聴中の動画の一番きれいなサムネイルを表示します。
+
+![ポップアップ](screenshots/ja-2-popup.png)
+
+**Thumbnail View** — すべてのサイズ・形式のサムネイルを一覧表示し、プレビュー・保存できます。
+
+![Thumbnail View](screenshots/ja-3-thumbnail-view.png)
 
 ## ✨ 機能概要 (Features)
 
@@ -75,6 +84,7 @@ youtube_watch_thumbnails/
 - `pnpm lint`: ESLint（拡張機能）とドキュメントのリンク検証を実行します。
 - `pnpm test`: 拡張機能の単体テスト（Vitest）を実行します。
 - `pnpm test:e2e`: 拡張機能をビルドし、Chromium で E2E テスト（Playwright）を実行します。
+- `pnpm release <version>`: テストしてからバージョンを上げ、タグを push します。GitHub Actions が GitHub Release の作成とストアへの提出を行います（[手順](https://mosunset.github.io/youtube_watch_thumbnails/#/ja/internals/release)）。
 - `pnpm --filter extension zip`: ストア提出用の ZIP ファイルを作成します。
 
 ## 🤝 貢献方法 (Contribution)
@@ -93,3 +103,7 @@ youtube_watch_thumbnails/
 
 - [![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-YouTube%20Watch%20Thumbnails-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-watch-thumbnails/aobeafpjgdgakpagffmlkfeognaiigci)
 - [![Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-YouTube%20Watch%20Thumbnails-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/ja/firefox/addon/youtube-watch-thumbnails/)
+
+## 📄 ライセンス (License)
+
+[MIT](LICENSE) © 2023-2026 mosunset

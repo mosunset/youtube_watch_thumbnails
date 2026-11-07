@@ -2,7 +2,17 @@
 
 YouTube 動画のサムネイル画像を簡単に表示・確認できるブラウザ拡張機能です。
 
-![Extension Screenshot1](../../_media/v2.1.01.png)
+**視聴ページ**：チャンネル名の横にサムネイルを表示し、マウスを乗せると拡大します。
+
+![視聴ページのサムネイル](../../_media/ja-1-watch-page.png)
+
+**ポップアップ**：ツールバーのアイコンから、視聴中の動画の一番きれいなサムネイルを表示します。
+
+![ポップアップ](../../_media/ja-2-popup.png)
+
+**Thumbnail View**：すべてのサイズ・形式のサムネイルを一覧表示し、プレビュー・保存できます。
+
+![Thumbnail View](../../_media/ja-3-thumbnail-view.png)
 
 ## 何ができるか
 
@@ -44,6 +54,7 @@ youtube_watch_thumbnails/
 - `pnpm lint`: ESLint（拡張機能）とドキュメントのリンク検証を実行
 - `pnpm test`: 拡張機能の単体テスト（Vitest）を実行
 - `pnpm test:e2e`: 拡張機能をビルドし、Chromium で E2E テスト（Playwright）を実行
+- `pnpm release <version>`: テスト後にバージョンを上げてタグを push。GitHub Actions が GitHub Release の作成とストア提出を行う（[リリース](/ja/internals/release)）
 
 `apps/extension` にはほかにもスクリプトがあります（例: `pnpm --filter extension zip`）。詳しくは[ビルド](/ja/internals/build)をご覧ください。
 

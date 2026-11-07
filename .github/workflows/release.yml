@@ -1,74 +1,156 @@
-name: Release extension (zip only)
+# タグ（v4.1.0 など）の push で、テスト → zip 作成 → GitHub Release → ストア提出 を行う
+# タグはローカルで `pnpm release <version>` を実行すると作られる
+#
+# ストア提出に必要な Secrets（未設定のストアは提出を飛ばす）:
+#   Chrome Web Store（API v2）: CHROME_PUBLISHER_ID, CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL, CHROME_SERVICE_ACCOUNT_PRIVATE_KEY
+#   Firefox Add-ons:            FIREFOX_JWT_ISSUER, FIREFOX_JWT_SECRET
+# 設定手順: apps/docs/site/ja/internals/release.md
+name: Release
 
 on:
   push:
-    branches:
-      - main
+    tags: ["v*"]
+
+# 同じタグのリリースが二重に走らないようにする
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    # Settings → Environments → release で「承認者」を設定すると、提出前に手動承認を挟める
+    environment: release
     permissions:
       contents: write
-
+    env:
+      # 拡張機能の ID は公開情報なのでここに書く
+      CHROME_EXTENSION_ID: aobeafpjgdgakpagffmlkfeognaiigci
+      FIREFOX_EXTENSION_ID: "@youtube-watch-thumbnails"
+      # Secrets は if: で直接参照できないので、設定済みかどうかだけをフラグにする
+      HAS_CHROME_SECRETS: ${{ secrets.CHROME_SERVICE_ACCOUNT_PRIVATE_KEY != '' }}
+      HAS_FIREFOX_SECRETS: ${{ secrets.FIREFOX_JWT_SECRET != '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # コミットメッセージをチェックして、'release:' で始まっていない場合はスキップする
-      - name: Check commit message
-        id: check_commit
-        run: |
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          if [[ ! "$COMMIT_MSG" =~ ^release: ]]; then
-            echo "Commit message does not start with 'release:', skipping release"
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "Commit message starts with 'release:', proceeding with release"
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Setup pnpm
-        if: steps.check_commit.outputs.skip != 'true'
         uses: pnpm/action-setup@v4
         with:
           version: 10.23.0
 
       - name: Setup Node
-        if: steps.check_commit.outputs.skip != 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
 
-      - name: Install dependencies
-        if: steps.check_commit.outputs.skip != 'true'
-        run: pnpm install --frozen-lockfile
-
-      # Chrome と Firefox 用の zip ファイルをビルドする
-      - name: Build zips (Chrome + Firefox)
-        if: steps.check_commit.outputs.skip != 'true'
-        run: |
-          pnpm --filter extension zip
-
-      # package.json の version を取得して tag / リリース名に使用する
-      - name: Get version
-        if: steps.check_commit.outputs.skip != 'true'
-        id: get_version
+      - name: Check tag matches package version
         run: |
           VERSION=$(node -p "require('./apps/extension/package.json').version")
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if [ "v$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::タグ $GITHUB_REF_NAME と apps/extension/package.json の version ($VERSION) が一致しません"
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # ローカルでも実行済みだが、公開する物と同じ環境でもう一度確かめる
+      - name: Lint, type check, unit tests
+        run: |
+          pnpm lint
+          pnpm --filter extension compile
+          pnpm test
+
+      - name: E2E tests
+        run: |
+          pnpm --filter extension exec playwright install --with-deps chromium
+          pnpm test:e2e
+
+      - name: Build zips
+        run: pnpm --filter extension zip
+
+      # 変更履歴（英語）からこのバージョンの節を取り出してリリースノートにする
+      - name: Extract release notes
+        run: |
+          node -e '
+            const fs = require("fs");
+            const NL = String.fromCharCode(10);
+            const tag = process.env.GITHUB_REF_NAME;
+            const lines = fs.readFileSync("apps/docs/site/resources/changelog.md", "utf8").split(NL);
+            const isHeading = (l) => l.startsWith("## ");
+            const start = lines.findIndex((l) => l.trim() === "## " + tag || l.startsWith("## " + tag + " "));
+            let notes = "";
+            if (start !== -1) {
+              const rest = lines.slice(start + 1);
+              const end = rest.findIndex(isHeading);
+              notes = (end === -1 ? rest : rest.slice(0, end)).join(NL).trim();
+            }
+            fs.writeFileSync("release-notes.md", notes || "See the changelog for details.");
+          '
+          cat release-notes.md
 
       - name: Create GitHub Release
-        if: steps.check_commit.outputs.skip != 'true'
+        id: github_release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.get_version.outputs.version }}
-          name: v${{ steps.get_version.outputs.version }}
-          # wxt の zip 出力先パターンに合わせて調整してください
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body_path: release-notes.md
           files: |
             apps/extension/.output/*-chrome.zip
             apps/extension/.output/*-firefox.zip
             apps/extension/.output/*-sources.zip
+          fail_on_unmatched_files: true
+
+      # 各ストアの提出は互いに独立。1 つが失敗しても残りは続ける（ジョブは最後に失敗扱いになる）
+      - name: Submit to Chrome Web Store
+        id: chrome
+        if: ${{ !cancelled() && steps.github_release.outcome == 'success' && env.HAS_CHROME_SECRETS == 'true' }}
+        working-directory: apps/extension
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHROME_API_VERSION: v2
+          CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
+          CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL: ${{ secrets.CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL }}
+          CHROME_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.CHROME_SERVICE_ACCOUNT_PRIVATE_KEY }}
+        # 秘密鍵は JSON の値そのまま（"\n" を含む 1 行）でも、改行入りの PEM でも受け付ける
+        run: |
+          CHROME_SERVICE_ACCOUNT_PRIVATE_KEY="$(printf '%b' "$CHROME_SERVICE_ACCOUNT_PRIVATE_KEY")"
+          export CHROME_SERVICE_ACCOUNT_PRIVATE_KEY
+          pnpm exec wxt submit --chrome-zip .output/*-chrome.zip
+
+      - name: Submit to Firefox Add-ons
+        id: firefox
+        if: ${{ !cancelled() && steps.github_release.outcome == 'success' && env.HAS_FIREFOX_SECRETS == 'true' }}
+        working-directory: apps/extension
+        env:
+          FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+        run: pnpm exec wxt submit --firefox-zip .output/*-firefox.zip --firefox-sources-zip .output/*-sources.zip
+
+      - name: Summary
+        if: always()
+        env:
+          RELEASE: ${{ steps.github_release.outcome }}
+          CHROME: ${{ steps.chrome.outcome }}
+          FIREFOX: ${{ steps.firefox.outcome }}
+        run: |
+          describe() {
+            case "$1" in
+              success) echo "✅ 提出済み（審査待ち）" ;;
+              failure) echo "❌ 失敗（ログを確認。zip は GitHub Release から手動でもアップロードできる）" ;;
+              skipped) if [ "$2" = "true" ]; then echo "⏭️ 前の手順が失敗したため未実行"; else echo "⏭️ Secrets 未設定のため未提出（zip を手動でアップロード）"; fi ;;
+              *) echo "⏭️ 未実行" ;;
+            esac
+          }
+          {
+            echo "## ${GITHUB_REF_NAME}"
+            if [ "$RELEASE" = "success" ]; then
+              echo "- GitHub Release: ✅ https://github.com/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF_NAME}"
+            else
+              echo "- GitHub Release: ❌ 作成されていない（テストかビルドが失敗）"
+            fi
+            echo "- Chrome Web Store: $(describe "$CHROME" "$HAS_CHROME_SECRETS")"
+            echo "- Firefox Add-ons: $(describe "$FIREFOX" "$HAS_FIREFOX_SECRETS")"
+          } >> "$GITHUB_STEP_SUMMARY"

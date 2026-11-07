@@ -2,6 +2,7 @@
   "name": "extension",
   "description": "Youtube Watch Thumbnails",
   "private": true,
+  "license": "MIT",
   "version": "4.0.1",
   "type": "module",
   "scripts": {
