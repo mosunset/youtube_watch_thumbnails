@@ -4,9 +4,6 @@
 # ストア提出に必要な Secrets（未設定のストアは提出を飛ばす）:
 #   Chrome Web Store（API v2）: CHROME_PUBLISHER_ID, CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL, CHROME_SERVICE_ACCOUNT_PRIVATE_KEY
 #   Firefox Add-ons:            FIREFOX_JWT_ISSUER, FIREFOX_JWT_SECRET
-#   Edge Add-ons:               EDGE_PRODUCT_ID, EDGE_CLIENT_ID, EDGE_API_KEY
-#   Opera add-ons:              OPERA_PACKAGE_ID, OPERA_SESSION_ID（ブラウザの Cookie。期限が切れたら更新する）
-# Edge と Opera には Chrome 用の zip を提出する
 # 設定手順: apps/docs/site/ja/internals/release.md
 name: Release
 
@@ -33,8 +30,6 @@ jobs:
       # Secrets は if: で直接参照できないので、設定済みかどうかだけをフラグにする
       HAS_CHROME_SECRETS: ${{ secrets.CHROME_SERVICE_ACCOUNT_PRIVATE_KEY != '' }}
       HAS_FIREFOX_SECRETS: ${{ secrets.FIREFOX_JWT_SECRET != '' }}
-      HAS_EDGE_SECRETS: ${{ secrets.EDGE_API_KEY != '' }}
-      HAS_OPERA_SECRETS: ${{ secrets.OPERA_SESSION_ID != '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -134,33 +129,12 @@ jobs:
           FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
         run: pnpm exec wxt submit --firefox-zip .output/*-firefox.zip --firefox-sources-zip .output/*-sources.zip
 
-      - name: Submit to Edge Add-ons
-        id: edge
-        if: ${{ !cancelled() && steps.github_release.outcome == 'success' && env.HAS_EDGE_SECRETS == 'true' }}
-        working-directory: apps/extension
-        env:
-          EDGE_PRODUCT_ID: ${{ secrets.EDGE_PRODUCT_ID }}
-          EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
-          EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
-        run: pnpm exec wxt submit --edge-zip .output/*-chrome.zip
-
-      - name: Submit to Opera add-ons
-        id: opera
-        if: ${{ !cancelled() && steps.github_release.outcome == 'success' && env.HAS_OPERA_SECRETS == 'true' }}
-        working-directory: apps/extension
-        env:
-          OPERA_PACKAGE_ID: ${{ secrets.OPERA_PACKAGE_ID }}
-          OPERA_SESSION_ID: ${{ secrets.OPERA_SESSION_ID }}
-        run: pnpm exec wxt submit --opera-zip .output/*-chrome.zip
-
       - name: Summary
         if: always()
         env:
           RELEASE: ${{ steps.github_release.outcome }}
           CHROME: ${{ steps.chrome.outcome }}
           FIREFOX: ${{ steps.firefox.outcome }}
-          EDGE: ${{ steps.edge.outcome }}
-          OPERA: ${{ steps.opera.outcome }}
         run: |
           describe() {
             case "$1" in
@@ -179,6 +153,4 @@ jobs:
             fi
             echo "- Chrome Web Store: $(describe "$CHROME" "$HAS_CHROME_SECRETS")"
             echo "- Firefox Add-ons: $(describe "$FIREFOX" "$HAS_FIREFOX_SECRETS")"
-            echo "- Edge Add-ons: $(describe "$EDGE" "$HAS_EDGE_SECRETS")"
-            echo "- Opera add-ons: $(describe "$OPERA" "$HAS_OPERA_SECRETS")"
           } >> "$GITHUB_STEP_SUMMARY"

@@ -1,10 +1,9 @@
-# ストア掲載情報（Edge Add-ons / Opera add-ons 用）
+# ストア掲載情報（Chrome Web Store / Firefox Add-ons）
 
-各ストアの入力欄にそのまま貼れる文章です。Chrome Web Store・Firefox Add-ons の更新時にも使えます。
+各ストアの入力欄にそのまま貼れる文章です。
 機能を変えたら、ここも合わせて直してください。
 
 - 拡張機能の名前: **YouTube Watch Thumbnails**
-- 提出する zip: GitHub Release の `extension-<version>-chrome.zip`（Edge・Opera とも Chrome 用をそのまま使う）
 
 ---
 
@@ -70,8 +69,6 @@ Free and open source: https://github.com/mosunset/youtube_watch_thumbnails
 ```
 
 ### 検索キーワード（Search terms）
-
-Edge は最大 7 個まで。
 
 ```text
 YouTube thumbnail
@@ -145,7 +142,7 @@ maxresdefault
 
 ---
 
-## 審査担当者へのメモ（Edge の「Notes for certification」など）
+## 審査担当者へのメモ（Firefox の「Notes to Reviewer」など）
 
 ```text
 No account or login is needed.
@@ -167,10 +164,8 @@ Source code: https://github.com/mosunset/youtube_watch_thumbnails
 
 | 種類 | 用意するもの |
 | :--- | :--- |
-| アイコン | `store/assets/icon-300.png`（Edge のロゴ）、`icon-128.png`、`icon-64.png`（Opera） |
-| プロモーション タイル | `store/assets/promo-440x280.png`（Edge・任意） |
+| アイコン（128×128） | `store/assets/icon-128.png` |
+| プロモーション タイル（440×280） | `store/assets/promo-440x280.png`（Chrome Web Store） |
 | スクリーンショット（1280×800） | 英語: `screenshots/en-1-watch-page.png`, `en-2-popup.png`, `en-3-thumbnail-view.png` / 日本語: `screenshots/ja-*.png`。視聴ページのサムネイル・ポップアップ・Thumbnail View の 3 枚 |
 
 サイズの指定はストアごとに違うので、入力画面の案内に合わせてください。640×400 の縮小版は `store/assets/screenshot-640x400-*.png` にあります。
-
-初回登録の手順は [first-submission.md](first-submission.md) を参照してください。

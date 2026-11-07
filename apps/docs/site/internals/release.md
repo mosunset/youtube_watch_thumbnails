@@ -23,7 +23,7 @@ GitHub Actions (.github/workflows/release.yml)
   7. Runs the tests again (lint / type check / unit tests / E2E)
   8. Builds the Chrome / Firefox / sources zips
   9. Creates the GitHub Release (notes = that version's changelog section)
- 10. Submits to the Chrome Web Store, Firefox Add-ons, Edge Add-ons and Opera add-ons (goes into review; one failing does not stop the others)
+ 10. Submits to the Chrome Web Store and Firefox Add-ons (goes into review; one failing does not stop the other)
 ```
 
 Users get the update once the store review passes. Check review status in each store's dashboard.
@@ -85,36 +85,6 @@ The extension ID (`aobeafpjgdgakpagffmlkfeognaiigci`) is public, so it is writte
 
 The source code zip (`*-sources.zip`) is submitted too.
 
-### Edge Add-ons
-
-The Chrome zip is submitted as-is. **Create the listing by hand in Partner Center the first time** (the API can only update an existing extension).
-
-1. Open the extension on the [Partner Center Edge extensions page](https://partner.microsoft.com/dashboard/microsoftedge/overview) and note the **Product ID** under its name
-2. In the left menu, open **Publish API**, click **Create API credentials**, and note the **Client ID** and **API key** (the API key is shown only once and expires; create a new one when it does)
-3. Add these three secrets
-
-   | Secret | Value |
-   | :--- | :--- |
-   | `EDGE_PRODUCT_ID` | Product ID |
-   | `EDGE_CLIENT_ID` | Client ID |
-   | `EDGE_API_KEY` | API key |
-
-### Opera add-ons
-
-The Chrome zip is submitted as-is. **Create the listing by hand on the Opera developer site the first time.**
-
-> [!WARNING]
-> Opera has no official API key; it authenticates with **your logged-in browser cookie (`sessionid`)**. The cookie expires, so if a submission fails, copy a fresh value and update the secret.
-
-1. Sign in to the [Opera developer site](https://addons.opera.com/developer/) and open the extension. The number in `https://addons.opera.com/developer/package/<number>` is the **Package ID**
-2. On that page open the developer tools (F12) → **Application** (**Storage** in Firefox) → **Cookies** → `https://addons.opera.com` and copy the `sessionid` value
-3. Add these two secrets
-
-   | Secret | Value |
-   | :--- | :--- |
-   | `OPERA_PACKAGE_ID` | Package ID (number) |
-   | `OPERA_SESSION_ID` | Value of the `sessionid` cookie |
-
 ### Testing the credentials
 
 With `.env.submit` in place, you can check authentication without submitting (run in Git Bash or similar):
@@ -125,9 +95,7 @@ pnpm zip
 pnpm exec wxt submit --dry-run \
   --chrome-zip .output/*-chrome.zip \
   --firefox-zip .output/*-firefox.zip \
-  --firefox-sources-zip .output/*-sources.zip \
-  --edge-zip .output/*-chrome.zip \
-  --opera-zip .output/*-chrome.zip
+  --firefox-sources-zip .output/*-sources.zip
 ```
 
 ### Requiring approval before submitting (optional)
