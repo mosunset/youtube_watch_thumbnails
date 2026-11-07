@@ -168,6 +168,6 @@ Source code: https://github.com/mosunset/youtube_watch_thumbnails
 | 種類 | 用意するもの |
 | :--- | :--- |
 | アイコン | `apps/extension/src/assets/icon.png`（ストアが指定するサイズに縮小） |
-| スクリーンショット | 現在の画面で撮り直すのがおすすめ（`screenshots/` は v1〜v2 のもの）。視聴ページのサムネイル、ポップアップ、Thumbnail View の 3 枚があると伝わりやすい |
+| スクリーンショット（1280×800） | 英語: `screenshots/en-1-watch-page.png`, `en-2-popup.png`, `en-3-thumbnail-view.png` / 日本語: `screenshots/ja-*.png`。視聴ページのサムネイル・ポップアップ・Thumbnail View の 3 枚 |
 
 サイズの指定はストアごとに違うので、入力画面の案内に合わせてください。

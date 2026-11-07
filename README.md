@@ -7,8 +7,17 @@ YouTube 動画のサムネイル画像を簡単に表示・確認できるブラ
 
 ## 📸 スクリーンショット
 
-![display example](/screenshots/v2.1.01.png)
-![display example](/screenshots/v2.1.11.png)
+**視聴ページ** — チャンネル名の横にサムネイルを表示。マウスを乗せると拡大します。
+
+![視聴ページのサムネイル](screenshots/ja-1-watch-page.png)
+
+**ポップアップ** — ツールバーのアイコンから、視聴中の動画の一番きれいなサムネイルを表示します。
+
+![ポップアップ](screenshots/ja-2-popup.png)
+
+**Thumbnail View** — すべてのサイズ・形式のサムネイルを一覧表示し、プレビュー・保存できます。
+
+![Thumbnail View](screenshots/ja-3-thumbnail-view.png)
 
 ## ✨ 機能概要 (Features)
 
