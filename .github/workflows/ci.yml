@@ -51,6 +51,8 @@ jobs:
         with:
           name: extension-${{ github.event.pull_request.head.sha || github.sha }}
           path: apps/extension/.output/*.zip
+          # .output は隠しフォルダなので、明示しないと v4 はアップロード対象から外す
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
 
