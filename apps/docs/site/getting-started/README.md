@@ -6,8 +6,17 @@ A browser extension that allows you to easily view and check thumbnail images of
 
 ## 📸 Screenshots
 
-![Extension Screenshot1](../_media/v2.1.01.png)
-![Extension Screenshot2](../_media/v2.1.11.png)
+**Watch page**: the thumbnail appears next to the channel name and enlarges on hover.
+
+![Thumbnail on the watch page](../_media/en-1-watch-page.png)
+
+**Popup**: click the toolbar icon to see the best thumbnail of the video you're watching.
+
+![Popup](../_media/en-2-popup.png)
+
+**Thumbnail View**: every size and format in one place, ready to preview and save.
+
+![Thumbnail View](../_media/en-3-thumbnail-view.png)
 
 ## ✨ Features
 
