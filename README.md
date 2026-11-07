@@ -75,6 +75,7 @@ youtube_watch_thumbnails/
 - `pnpm build`: Chrome 版と Firefox 版の拡張機能をビルドし、ドキュメントのリンクを検証します。
 - `pnpm lint`: ESLint（拡張機能）とドキュメントのリンク検証を実行します。
 - `pnpm test`: 拡張機能の単体テスト（Vitest）を実行します。
+- `pnpm test:e2e`: 拡張機能をビルドし、Chromium で E2E テスト（Playwright）を実行します。
 - `pnpm --filter extension zip`: ストア提出用の ZIP ファイルを作成します。
 
 ## 🤝 貢献方法 (Contribution)

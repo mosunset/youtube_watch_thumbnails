@@ -39,6 +39,11 @@ pnpm test
 ```
 Runs the unit tests with [Vitest](https://vitest.dev/) (`apps/extension/src/utils/__tests__/`).
 
+```bash
+pnpm test:e2e
+```
+Builds the Chrome version and runs end-to-end tests with [Playwright](https://playwright.dev/) (`apps/extension/e2e/`). The built extension is loaded into Chromium, and YouTube pages and thumbnail images are replaced with local fakes, so the tests need no network access. They cover the on-page thumbnail (including SPA navigation), the popup and the Thumbnail View. Run `pnpm --filter extension exec playwright install chromium` once beforehand. Firefox is not covered, because Playwright cannot load extensions into Firefox.
+
 ### Lint and type check
 
 ```bash
@@ -60,3 +65,4 @@ Scripts in `apps/extension/package.json` (run with `pnpm --filter extension <scr
 | `compile` | Type check (`tsc --noEmit`) |
 | `lint` | ESLint |
 | `test` | Unit tests (Vitest) |
+| `test:e2e` | Build for Chrome and run the E2E tests (Playwright) |

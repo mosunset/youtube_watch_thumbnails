@@ -39,6 +39,11 @@ pnpm test
 ```
 [Vitest](https://vitest.dev/) で単体テスト（`apps/extension/src/utils/__tests__/`）を実行します。
 
+```bash
+pnpm test:e2e
+```
+Chrome 版をビルドし、[Playwright](https://playwright.dev/) で E2E テスト（`apps/extension/e2e/`）を実行します。ビルドした拡張機能を Chromium に読み込み、YouTube のページとサムネイル画像はテスト用の偽物に差し替えるので、ネットワークは不要です。ページ上のサムネイル（SPA での動画切り替えを含む）、ポップアップ、ThumbnailView を確認します。初回だけ `pnpm --filter extension exec playwright install chromium` を実行してください。Playwright は Firefox に拡張機能を読み込めないため、Firefox は対象外です。
+
 ### Lint と型チェック
 
 ```bash
@@ -60,3 +65,4 @@ pnpm --filter extension compile
 | `compile` | 型チェック（`tsc --noEmit`） |
 | `lint` | ESLint |
 | `test` | 単体テスト（Vitest） |
+| `test:e2e` | Chrome 版をビルドして E2E テスト（Playwright）を実行 |

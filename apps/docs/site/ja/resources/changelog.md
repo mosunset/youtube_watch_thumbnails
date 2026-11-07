@@ -20,6 +20,7 @@
 
 - ドキュメントサイトを Astro Starlight から docsify に移行しました
 - ESLint と Vitest による単体テストを追加しました
+- ビルドした拡張機能を Chromium に読み込む Playwright の E2E テストを追加しました
 - WXT を v0.21（Vite 8）、@webext-core/messaging を v4 に更新しました
 - 使われていなかったオプションページと通知ページを削除しました
 

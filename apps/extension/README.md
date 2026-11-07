@@ -14,7 +14,7 @@ YouTube 動画のサムネイル画像を視聴ページ上で表示・確認で
 | メッセージング | @webext-core/messaging |
 | 国際化 | @wxt-dev/i18n（en / ja / ko） |
 | アイコン生成 | @wxt-dev/auto-icons |
-| テスト | Vitest（`wxt/testing`） |
+| テスト | Vitest（`wxt/testing`）、Playwright（E2E） |
 | Lint | ESLint（typescript-eslint, react-hooks） |
 
 ## 主な機能
@@ -55,7 +55,9 @@ apps/extension/
 │   ├── locales/                  # 翻訳（en.yml, ja.yml, ko.yml）
 │   └── app.config.ts             # リポジトリ URL などの設定
 ├── wxt.config.ts                 # WXT 設定（モジュール、マニフェスト、アイコン生成）
-├── vitest.config.ts              # テスト設定
+├── e2e/                          # Playwright の E2E テスト（偽の YouTube ページ・画像を使う）
+├── vitest.config.ts              # ユニットテスト設定
+├── playwright.config.ts          # E2E テスト設定
 ├── eslint.config.mjs             # ESLint 設定
 ├── tsconfig.json                 # .wxt/tsconfig.json を継承（@/*, #i18n などのエイリアス）
 ├── postcss.config.mjs
@@ -107,6 +109,10 @@ pnpm lint
 
 # ユニットテスト
 pnpm test
+
+# E2E テスト（Chrome 版をビルドし、Chromium に読み込んで Playwright で操作する）
+# 初回のみ: pnpm exec playwright install chromium
+pnpm test:e2e
 ```
 
 ## ビルド成果物

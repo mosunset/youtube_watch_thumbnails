@@ -19,7 +19,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "build:e2e": "wxt build -b chrome",
+    "test:e2e": "pnpm run build:e2e && playwright test"
   },
   "dependencies": {
     "@webext-core/messaging": "^4.0.1",
@@ -31,6 +33,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "~1.64.1",
     "@tailwindcss/postcss": "^4.3.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

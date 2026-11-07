@@ -20,6 +20,7 @@ For detailed changelog, see [CHANGELOG.md on GitHub](https://github.com/mosunset
 
 - Documentation site moved from Astro Starlight to docsify
 - Added ESLint and Vitest unit tests
+- Added Playwright E2E tests that load the built extension into Chromium
 - Updated WXT to v0.21 (Vite 8) and @webext-core/messaging to v4
 - Removed the unused options and notifications pages
 

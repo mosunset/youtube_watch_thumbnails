@@ -80,6 +80,7 @@ Run from the repository root (Turborepo runs each app's script):
 - `pnpm build`: Build the extension for Chrome and Firefox, and check docs links.
 - `pnpm lint`: Run ESLint (extension) and the docs link check.
 - `pnpm test`: Run the extension's unit tests (Vitest).
+- `pnpm test:e2e`: Build the extension and run the E2E tests in Chromium (Playwright).
 
 More scripts are available in `apps/extension` (e.g. `pnpm --filter extension zip`). See [Build System](/internals/build).
 

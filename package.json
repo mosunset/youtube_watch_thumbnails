@@ -8,7 +8,8 @@
     "dev:docs": "turbo run dev --filter=docs",
     "build": "turbo run build --continue",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "test:e2e": "pnpm --filter extension test:e2e"
   },
   "devDependencies": {
     "turbo": "^2.11.10"
