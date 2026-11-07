@@ -99,14 +99,11 @@ Edge Add-ons と Opera add-ons は、**最初の 1 回だけ**各ストアの画
 | Homepage | `https://mosunset.github.io/youtube_watch_thumbnails/` |
 | Support page | `https://github.com/mosunset/youtube_watch_thumbnails/issues` |
 | Privacy policy | `https://mosunset.github.io/youtube_watch_thumbnails/#/resources/privacy` |
-| License | 選んだライセンス（下の注意を参照） |
+| License | MIT |
 
 日本語の掲載情報を追加できる場合は、listing.md の日本語の文章を使います。
 
 > [!WARNING]
-> **リポジトリにはまだライセンス（LICENSE ファイル）がありません。** ライセンスが無いと、ソースを公開していても他の人は使えない扱いになります。MIT など、どのライセンスにするかを決めて LICENSE ファイルを追加し、ここにも同じものを選んでください。
-
-#### ソースコード
 Opera は、ビルド済み（圧縮された）コードの拡張機能に**ソースコードの提出**を求めることがあります。聞かれたら、次を伝えてください。
 
 ```text

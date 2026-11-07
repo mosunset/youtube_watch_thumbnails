@@ -1,6 +1,7 @@
 {
   "name": "youtube_watch_thumbnails",
   "private": true,
+  "license": "MIT",
   "packageManager": "pnpm@10.23.0",
   "scripts": {
     "dev": "pnpm -r --parallel dev",
