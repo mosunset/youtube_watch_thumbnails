@@ -12,3 +12,12 @@ fileUrl: ファイルURL
 download: ダウンロード
 rightClickInstruction: プレビュー画像を右クリック
 selectThumbnailPrompt: プレビューするサムネイルを選択してください
+loadingImage: 画像を読み込み中...
+viewAllSizes: 全サイズのサムネイルを見る
+clickToViewAllSizes: 画像をクリックすると全サイズのサムネイルを見ることができます
+thumbnailNotFound: この動画のサムネイルを取得できませんでした
+notYouTubeTitle: YouTube以外のページです
+notYouTubeBody: この拡張機能は YouTube の視聴ページや Shorts でサムネイルを表示します。YouTube の視聴ページで開き直してください。
+notVideoPageTitle: 対象外のページです
+notVideoPageBody: この拡張機能は動画の視聴ページや Shorts でサムネイルを表示します。視聴ページで開き直してください。
+openOnVideoPageHint: 動画の視聴ページで開くと、その動画のサムネイルが表示されます。

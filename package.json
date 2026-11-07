@@ -3,13 +3,12 @@
   "private": true,
   "packageManager": "pnpm@10.23.0",
   "scripts": {
-    "dev": "turbo run dev --parallel --continue",
-    "dev:extension": "turbo run dev --filter=extension",
-    "dev:docs": "turbo run dev --filter=docs",
-    "build": "turbo run build --continue",
-    "lint": "turbo run lint"
-  },
-  "devDependencies": {
-    "turbo": "^2.6.1"
+    "dev": "pnpm -r --parallel dev",
+    "dev:extension": "pnpm --filter extension dev",
+    "dev:docs": "pnpm --filter docs dev",
+    "build": "pnpm -r --no-bail build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "test:e2e": "pnpm --filter extension test:e2e"
   }
 }

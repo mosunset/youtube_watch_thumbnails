@@ -1,0 +1,94 @@
+# プッシュ・プルリクエストごとに Lint / 型チェック / テスト / ビルドを実行する
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.23.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # postinstall の `wxt prepare` で .wxt/ の型と ESLint 用グローバル定義が生成される
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm --filter extension compile
+
+      - name: Test
+        run: pnpm test
+
+      # ストア提出用と同じ zip を作り、手動テスト用にダウンロードできるようにする
+      # 手順: https://mosunset.github.io/youtube_watch_thumbnails/#/ja/for-reviewers/manual-testing
+      - name: Build zips
+        run: pnpm --filter extension zip
+
+      - name: Upload zips for manual testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-${{ github.event.pull_request.head.sha || github.sha }}
+          path: apps/extension/.output/*.zip
+          # .output は隠しフォルダなので、明示しないと v4 はアップロード対象から外す
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+  # ビルドした拡張機能を Chromium に読み込んで、実際の操作の流れを確認する
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.23.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium for Playwright
+        run: pnpm --filter extension exec playwright install --with-deps chromium
+
+      - name: E2E tests
+        run: pnpm test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            apps/extension/playwright-report
+            apps/extension/test-results
+          retention-days: 7

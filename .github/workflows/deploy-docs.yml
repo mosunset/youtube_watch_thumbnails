@@ -1,11 +1,14 @@
-# Astro Starlight サイトをビルドして GitHub Pages にデプロイするためのサンプルワークフロー
-#
+# docsify のドキュメントサイト（apps/docs/site）を GitHub Pages にデプロイするワークフロー
+# docsify はブラウザで Markdown を描画するため、ビルドは不要。リンク検証だけ行ってそのまま公開する。
 name: Deploy Documents to Pages
 
 on:
-  # `main` ブランチへのプッシュで実行されます。デフォルトブランチが `master` の場合は変更してください。
+  # `main` ブランチへのプッシュで実行されます（ドキュメントに関係する変更のみ）
   push:
     branches: [main]
+    paths:
+      - "apps/docs/**"
+      - ".github/workflows/deploy-docs.yml"
 
   # Actions タブから手動でワークフローを実行できるようにします
   workflow_dispatch:
@@ -23,32 +26,24 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # ビルドジョブ
+  # 検証 + アップロードジョブ
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # lastUpdated が有効でない場合は不要
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.23.0
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
+      - name: Check internal links
+        run: node apps/docs/scripts/check-links.mjs
       - name: Setup Pages
-        uses: actions/configure-pages@v4
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Build with Astro
-        run: pnpm --filter docs build
+        uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/docs/dist
+          path: apps/docs/site
 
   # デプロイジョブ
   deploy:

@@ -1,52 +1,47 @@
-import { useState, useEffect } from "react";
-import ShortsContent from "./_components/ShortsContent";
-import WatchContent from "./_components/WatchContent";
-import YoutubeContent from "./_components/YoutubeContent";
-import DefaultContent from "./_components/DefaultContent";
-import { getPageTypeFromUrl, type PageType } from "@/utils/pageType";
+import { useEffect, useState } from "react";
+import { browser } from "#imports";
+import { i18n } from "#i18n";
+import { extractVideoId, getPageType } from "@/utils/youtube";
+import ThumbnailPreview from "./components/ThumbnailPreview";
+import UnsupportedPage from "./components/UnsupportedPage";
 
-function App() {
-    const [url, setUrl] = useState<string>("");
-    const [pageType, setPageType] = useState<PageType>("default");
-    const [loading, setLoading] = useState<boolean>(true);
-
+/** アクティブなタブの URL を取得する。取得前は null */
+function useActiveTabUrl(): string | null {
+    const [url, setUrl] = useState<string | null>(null);
     useEffect(() => {
-        // 現在のタブのURLを取得して判定
         browser.tabs
             .query({ active: true, currentWindow: true })
-            .then((tabs) => {
-                const currentUrl = tabs[0]?.url || "";
-                setUrl(currentUrl);
-                setPageType(getPageTypeFromUrl(currentUrl));
-                setLoading(false);
-            })
+            .then((tabs) => setUrl(tabs[0]?.url ?? ""))
             .catch((error) => {
                 console.error("Failed to get tab URL:", error);
-                setLoading(false);
+                setUrl("");
             });
     }, []);
+    return url;
+}
 
-    if (loading) {
+export default function App() {
+    const url = useActiveTabUrl();
+
+    if (url === null) {
         return (
             <div className="min-w-80 p-4">
-                <p className="text-center text-sm text-muted-foreground">
-                    読み込み中...
-                </p>
+                <p className="text-center text-sm text-muted-foreground">{i18n.t("loading")}</p>
             </div>
         );
     }
 
-    // ページタイプに応じてコンポーネントを出し分け
-    switch (pageType) {
-        case "shorts":
-            return <ShortsContent url={url} />;
-        case "watch":
-            return <WatchContent url={url} />;
-        case "youtube":
-            return <YoutubeContent />;
-        default:
-            return <DefaultContent />;
+    const videoId = extractVideoId(url);
+    if (videoId) {
+        return <ThumbnailPreview url={url} videoId={videoId} />;
     }
-}
 
-export default App;
+    const onYouTube = getPageType(url) !== "other";
+    return (
+        <UnsupportedPage
+            title={i18n.t(onYouTube ? "notVideoPageTitle" : "notYouTubeTitle")}
+            body={i18n.t(onYouTube ? "notVideoPageBody" : "notYouTubeBody")}
+            hint={i18n.t("openOnVideoPageHint")}
+        />
+    );
+}

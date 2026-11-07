@@ -1,5 +1,5 @@
-import ywt from "@/assets/icon.png";
-import { useAppConfig } from "#imports";
+import icon from "@/assets/icon.png";
+import { getAppConfig } from "#imports";
 import { cn } from "@/lib/utils";
 
 interface FooterProps {
@@ -7,7 +7,7 @@ interface FooterProps {
 }
 
 function Footer({ compact = false }: FooterProps) {
-    const config = useAppConfig();
+    const config = getAppConfig();
     return (
         <footer
             className={cn(
@@ -17,7 +17,7 @@ function Footer({ compact = false }: FooterProps) {
         >
             <div className="flex items-center justify-center gap-2">
                 <img
-                    src={ywt}
+                    src={icon}
                     alt="YoutubeWatchThumbnails"
                     className="h-4 w-4 rounded-sm"
                 />

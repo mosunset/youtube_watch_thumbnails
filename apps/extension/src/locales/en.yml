@@ -14,3 +14,12 @@ fileUrl: File URL
 download: Download
 rightClickInstruction: Right-click on preview image
 selectThumbnailPrompt: Select a thumbnail to preview
+loadingImage: Loading image...
+viewAllSizes: View all thumbnail sizes
+clickToViewAllSizes: Click the image to view every size of this thumbnail
+thumbnailNotFound: Could not load a thumbnail for this video
+notYouTubeTitle: This is not a YouTube page
+notYouTubeBody: This extension shows thumbnails on YouTube watch pages and Shorts. Open a YouTube video and try again.
+notVideoPageTitle: This page is not supported
+notVideoPageBody: This extension shows thumbnails on watch pages and Shorts. Open a video and try again.
+openOnVideoPageHint: Open the popup on a video page to see that video's thumbnail.

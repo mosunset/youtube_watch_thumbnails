@@ -1,14 +1,10 @@
 {
+    // パスエイリアス（@/*, #i18n など）は WXT が生成する .wxt/tsconfig.json に定義されている
     "extends": "./.wxt/tsconfig.json",
     "compilerOptions": {
         "allowImportingTsExtensions": true,
-        "jsx": "react-jsx",
-        "strict": true,
-        "baseUrl": ".",
-        "paths": {
-            "@/*": ["./src/*"]
-        }
+        "jsx": "react-jsx"
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", ".wxt/wxt.d.ts"],
+    "include": ["src", "e2e", "*.config.ts", ".wxt/wxt.d.ts"],
     "exclude": ["node_modules", ".output"]
 }
