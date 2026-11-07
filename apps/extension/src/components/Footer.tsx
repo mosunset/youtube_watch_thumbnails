@@ -6,6 +6,14 @@ interface FooterProps {
     compact?: boolean;
 }
 
+/** 公開した年。今年と違えば「2025–今年」と表示する */
+const FIRST_YEAR = 2025;
+
+function copyrightYears(): string {
+    const year = new Date().getFullYear();
+    return year > FIRST_YEAR ? `${FIRST_YEAR}–${year}` : String(FIRST_YEAR);
+}
+
 function Footer({ compact = false }: FooterProps) {
     const config = getAppConfig();
     return (
@@ -18,15 +26,15 @@ function Footer({ compact = false }: FooterProps) {
             <div className="flex items-center justify-center gap-2">
                 <img
                     src={icon}
-                    alt="YoutubeWatchThumbnails"
+                    alt=""
                     className="h-4 w-4 rounded-sm"
                 />
                 <span className="font-medium text-foreground">
-                    Youtube Watch Thumbnails
+                    YouTube Watch Thumbnails
                 </span>
             </div>
             <div className="mt-1 text-center">
-                <span>© 2025 mosunset.</span>
+                <span>© {copyrightYears()} mosunset.</span>
                 <span className="mx-2">·</span>
                 <a
                     href={config.repoUrl}

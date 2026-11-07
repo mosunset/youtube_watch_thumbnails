@@ -34,7 +34,7 @@ export default function Sidebar({ videoId, selected, onSelect }: SidebarProps) {
             <div className="flex-1 overflow-y-auto p-2">
                 {THUMBNAIL_NAMES.map((name) => (
                     <section key={name} className="mb-4">
-                        <h3 className="mb-1 rounded bg-gray-50 px-2 py-1 text-xs font-medium uppercase tracking-wider text-gray-500">
+                        <h3 className="mb-1 rounded bg-gray-50 px-2 py-1 text-xs font-medium tracking-wide text-gray-500">
                             {name}
                         </h3>
                         <div className="grid grid-cols-2 gap-2">

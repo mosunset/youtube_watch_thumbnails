@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { i18n } from "#i18n";
+import { cn } from "@/lib/utils";
 import type { Thumbnail } from "@/utils/thumbnails";
 import type { ImageSize } from "./PreviewImage";
 
@@ -12,8 +13,9 @@ type PreviewHeaderProps = {
 
 export default function PreviewHeader({ selected, size, youtubeUrl }: PreviewHeaderProps) {
     return (
-        <header className="z-10 flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4 shadow-sm">
-            <div className="flex items-center space-x-4 overflow-x-auto">
+        <header className="z-10 border-b border-gray-200 bg-white px-6 py-4 shadow-sm">
+            {/* 幅が足りないときはファイル URL だけを省略表示（…）にして、全項目を 1 行に収める */}
+            <div className="flex min-w-0 items-center gap-4">
                 <Field label={i18n.t("dimensions")}>
                     <p className="whitespace-nowrap text-sm font-medium text-gray-900">
                         {size ? `${size.width} x ${size.height} px` : "-"}
@@ -24,7 +26,7 @@ export default function PreviewHeader({ selected, size, youtubeUrl }: PreviewHea
                     <ExternalLink href={youtubeUrl} />
                 </Field>
                 <Divider />
-                <Field label={i18n.t("fileUrl")}>
+                <Field label={i18n.t("fileUrl")} shrink>
                     <ExternalLink href={selected.src} />
                 </Field>
                 <Divider />
@@ -38,17 +40,17 @@ export default function PreviewHeader({ selected, size, youtubeUrl }: PreviewHea
     );
 }
 
-function Field({ label, children }: { label: string; children: ReactNode }) {
+function Field({ label, shrink = false, children }: { label: string; shrink?: boolean; children: ReactNode }) {
     return (
-        <div className="flex-shrink-0">
-            <span className="text-xs font-medium uppercase text-gray-500">{label}</span>
+        <div className={shrink ? "min-w-0 flex-1" : "flex-shrink-0"}>
+            <span className="text-xs font-medium text-gray-500">{label}</span>
             {children}
         </div>
     );
 }
 
 function Divider() {
-    return <div className="mx-2 h-8 w-px bg-gray-200" />;
+    return <div className="h-8 w-px flex-shrink-0 bg-gray-200" />;
 }
 
 function ExternalLink({ href }: { href: string }) {
@@ -57,7 +59,8 @@ function ExternalLink({ href }: { href: string }) {
             href={href}
             target="_blank"
             rel="noreferrer"
-            className="block whitespace-nowrap text-sm font-medium text-blue-600 hover:underline"
+            title={href}
+            className={cn("block truncate text-sm font-medium text-blue-600 hover:underline")}
         >
             {href}
         </a>
