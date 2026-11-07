@@ -4,6 +4,9 @@
 # ストア提出に必要な Secrets（未設定のストアは提出を飛ばす）:
 #   Chrome Web Store（API v2）: CHROME_PUBLISHER_ID, CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL, CHROME_SERVICE_ACCOUNT_PRIVATE_KEY
 #   Firefox Add-ons:            FIREFOX_JWT_ISSUER, FIREFOX_JWT_SECRET
+#   Edge Add-ons:               EDGE_PRODUCT_ID, EDGE_CLIENT_ID, EDGE_API_KEY
+#   Opera add-ons:              OPERA_PACKAGE_ID, OPERA_SESSION_ID（ブラウザの Cookie。期限が切れたら更新する）
+# Edge と Opera には Chrome 用の zip を提出する
 # 設定手順: apps/docs/site/ja/internals/release.md
 name: Release
 
@@ -30,6 +33,8 @@ jobs:
       # Secrets は if: で直接参照できないので、設定済みかどうかだけをフラグにする
       HAS_CHROME_SECRETS: ${{ secrets.CHROME_SERVICE_ACCOUNT_PRIVATE_KEY != '' }}
       HAS_FIREFOX_SECRETS: ${{ secrets.FIREFOX_JWT_SECRET != '' }}
+      HAS_EDGE_SECRETS: ${{ secrets.EDGE_API_KEY != '' }}
+      HAS_OPERA_SECRETS: ${{ secrets.OPERA_SESSION_ID != '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -92,6 +97,7 @@ jobs:
           cat release-notes.md
 
       - name: Create GitHub Release
+        id: github_release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
@@ -103,8 +109,10 @@ jobs:
             apps/extension/.output/*-sources.zip
           fail_on_unmatched_files: true
 
+      # 各ストアの提出は互いに独立。1 つが失敗しても残りは続ける（ジョブは最後に失敗扱いになる）
       - name: Submit to Chrome Web Store
-        if: env.HAS_CHROME_SECRETS == 'true'
+        id: chrome
+        if: ${{ !cancelled() && steps.github_release.outcome == 'success' && env.HAS_CHROME_SECRETS == 'true' }}
         working-directory: apps/extension
         env:
           CHROME_API_VERSION: v2
@@ -118,19 +126,59 @@ jobs:
           pnpm exec wxt submit --chrome-zip .output/*-chrome.zip
 
       - name: Submit to Firefox Add-ons
-        if: env.HAS_FIREFOX_SECRETS == 'true'
+        id: firefox
+        if: ${{ !cancelled() && steps.github_release.outcome == 'success' && env.HAS_FIREFOX_SECRETS == 'true' }}
         working-directory: apps/extension
         env:
           FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
           FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
         run: pnpm exec wxt submit --firefox-zip .output/*-firefox.zip --firefox-sources-zip .output/*-sources.zip
 
+      - name: Submit to Edge Add-ons
+        id: edge
+        if: ${{ !cancelled() && steps.github_release.outcome == 'success' && env.HAS_EDGE_SECRETS == 'true' }}
+        working-directory: apps/extension
+        env:
+          EDGE_PRODUCT_ID: ${{ secrets.EDGE_PRODUCT_ID }}
+          EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
+          EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
+        run: pnpm exec wxt submit --edge-zip .output/*-chrome.zip
+
+      - name: Submit to Opera add-ons
+        id: opera
+        if: ${{ !cancelled() && steps.github_release.outcome == 'success' && env.HAS_OPERA_SECRETS == 'true' }}
+        working-directory: apps/extension
+        env:
+          OPERA_PACKAGE_ID: ${{ secrets.OPERA_PACKAGE_ID }}
+          OPERA_SESSION_ID: ${{ secrets.OPERA_SESSION_ID }}
+        run: pnpm exec wxt submit --opera-zip .output/*-chrome.zip
+
       - name: Summary
         if: always()
+        env:
+          RELEASE: ${{ steps.github_release.outcome }}
+          CHROME: ${{ steps.chrome.outcome }}
+          FIREFOX: ${{ steps.firefox.outcome }}
+          EDGE: ${{ steps.edge.outcome }}
+          OPERA: ${{ steps.opera.outcome }}
         run: |
+          describe() {
+            case "$1" in
+              success) echo "✅ 提出済み（審査待ち）" ;;
+              failure) echo "❌ 失敗（ログを確認。zip は GitHub Release から手動でもアップロードできる）" ;;
+              skipped) if [ "$2" = "true" ]; then echo "⏭️ 前の手順が失敗したため未実行"; else echo "⏭️ Secrets 未設定のため未提出（zip を手動でアップロード）"; fi ;;
+              *) echo "⏭️ 未実行" ;;
+            esac
+          }
           {
             echo "## ${GITHUB_REF_NAME}"
-            echo "- GitHub Release: https://github.com/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF_NAME}"
-            if [ "$HAS_CHROME_SECRETS" = "true" ]; then echo "- Chrome Web Store: 提出済み（審査待ち）"; else echo "- Chrome Web Store: Secrets 未設定のため未提出（zip を手動でアップロード）"; fi
-            if [ "$HAS_FIREFOX_SECRETS" = "true" ]; then echo "- Firefox Add-ons: 提出済み（審査待ち）"; else echo "- Firefox Add-ons: Secrets 未設定のため未提出（zip を手動でアップロード）"; fi
+            if [ "$RELEASE" = "success" ]; then
+              echo "- GitHub Release: ✅ https://github.com/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF_NAME}"
+            else
+              echo "- GitHub Release: ❌ 作成されていない（テストかビルドが失敗）"
+            fi
+            echo "- Chrome Web Store: $(describe "$CHROME" "$HAS_CHROME_SECRETS")"
+            echo "- Firefox Add-ons: $(describe "$FIREFOX" "$HAS_FIREFOX_SECRETS")"
+            echo "- Edge Add-ons: $(describe "$EDGE" "$HAS_EDGE_SECRETS")"
+            echo "- Opera add-ons: $(describe "$OPERA" "$HAS_OPERA_SECRETS")"
           } >> "$GITHUB_STEP_SUMMARY"

@@ -23,7 +23,7 @@ GitHub Actions（.github/workflows/release.yml）
   7. テストをもう一度（lint / 型チェック / ユニットテスト / E2E）
   8. Chrome / Firefox / ソースの zip を作成
   9. GitHub Release を作成（変更履歴のその版の節をリリースノートにする）
- 10. Chrome Web Store と Firefox Add-ons に提出（審査待ちになる）
+ 10. Chrome Web Store・Firefox Add-ons・Edge Add-ons・Opera add-ons に提出（審査待ちになる。1 つが失敗しても他は続ける）
 ```
 
 ストアの審査が通ると、ユーザーに配信されます。審査の状況は各ストアの管理画面で確認してください。
@@ -85,6 +85,36 @@ Chrome Web Store API v2（サービスアカウント方式）を使います。
 
 ソースコードの zip（`*-sources.zip`）も一緒に提出されます。
 
+### Edge Add-ons
+
+Chrome 用の zip をそのまま提出します。**初回の登録だけは Partner Center で手動で行ってください**（API で提出できるのは既にある拡張機能の更新だけです）。
+
+1. [Partner Center の Edge 拡張機能のページ](https://partner.microsoft.com/dashboard/microsoftedge/overview)で拡張機能を開き、名前の下にある **Product ID** を控える
+2. 左のメニューの **Publish API** で **Create API credentials** を押し、**Client ID** と **API key** を控える（API key は作成時にしか表示されません。有効期限があるので、切れたら作り直す）
+3. 次の 3 つを Secrets に登録する
+
+   | Secret | 中身 |
+   | :--- | :--- |
+   | `EDGE_PRODUCT_ID` | Product ID |
+   | `EDGE_CLIENT_ID` | Client ID |
+   | `EDGE_API_KEY` | API key |
+
+### Opera add-ons
+
+Chrome 用の zip をそのまま提出します。**初回の登録だけは Opera のデベロッパーページで手動で行ってください。**
+
+> [!WARNING]
+> Opera には正式な API キーがなく、**ログイン中のブラウザの Cookie（`sessionid`）**で認証します。Cookie は期限が切れるので、提出に失敗したら値を取り直して Secret を更新してください。
+
+1. [Opera のデベロッパーページ](https://addons.opera.com/developer/)にログインし、拡張機能を開く。URL の `https://addons.opera.com/developer/package/<数字>` の数字が **Package ID**
+2. そのページで開発者ツール（F12）を開き、**Application**（Firefox では **ストレージ**）→ **Cookies** → `https://addons.opera.com` の `sessionid` の値をコピーする
+3. 次の 2 つを Secrets に登録する
+
+   | Secret | 中身 |
+   | :--- | :--- |
+   | `OPERA_PACKAGE_ID` | Package ID（数字） |
+   | `OPERA_SESSION_ID` | `sessionid` Cookie の値 |
+
 ### 認証情報を試す
 
 `.env.submit` を作ったあとなら、実際には提出せずに認証だけ確かめられます（Git Bash などで実行）。
@@ -95,7 +125,9 @@ pnpm zip
 pnpm exec wxt submit --dry-run \
   --chrome-zip .output/*-chrome.zip \
   --firefox-zip .output/*-firefox.zip \
-  --firefox-sources-zip .output/*-sources.zip
+  --firefox-sources-zip .output/*-sources.zip \
+  --edge-zip .output/*-chrome.zip \
+  --opera-zip .output/*-chrome.zip
 ```
 
 ### 提出前に承認を挟む（任意）
