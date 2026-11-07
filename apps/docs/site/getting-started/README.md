@@ -66,7 +66,6 @@ youtube_watch_thumbnails/
 │   │   ├── .output/            # Build artifacts (gitignored)
 │   │   └── wxt.config.ts       # WXT configuration file
 │   └── docs/                   # This documentation site (docsify)
-├── turbo.json                  # Turborepo configuration
 └── pnpm-workspace.yaml
 ```
 
@@ -74,7 +73,7 @@ See [Architecture](/internals/architecture) for details.
 
 ## 🛠️ Development Commands
 
-Run from the repository root (Turborepo runs each app's script):
+Run from the repository root (pnpm runs each app's script):
 
 - `pnpm dev`: Start development servers (extension with HMR + docs).
 - `pnpm build`: Build the extension for Chrome and Firefox, and check docs links.

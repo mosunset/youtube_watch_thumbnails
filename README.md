@@ -65,7 +65,6 @@ youtube_watch_thumbnails/
 │       ├── site/       # 公開される Markdown と index.html
 │       └── scripts/    # リンクチェックなどのスクリプト
 ├── screenshots/        # スクリーンショット
-├── turbo.json          # Turborepo 設定
 └── pnpm-workspace.yaml
 ```
 

@@ -30,7 +30,6 @@ youtube_watch_thumbnails/
 │   │   ├── .output/            # ビルド成果物（gitignore 対象）
 │   │   └── wxt.config.ts       # WXT 設定ファイル
 │   └── docs/                   # このドキュメントサイト（docsify）
-├── turbo.json                  # Turborepo 設定
 └── pnpm-workspace.yaml
 ```
 
@@ -38,7 +37,7 @@ youtube_watch_thumbnails/
 
 ## 🛠️ 開発用コマンド
 
-リポジトリのルートで実行します（Turborepo が各アプリのスクリプトを実行します）。
+リポジトリのルートで実行します（pnpm が各アプリのスクリプトを実行します）。
 
 - `pnpm dev`: 開発サーバーを起動（拡張機能は HMR 有効 + ドキュメント）
 - `pnpm build`: Chrome 版と Firefox 版の拡張機能をビルドし、ドキュメントのリンクを検証
