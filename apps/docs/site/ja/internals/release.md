@@ -69,8 +69,7 @@ Chrome Web Store API v2（サービスアカウント方式）を使います。
    | :--- | :--- |
    | `CHROME_PUBLISHER_ID` | パブリッシャー ID |
    | `CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL` | サービスアカウントのメールアドレス |
-   | `CHROME_SERVICE_ACCOUNT_PRIVATE_KEY` | サービスアカウントの秘密鍵。JSON の `private_key` の値を、前後の `"` を除いてそのまま貼る（`
-` を含む 1 行のままでよい） |
+   | `CHROME_SERVICE_ACCOUNT_PRIVATE_KEY` | サービスアカウントの秘密鍵。JSON の `private_key` の値を、前後の `"` を除いてそのまま貼る（`\n` を含む 1 行のままでよい） |
 
 拡張機能の ID（`aobeafpjgdgakpagffmlkfeognaiigci`）は公開情報なので、ワークフローに直接書いてあります。
 
