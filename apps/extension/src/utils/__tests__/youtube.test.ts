@@ -26,6 +26,9 @@ describe("extractVideoId", () => {
         ["https://www.youtube.com/watch?v=short"],
         [`https://example.com/watch?v=${ID}`],
         [`https://notyoutube.com/watch?v=${ID}`],
+        [`https://www.youtube.com/watch?v=${ID}x`],
+        [`https://www.youtube.com/watch?v=x${ID}`],
+        [`https://www.youtube.com/embed/${ID}`],
     ])("%s は null", (url) => {
         expect(extractVideoId(url)).toBeNull();
     });

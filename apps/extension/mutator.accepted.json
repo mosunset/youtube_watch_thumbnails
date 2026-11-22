@@ -1,0 +1,6 @@
+{
+  "1ai1v6w3qc4": {
+    "reason": "equivalent: when index is -1, candidates[-1] is undefined and '?? null' already returns null",
+    "where": "src/utils/thumbnails.ts:118:12 index === -1 -> false"
+  }
+}
